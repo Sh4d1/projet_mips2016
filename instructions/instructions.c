@@ -29,6 +29,8 @@ void parse_instruction(uint32_t inst)
                 printf("Instruction de type R non reconnue\n");
         }
     } else { /* I or J type instruction */
+        uint8_t rs = (inst>>21) & 0x1F;
+        uint8_t rt = (inst>>16) & 0x1F;
         
     }
 

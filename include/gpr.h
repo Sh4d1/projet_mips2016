@@ -1,8 +1,6 @@
 #ifndef _GPR_
 #define _GPR_
 
-#include <stdint.h>
-
 #define GPR_LENGTH 32
 
 struct reg {
@@ -10,7 +8,7 @@ struct reg {
         uint32_t value;
 };
 
-const char *reg_names[GPR_LENGTH] = {   "zero",
+const char * const reg_names[] = {      "zero",
                                         "at",
                                         "v0", "v1",
                                         "a0", "a1", "a2", "a3",

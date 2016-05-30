@@ -28,15 +28,15 @@ exemple:
 	mips-elf-as exempleElf.s -o exempleElf.o
 
 # TEST PROC
-$(OBJDIR)/gpr.o: $(SRCDIR)/gpr.c
+$(OBJDIR)/gpr.o: $(SRCDIR)/gpr.c $(INCDIR)/gpr.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(OBJDIR)/operations.o: $(SRCDIR)/operations.c
+$(OBJDIR)/operations.o: $(SRCDIR)/operations.c $(INCDIR)/operations.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 proc.o: proc.c
 	$(CC) -c $(CFLAGS) $< -o $@
-	
+
 proc: proc.o $(OBJDIR)/operations.o $(OBJDIR)/gpr.o
 	$(CC) $(LDFLAGS) $^ -o $@
 # FIN TEST PROC

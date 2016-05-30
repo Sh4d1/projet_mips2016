@@ -1,15 +1,12 @@
-#include <stdio.h>
+#include <stdint.h>
+
 #include "../include/gpr.h"
 
 // initialise les registres
 void init_GPR()
 {
-        for (uint8_t i = 0; i < GPR_LENGTH; i++) {
-                strcpy(GPR[i].name, reg_names[i]);
-        }
-        for (uint8_t i = 0; i < GPR_LENGTH; i++) {
-                printf("%s", GPR[i].name);
-        }
+
+
         for (uint8_t i = 0; i < GPR_LENGTH; i++) {
                 GPR[i].value = 0;
         }

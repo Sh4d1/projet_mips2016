@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     for (uint32_t i = 0; i < text_size; i += 4) {
         uint32_t word = text_bytes[i+3] + (text_bytes[i+2]<<8) + (text_bytes[i+1]<<16) + (text_bytes[i]<<24);
         parse_instruction(word);
-        printf("%08x\n",word);
+        //printf("%08x\n",word);
     }
 
 

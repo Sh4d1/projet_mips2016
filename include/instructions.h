@@ -43,7 +43,11 @@ enum opcode {
     SW = 43
 };
 
+void parse_instruction(uint32_t inst);
 
+void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa);
+
+void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t instr_index);
 
 
 #endif /* end of include guard: _INSTRUCTIONS_ */

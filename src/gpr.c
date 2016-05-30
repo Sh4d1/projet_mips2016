@@ -89,10 +89,19 @@ void set_LO_value(uint32_t value)
 void print_gpr()
 {
     for (uint8_t i = 0; i < GPR_LENGTH; i++) {
-        printf("Reg $%02u ($%s) : ", i, GPR[i].name);
-        printf("0x%x  ", GPR[i].value);
-        if ((i+1) % 2 == 0) {
+        printf("Reg $%02u ($%04s) : ", i, GPR[i].name);
+        printf("0x%04x  ", GPR[i].value);
+        if ((i+1) % 3 == 0) {
             printf("\n");
         }
     }
+}
+
+uint32_t isNumeric(char *s)
+{
+    if (s == NULL || *s == '\0' || isspace(*s))
+      return 0;
+    char * p;
+    strtod (s, &p);
+    return *p == '\0';
 }

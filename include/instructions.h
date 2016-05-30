@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 
 enum function {
@@ -43,7 +44,7 @@ enum opcode {
     SW = 43
 };
 
-void parse_instruction(uint32_t inst);
+void parse_instruction(uint32_t inst, bool dasm);
 
 void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa);
 

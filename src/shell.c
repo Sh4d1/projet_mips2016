@@ -163,6 +163,24 @@ int shell_run(char **args)
     return 1;
 }
 
+int shell_dasm(char **args)
+{
+    dasm();
+    return 1;
+}
+
+int shell_sreg(char **args)
+{
+    if (isNumeric(args[1]) == 1) {
+        set_register_value(atoi(args[1]), atoi(args[2]));
+    } else {
+        set_register_value_by_name(args[1], atoi(args[2]));
+    }
+    return 1;
+}
+
+
+
 
 int shell_exec(char ** args)
 {

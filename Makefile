@@ -26,10 +26,14 @@ $(OBJDIR)/first_test.o: $(SRCDIR)/first_test.c $(INCDIR)/elf_reader.h
 first_test: $(OBJDIR)/elf_reader.o $(OBJDIR)/first_test.o $(OBJDIR)/operations.o $(OBJDIR)/mem.o $(OBJDIR)/gpr.o $(OBJDIR)/instructions.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
+$(OBJDIR)/second_test.o: $(SRCDIR)/second_test.c
+	$(CC) -c $(CFLAGS) $< -o $@
+second_test: $(OBJDIR)/second_test.o $(OBJDIR)/shell.o $(OBJDIR)/mem.o $(OBJDIR)/elf_reader.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/%.h
 	$(CC) -c $(CFLAGS) $< -o $@
-
 
 
 

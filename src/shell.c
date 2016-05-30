@@ -8,14 +8,16 @@
 #include <string.h>
 #include <inttypes.h>
 #include "../include/shell.h"
+#include "../include/mem.h"
+#include "../include/gpr.h"
 
-int main(int argc, char **argv)
-{
-
-    shell_loop(); // call the shell loop
-
-    return EXIT_SUCCESS; // everything went well
-}
+// int main(int argc, char **argv)
+// {
+//
+//     shell_loop(); // call the shell loop
+//
+//     return EXIT_SUCCESS; // everything went well
+// }
 
 void shell_loop(void)
 {
@@ -135,6 +137,23 @@ int shell_exit(char **args)
 {
     return 0;
 }
+
+int shell_load(char **args)
+{
+    if (args[1] == NULL) {
+        fprintf(stderr, "Pas assez d'arguments pour load\n");
+        return 1;
+    } else {
+        file_to_memory(args[1]);
+    }
+    return 1;
+}
+
+int shell_dreg(char **args)
+{
+
+}
+
 
 int shell_exec(char ** args)
 {

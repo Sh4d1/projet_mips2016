@@ -1,6 +1,11 @@
 #ifndef _INSTRUCTIONS_
 #define _INSTRUCTIONS_
 
+#include <stdio.h>
+#include <inttypes.h>
+#include <stdlib.h>
+
+
 enum function = {
     ADD = 32,
     ADDU = 33,
@@ -20,6 +25,7 @@ enum function = {
 };
 
 enum opcode = {
+    SPECIAL = 0,
     ADDI = 16,
     ADDIU = 17,
     BEQ = 4,
@@ -36,5 +42,8 @@ enum opcode = {
     SB = 40,
     SW = 43
 };
+
+
+
 
 #endif /* end of include guard: _INSTRUCTIONS_ */

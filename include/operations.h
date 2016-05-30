@@ -26,7 +26,7 @@ void lui(uint8_t rt, uint16_t imm);
 void slt(uint8_t rd, uint8_t rs, uint8_t rt);
 
 // instructions r/w memoire
-void lw(uint8_t rt, uint32_t base, uint16_t offset);
+void lw(uint8_t rt, uint8_t base, uint16_t offset);
 
 // realise une extension de 16 a 32 bit
 uint32_t extend(uint16_t value, bool sign);

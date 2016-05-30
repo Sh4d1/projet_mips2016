@@ -33,6 +33,12 @@ void set_half_word(struct memory *memory, uint32_t adress, uint16_t value);
 /* change la valeur d'un mot en mémoire */
 void set_word(struct memory *memory, uint32_t adress, uint32_t value);
 
+uint8_t get_byte(struct memory *memory, uint32_t adress);
+
+uint16_t get_half_word(struct memory *memory, uint32_t adress);
+
+uint32_t get_word(struct memory *memory, uint32_t adress);
+
 /* affiche la mémoire */
 void print_memory(struct memory memory);
 

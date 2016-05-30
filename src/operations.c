@@ -173,9 +173,19 @@ void jr(uint8_t rs)
 
 void syscall()
 {
-
+        // TODO
 }
 
+// pseudo-instructions
+void nop()
+{
+        sll(0, 0, 0);
+}
+
+void move(uint8_t rt, uint8_t rs)
+{
+        addu(rt, rs, 0);
+}
 
 // realise une extension de 16 a 32 bit
 uint32_t extend(uint16_t value, bool sign)

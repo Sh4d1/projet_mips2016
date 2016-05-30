@@ -1,3 +1,4 @@
+#include "../include/mem.h"
 #include "../include/operations.h"
 #include "../include/gpr.h"
 
@@ -13,15 +14,15 @@ void addu(uint8_t rd, uint8_t rs, uint8_t rt)
         set_register_value(rd, get_register_value(rs) + get_register_value(rt));
 }
 
-void addi(uint8_t rt, uint8_t rs, uint16_t imm)
+void addi(uint8_t rt, uint8_t rs, int16_t imm)
 {
         // TODO lever exception depacement
         addiu(rt, rs, imm);
 }
 
-void addiu(uint8_t rt, uint8_t rs, uint16_t imm)
+void addiu(uint8_t rt, uint8_t rs, int16_t imm)
 {
-        set_register_value(rt, get_register_value(rs) + sign_extend(imm, true));
+        set_register_value(rt, get_register_value(rs) + extend(imm, true));
 }
 
 void sub(uint8_t rd, uint8_t rs, uint8_t rt)
@@ -57,7 +58,7 @@ void or(uint8_t rd, uint8_t rs, uint8_t rt)
 
 void ori(uint8_t rd, uint8_t rs, uint16_t imm)
 {
-        set_register_value(rd, get_register_value(rs) | sign_extend(imm, false));
+        set_register_value(rd, get_register_value(rs) | extend(imm, false));
 }
 
 void xor(uint8_t rd, uint8_t rs, uint8_t rt)
@@ -86,8 +87,14 @@ void slt(uint8_t rd, uint8_t rs, uint8_t rt)
         set_register_value(rd, get_register_value(rs) < get_register_value(rt));
 }
 
+// instructions r/w memoire
+void lw(uint8_t rt, uint8_t base, int16_t offset)
+{
+        set_register_value(rt, get_word(get_register_value(base) + extend(offset, true)));
+}
+
 // realise une extension de 16 a 32 bit
-uint32_t sign_extend(uint16_t value, bool sign)
+uint32_t extend(uint16_t value, bool sign)
 {
         uint8_t bitfort = value >> 15;
         if (sign && bitfort) {

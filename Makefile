@@ -20,16 +20,29 @@ $(OBJDIR)/test_etudiants.o: $(SRCDIR)/test_etudiants.c $(INCDIR)/elf_reader.h
 	$(CC) -c $(CFLAGS) $< -o $@
 test_etudiants: $(OBJDIR)/elf_reader.o $(OBJDIR)/test_etudiants.o
 	$(CC) $(LDFLAGS) $^ -o $@
-	
 
-# Outils cross-compiles (as, readelf, ...) a l'Ensimag: 
+
+# Outils cross-compiles (as, readelf, ...) a l'Ensimag:
 # ajouter PATH=$PATH:/opt/mips-tools-cep/bin dans votre .bashrc
 exemple:
 	mips-elf-as exempleElf.s -o exempleElf.o
+
+# TEST PROC
+$(OBJDIR)/gpr.o: $(SRCDIR)/gpr.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+$(OBJDIR)/operations.o: $(SRCDIR)/operations.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+proc.o: proc.c
+	$(CC) -c $(CFLAGS) $< -o $@
+	
+proc: proc.o $(OBJDIR)/operations.o $(OBJDIR)/gpr.o
+	$(CC) $(LDFLAGS) $^ -o $@
+# FIN TEST PROC
 
 clean:
 	rm -rf $(OBJ)
 
 cleanall: clean
 	rm -rf test_etudiants
-

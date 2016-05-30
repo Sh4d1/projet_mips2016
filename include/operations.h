@@ -16,7 +16,7 @@ void divi(uint8_t rs, uint8_t rt);
 // instructions logiques
 void and(uint8_t rd, uint8_t rs, uint8_t rt);
 void or(uint8_t rd, uint8_t rs, uint8_t rt);
-void ori(uint8_t rd, uint8_t rs, uint16_t imm);
+void ori(uint8_t rd, uint8_t rs, int16_t imm);
 void xor(uint8_t rd, uint8_t rs, uint8_t rt);
 
 // instructions de decalage et set
@@ -26,7 +26,7 @@ void lui(uint8_t rt, uint16_t imm);
 void slt(uint8_t rd, uint8_t rs, uint8_t rt);
 
 // instructions r/w memoire
-void lw(uint8_t rt, uint32_t base, int16_t offset);
+void lw(uint8_t rt, uint32_t base, uint16_t offset);
 
 // realise une extension de 16 a 32 bit
 uint32_t sign_extend(uint16_t value, bool sign);

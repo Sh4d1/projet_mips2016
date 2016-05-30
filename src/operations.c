@@ -88,7 +88,7 @@ void slt(uint8_t rd, uint8_t rs, uint8_t rt)
 }
 
 // instructions r/w memoire
-void lw(uint8_t rt, uint8_t base, int16_t offset)
+void lw(uint8_t rt, uint8_t base, uint16_t offset)
 {
         set_register_value(rt, get_word(get_register_value(base) + extend(offset, true)));
 }

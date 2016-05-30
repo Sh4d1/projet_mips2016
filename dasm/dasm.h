@@ -43,6 +43,7 @@ uint8_t get_bits_15_11(uint32_t word);
 uint8_t get_bits_10_6(uint32_t word);
 uint8_t get_bits_5_0(uint32_t word);
 uint32_t get_bits_15_0(uint32_t word);
+uint32_t get_bits(uint32_t word, uint8_t x, uint8_t y);
 
 
 

@@ -30,7 +30,7 @@ void dasm_line(uint8_t *bytes, size_t text_size)
         } else {
             printf("%s $%u, $%u, %u\n", name31_26[get_bits_31_26(word)], get_bits_20_16(word), get_bits_25_21(word), get_bits_15_0(word));
         }
-
+        printf("%u\n", get_bits(word, 20, 16));
     }
 }
 
@@ -67,4 +67,9 @@ uint8_t get_bits_5_0(uint32_t word)
 uint32_t get_bits_15_0(uint32_t word)
 {
     return (word & 0xFFFF);
+}
+
+uint32_t get_bits(uint32_t word, uint8_t x, uint8_t y)
+{
+    return (word << (31-x) >> y); // marche pas
 }

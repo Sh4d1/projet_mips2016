@@ -1,5 +1,3 @@
-#include <stdint.h>
-
 #include "../include/gpr.h"
 
 // initialise les registres

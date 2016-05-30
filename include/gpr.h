@@ -1,6 +1,8 @@
 #ifndef _GPR_
 #define _GPR_
 
+#include <stdint.h>
+
 #define GPR_LENGTH 32
 
 struct reg {

@@ -21,6 +21,13 @@ $(OBJDIR)/test_etudiants.o: $(SRCDIR)/test_etudiants.c $(INCDIR)/elf_reader.h
 test_etudiants: $(OBJDIR)/elf_reader.o $(OBJDIR)/test_etudiants.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
+$(OBJDIR)/first_test.o: $(SRCDIR)/first_test.c $(INCDIR)/elf_reader.h
+	$(CC) -c $(CFLAGS) $< -o $@
+first_test: $(OBJDIR)/elf_reader.o $(OBJDIR)/first_test.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
+
+
 
 # Outils cross-compiles (as, readelf, ...) a l'Ensimag:
 # ajouter PATH=$PATH:/opt/mips-tools-cep/bin dans votre .bashrc

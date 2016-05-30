@@ -14,13 +14,13 @@ void addu(uint8_t rd, uint8_t rs, uint8_t rt)
         set_register_value(rd, get_register_value(rs) + get_register_value(rt));
 }
 
-void addi(uint8_t rt, uint8_t rs, uint16_t imm)
+void addi(uint8_t rt, uint8_t rs, int16_t imm)
 {
         // TODO lever exception depacement
         addiu(rt, rs, imm);
 }
 
-void addiu(uint8_t rt, uint8_t rs, uint16_t imm)
+void addiu(uint8_t rt, uint8_t rs, int16_t imm)
 {
         set_register_value(rt, get_register_value(rs) + extend(imm, true));
 }

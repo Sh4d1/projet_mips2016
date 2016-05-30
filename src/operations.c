@@ -27,6 +27,24 @@ void addiu(uint8_t rt, uint8_t rs, uint16_t imm)
         GPR[rt].value = GPR[rs].value + sign_extend(imm, true);
 }
 
+// sub
+void sub(uint8_t rd, uint8_t rs, uint8_t rt)
+{
+        // TODO lever exception depacement
+        GPR[rd].value = GPR[rs].value - GPR[rt].value;
+}
+
+// mult / div
+void mult(uint8_t rs, uint8_t rt)
+{
+        return;
+}
+
+void div(uint8_t rs, uint8_t rt)
+{
+        return;
+}
+
 // realise une extension de 16 a 32 bit
 uint32_t sign_extend(uint16_t value, bool sign)
 {

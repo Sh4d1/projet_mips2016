@@ -3,12 +3,27 @@
 
 #include <stdint.h>
 
+#define GPR_LENGTH 32
+
 struct reg {
         char name[4];
         uint32_t value;
 };
 
-struct reg GPR[32];
+const char *reg_names[GPR_LENGTH] = {   "zero",
+                                        "at",
+                                        "v0", "v1",
+                                        "a0", "a1", "a2", "a3",
+                                        "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
+                                        "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7",
+                                        "t8", "t9",
+                                        "k0", "k1",
+                                        "gp",
+                                        "sp",
+                                        "fp",
+                                        "ra"                                            };
+
+struct reg GPR[GPR_LENGTH];
 
 // initialise les registres
 void init_GPR();

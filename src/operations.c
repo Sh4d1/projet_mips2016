@@ -38,7 +38,7 @@ void mult(uint8_t rs, uint8_t rt)
         set_HI_value(res >> 32);
 }
 
-void div(uint8_t rs, uint8_t rt)
+void divi(uint8_t rs, uint8_t rt)
 {
         set_LO_value(get_register_value(rs) / get_register_value(rt));
         set_HI_value(get_register_value(rs) % get_register_value(rt));

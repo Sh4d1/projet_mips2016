@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
-#include "shell.h"
+#include "../include/shell.h"
 
 int main(int argc, char **argv)
 {

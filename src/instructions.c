@@ -1,10 +1,7 @@
-#include "instructions.h"
-#include "include/operations.h"
+#include "../include/instructions.h"
+#include "../include/operations.h"
 
-int main(int argc, char *argv[]) {
-    /* code */
-    return 0;
-}
+
 
 void parse_instruction(uint32_t inst)
 {
@@ -33,6 +30,7 @@ void parse_instruction(uint32_t inst)
         uint8_t rs = (inst>>21) & 0x1F;
         uint8_t rt = (inst>>16) & 0x1F;
         int16_t imm = inst & 0xFFFF;
+        uint32_t instr_index = (inst & 0x3FFFFFF);
 
         switch (opcode) { /* I-type instruction */
             case ADDI:
@@ -42,7 +40,6 @@ void parse_instruction(uint32_t inst)
                 addiu(rt, rs, imm);
             default:
                 /* J-type instruction */
-                uint32_t instr_index = inst & 0x3FFFFFF;
                 printf("I or J not done yet\n");
         }
     }

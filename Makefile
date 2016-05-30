@@ -23,8 +23,12 @@ test_etudiants: $(OBJDIR)/elf_reader.o $(OBJDIR)/test_etudiants.o
 
 $(OBJDIR)/first_test.o: $(SRCDIR)/first_test.c $(INCDIR)/elf_reader.h
 	$(CC) -c $(CFLAGS) $< -o $@
-first_test: $(OBJDIR)/elf_reader.o $(OBJDIR)/first_test.o
+first_test: $(OBJDIR)/elf_reader.o $(OBJDIR)/first_test.o $(OBJDIR)/operations.o $(OBJDIR)/mem.o $(OBJDIR)/gpr.o $(OBJDIR)/instructions.o
 	$(CC) $(LDFLAGS) $^ -o $@
+
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/%.h
+	$(CC) -c $(CFLAGS) $< -o $@
 
 
 

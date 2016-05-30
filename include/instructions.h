@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 
-enum function = {
+enum function {
     ADD = 32,
     ADDU = 33,
     AND = 36,
@@ -24,7 +24,7 @@ enum function = {
     XOR = 38
 };
 
-enum opcode = {
+enum opcode {
     SPECIAL = 0,
     ADDI = 16,
     ADDIU = 17,

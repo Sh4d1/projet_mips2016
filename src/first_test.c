@@ -3,10 +3,17 @@
 #include <stdint.h>
 
 #include "../include/elf_reader.h"
+#include "../include/mem.h"
+#include "../include/gpr.h"
+#include "../include/instructions.h"
 
 
 int main(int argc, char *argv[])
 {
+
+    init_GPR();
+    set_register_value(2, 11);
+    set_register_value(3, 9);
 
     struct elf_descr *elf;
     uint32_t text_addr = 0;
@@ -27,10 +34,10 @@ int main(int argc, char *argv[])
     }
 
     get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
+    uint32_t word = text_bytes[3] + (text_bytes[2]<<8) + (text_bytes[1]<<16) + (text_bytes[0]<<24);
+    parse_instruction(word);
 
-
-    
-
+    printf("%u\n", get_register_value(10));
     close_elf(elf);
 
 	printf("\nThat's all folks!\n");

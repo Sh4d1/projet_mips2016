@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include "../include/elf_reader.h"
+#include "elf_reader.h"
 
 
 int main(int argc, char *argv[])

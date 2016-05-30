@@ -1,18 +1,18 @@
-#include "mem.h"
+#include "../include/mem.h"
 
-int main(int argc, char **argv)
-{
-    struct memory *mem = malloc(sizeof(struct memory));
-    init_memory(mem, 0x1000);
-    set_byte(mem, 0x100, 0x20);
-    set_half_word(mem, 0x102, 0x1234);
-    set_word(mem, 0x106, 0x12345678);
-    print_n_memory(*mem, 0x100, 10);
-    printf("%x\n", get_word(mem, 0x100));
-    //print_memory(*mem);
-    free_memory(mem);
-    return 0;
-}
+// int main(int argc, char **argv)
+// {
+//     struct memory *mem = malloc(sizeof(struct memory));
+//     init_memory(mem, 0x1000);
+//     set_byte(mem, 0x100, 0x20);
+//     set_half_word(mem, 0x102, 0x1234);
+//     set_word(mem, 0x106, 0x12345678);
+//     print_n_memory(*mem, 0x100, 10);
+//     printf("%x\n", get_word(mem, 0x100));
+//     //print_memory(*mem);
+//     free_memory(mem);
+//     return 0;
+// }
 
 void init_memory(struct memory *memory, uint32_t mem_size)
 {

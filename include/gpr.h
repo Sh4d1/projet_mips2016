@@ -46,4 +46,7 @@ void set_PC_value(uint32_t value);
 void set_HI_value(uint32_t value);
 void set_LO_value(uint32_t value);
 
+// affiche tout les registres
+void print_gpr();
+
 #endif /* end of include guard: _GPR_ */

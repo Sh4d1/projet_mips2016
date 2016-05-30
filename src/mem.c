@@ -1,4 +1,5 @@
 #include "../include/mem.h"
+#include "../include/elf_reader.h"
 
 // int main(int argc, char **argv)
 // {
@@ -83,4 +84,26 @@ void print_n_memory(uint32_t adress, uint32_t n)
 void free_memory()
 {
     free(memory.memory);
+}
+
+
+void file_to_memory(char *file)
+{
+    struct elf_descr *elf;
+    uint32_t text_addr = 0;
+    uint8_t *text_bytes = NULL;
+    size_t text_size = 0;
+    uint8_t text_align = 0;
+
+    elf = read_elf(file);
+    if (elf == NULL) {
+        printf("Erreur de lecture ELF\n");
+        exit(EXIT_FAILURE);
+    }
+    get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
+    init_memory(text_size);
+
+    for (uint32_t i = 0; i < text_size; i++) {
+        set_byte(text_addr + i, text_bytes[i]);
+    }
 }

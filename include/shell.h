@@ -11,19 +11,25 @@
 /* declarations des fonctions du shell */
 int shell_help(char **args);
 int shell_exit(char **args);
+int shell_load(char **args);
+int shell_dreg(char **args);
 
 /* shell_num_func : retourne le nombre de fonctions */
 int shell_num_func();
 
 /* liste des fonctions du shell, suivies de leur commandes */
-char *func_str[] = {
+static char *func_str[] = {
     "help",
-    "exit"
+    "exit",
+    "load",
+    "dreg"
 };
 
-int (*func[]) (char **) = {
+static int (*func[]) (char **) = {
     &shell_help,
-    &shell_exit
+    &shell_exit,
+    &shell_load,
+    &shell_dreg
 };
 
 /* shell_loop : launch the shell lopp */

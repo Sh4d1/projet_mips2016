@@ -49,5 +49,7 @@ void print_n_memory(uint32_t adress, uint32_t n);
 /* libère la mémoire */
 void free_memory();
 
+void file_to_memory(char *file);
+
 
 #endif /* end of include guard: _MEM_ */

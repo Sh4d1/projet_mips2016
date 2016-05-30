@@ -84,3 +84,8 @@ void set_LO_value(uint32_t value)
 {
         LO.value = value;
 }
+
+void print_gpr()
+{
+    
+}

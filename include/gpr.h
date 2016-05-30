@@ -1,7 +1,7 @@
 #ifndef _GPR_
 #define _GPR_
 
-#include <stdint.h>
+#include <inttypes.h>
 
 #define GPR_LENGTH 32
 

@@ -1,6 +1,3 @@
-#include <stdint.h>
-#include <stdbool.h>
-
 #include "../include/operations.h"
 #include "../include/gpr.h"
 

@@ -24,11 +24,12 @@ void parse_instruction(uint32_t inst)
 
             case ADDU:
                 addu(rd, rs, rt);
-
+                break;
             default:
+                printf("Instruction de type R non reconnue\n");
         }
-
-
+    } else { /* I or J type instruction */
+        
     }
 
 

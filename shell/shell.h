@@ -26,8 +26,6 @@ int (*func[]) (char **) = {
     &shell_exit
 };
 
-int shell_help(char **args);
-
 /* shell_loop : launch the shell lopp */
 void shell_loop(void);
 

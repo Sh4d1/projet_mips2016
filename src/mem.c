@@ -14,74 +14,73 @@
 //     return 0;
 // }
 
-void init_memory(struct memory *memory, uint32_t mem_size)
+void init_memory(uint32_t mem_size)
 {
-    memory->memory = malloc(mem_size * sizeof(struct memory_case));
-    memory->memory_size = mem_size;
+    memory.memory = malloc(mem_size * sizeof(struct memory_case));
+    memory.memory_size = mem_size;
     for (uint32_t i = 0; i < mem_size; i++) {
-        memory->memory[i].value = 0;
-        memory->memory[i].r = true;
-        memory->memory[i].w = true;
-        memory->memory[i].x = true;
+        memory.memory[i].value = 0;
+        memory.memory[i].r = true;
+        memory.memory[i].w = true;
+        memory.memory[i].x = true;
     }
 }
 
-void set_byte(struct memory *memory, uint32_t adress, uint8_t value)
+void set_byte(uint32_t adress, uint8_t value)
 {
-    if (adress > memory->memory_size) {
+    if (adress > memory.memory_size) {
         printf("DEAD\n");
         exit(EXIT_FAILURE);
     } else {
-        memory->memory[adress].value = value;
+        memory.memory[adress].value = value;
     }
 }
 
-void set_half_word(struct memory *memory, uint32_t adress, uint16_t value)
+void set_half_word(uint32_t adress, uint16_t value)
 {
-    memory->memory[adress].value = (value & 0xFF00)>>8;
-    memory->memory[adress+1].value = (value & 0x00FF);
+    memory.memory[adress].value = (value & 0xFF00)>>8;
+    memory.memory[adress+1].value = (value & 0x00FF);
 }
 
-void set_word(struct memory *memory, uint32_t adress, uint32_t value)
+void set_word(uint32_t adress, uint32_t value)
 {
-    memory->memory[adress].value = (value & 0xFF000000)>>24;
-    memory->memory[adress+1].value = (value & 0x00FF0000)>>16;
-    memory->memory[adress+2].value = (value & 0x0000FF00)>>8;
-    memory->memory[adress+3].value = (value & 0x000000FF);
+    memory.memory[adress].value = (value & 0xFF000000)>>24;
+    memory.memory[adress+1].value = (value & 0x00FF0000)>>16;
+    memory.memory[adress+2].value = (value & 0x0000FF00)>>8;
+    memory.memory[adress+3].value = (value & 0x000000FF);
 }
 
-uint8_t get_byte(struct memory *memory, uint32_t adress)
+uint8_t get_byte(uint32_t adress)
 {
-    return memory->memory[adress].value;
+    return memory.memory[adress].value;
 }
 
-uint16_t get_half_word(struct memory *memory, uint32_t adress)
+uint16_t get_half_word(uint32_t adress)
 {
-    return (memory->memory[adress].value<<8) + memory->memory[adress+1].value;
+    return (memory.memory[adress].value<<8) + memory.memory[adress+1].value;
 }
 
-uint32_t get_word(struct memory *memory, uint32_t adress)
+uint32_t get_word(uint32_t adress)
 {
-    return (memory->memory[adress].value<<24) + (memory->memory[adress+1].value<<16) + (memory->memory[adress+2].value<<8) + memory->memory[adress+3].value;
+    return (memory.memory[adress].value<<24) + (memory.memory[adress+1].value<<16) + (memory.memory[adress+2].value<<8) + memory.memory[adress+3].value;
 }
 
 
-void print_memory(struct memory memory)
+void print_memory()
 {
     for (uint32_t i = 0; i < memory.memory_size; i++) {
         printf("0x%04x : 0x%02x\n", i, memory.memory[i].value);
     }
 }
 
-void print_n_memory(struct memory memory, uint32_t adress, uint32_t n)
+void print_n_memory(uint32_t adress, uint32_t n)
 {
     for (uint32_t i = adress; i < adress+n; i++) {
         printf("0x%04x : 0x%02x\n", i, memory.memory[i].value);
     }
 }
 
-void free_memory(struct memory *memory)
+void free_memory()
 {
-    free(memory->memory);
-    free(memory);
+    free(memory.memory);
 }

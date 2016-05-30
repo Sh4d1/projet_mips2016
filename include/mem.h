@@ -20,32 +20,34 @@ struct memory {
     uint32_t memory_size;
 };
 
+struct memory memory;
+
 
 /* initialise la mémoire */
-void init_memory(struct memory *memory, uint32_t mem_size);
+void init_memory(uint32_t mem_size);
 
 /* change la valeur d'un octet en mémoire */
-void set_byte(struct memory *memory, uint32_t adress, uint8_t value);
+void set_byte(uint32_t adress, uint8_t value);
 
 /* change la valeur d'un demi mot en mémoire */
-void set_half_word(struct memory *memory, uint32_t adress, uint16_t value);
+void set_half_word(uint32_t adress, uint16_t value);
 
 /* change la valeur d'un mot en mémoire */
-void set_word(struct memory *memory, uint32_t adress, uint32_t value);
+void set_word(uint32_t adress, uint32_t value);
 
-uint8_t get_byte(struct memory *memory, uint32_t adress);
+uint8_t get_byte(uint32_t adress);
 
-uint16_t get_half_word(struct memory *memory, uint32_t adress);
+uint16_t get_half_word(uint32_t adress);
 
-uint32_t get_word(struct memory *memory, uint32_t adress);
+uint32_t get_word(uint32_t adress);
 
 /* affiche la mémoire */
-void print_memory(struct memory memory);
+void print_memory();
 
-void print_n_memory(struct memory memory, uint32_t adress, uint32_t n);
+void print_n_memory(uint32_t adress, uint32_t n);
 
 /* libère la mémoire */
-void free_memory(struct memory *memory);
+void free_memory();
 
 
 #endif /* end of include guard: _MEM_ */

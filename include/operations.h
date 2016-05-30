@@ -7,8 +7,8 @@
 // instructions arithmetiques
 void add(uint8_t rd, uint8_t rs, uint8_t rt);
 void addu(uint8_t rd, uint8_t rs, uint8_t rt);
-void addi(uint8_t rt, uint8_t rs, int16_t imm);
-void addiu(uint8_t rt, uint8_t rs, int16_t imm);
+void addi(uint8_t rt, uint8_t rs, uint16_t imm);
+void addiu(uint8_t rt, uint8_t rs, uint16_t imm);
 void add(uint8_t rd, uint8_t rs, uint8_t rt);
 void mult(uint8_t rs, uint8_t rt);
 void div(uint8_t rs, uint8_t rt);

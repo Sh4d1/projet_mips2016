@@ -27,6 +27,23 @@ void slt(uint8_t rd, uint8_t rs, uint8_t rt);
 
 // instructions r/w memoire
 void lw(uint8_t rt, uint8_t base, uint16_t offset);
+void sw(uint8_t rt, uint8_t base, uint16_t offset);
+void lb(uint8_t rt, uint8_t base, uint16_t offset);
+void lbu(uint8_t rt, uint8_t base, uint16_t offset);
+void sb(uint8_t rt, uint8_t base, uint16_t offset);
+void mfhi(uint8_t rd);
+void mflo(uint8_t rd);
+
+// instructions de branchement, saut et controle
+void b(uint16_t offset);
+void beq(uint8_t rs, uint8_t rt, uint16_t offset);
+void bne(uint8_t rs, uint8_t rt, uint16_t offset);
+void bgtz(uint8_t rs, uint16_t offset);
+void blez(uint8_t rs, uint16_t offset);
+void j(uint16_t instr_index);
+void jal(uint16_t instr_index);
+void jr(uint8_t rs);
+void syscall();
 
 // realise une extension de 16 a 32 bit
 uint32_t extend(uint16_t value, bool sign);

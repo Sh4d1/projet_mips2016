@@ -45,10 +45,13 @@ $(OBJDIR)/gpr.o: $(SRCDIR)/gpr.c $(INCDIR)/gpr.h
 $(OBJDIR)/operations.o: $(SRCDIR)/operations.c $(INCDIR)/operations.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+$(OBJDIR)/mem.o: $(SRCDIR)/mem.c $(INCDIR)/mem.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 proc.o: proc.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-proc: proc.o $(OBJDIR)/operations.o $(OBJDIR)/gpr.o
+proc: proc.o $(OBJDIR)/gpr.o $(OBJDIR)/operations.o $(OBJDIR)/mem.o
 	$(CC) $(LDFLAGS) $^ -o $@
 # FIN TEST PROC
 

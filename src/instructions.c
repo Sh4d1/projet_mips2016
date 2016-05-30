@@ -19,7 +19,6 @@ void parse_instruction(uint32_t inst)
             case ADD:
                 add(rd, rs, rt);
                 break;
-
             case ADDU:
                 addu(rd, rs, rt);
                 break;

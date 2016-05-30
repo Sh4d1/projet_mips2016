@@ -26,8 +26,8 @@ enum function {
 
 enum opcode {
     SPECIAL = 0,
-    ADDI = 16,
-    ADDIU = 17,
+    ADDI = 8,
+    ADDIU = 9,
     BEQ = 4,
     BGTZ = 7,
     BLEZ = 6,

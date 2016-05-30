@@ -34,10 +34,16 @@ int main(int argc, char *argv[])
     }
 
     get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
-    uint32_t word = text_bytes[3] + (text_bytes[2]<<8) + (text_bytes[1]<<16) + (text_bytes[0]<<24);
-    parse_instruction(word);
+    for (uint32_t i = 0; i < text_size; i += 4) {
+        uint32_t word = text_bytes[i+3] + (text_bytes[i+2]<<8) + (text_bytes[i+1]<<16) + (text_bytes[i]<<24);
+        parse_instruction(word);
+        printf("%08x\n",word);
+    }
+
 
     printf("%u\n", get_register_value(10));
+    printf("%u\n", get_register_value(11));
+    printf("%u\n", get_register_value(12));
     close_elf(elf);
 
 	printf("\nThat's all folks!\n");

@@ -8,10 +8,6 @@
 int main(int argc, char *argv[])
 {
 
-    // Un mini-test qui charger un fichier elf et affiche les 4 premiers octets de sa section
-    // (s'ils existent).
-    // Regardez le Makfile pour voir comment lier le fichier .o distribué
-
     struct elf_descr *elf;
     uint32_t text_addr = 0;
     uint8_t *text_bytes = NULL;
@@ -32,15 +28,8 @@ int main(int argc, char *argv[])
 
     get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
 
-    printf("\nInfos sur la section .text: adresse 0x%x, taille %lu, alignement %hhd\n",
-           text_addr, text_size, text_align);
-    printf("Les 4 premiers octets sont: ");
-    if (text_size >= 4) {
-        printf("%02x%02x%02x%02x ", text_bytes[0], text_bytes[1], text_bytes[2], text_bytes[3]);
-        printf(" -- quelle est cette instruction? A vous!");
-    } else {
-        printf(" y'en a pas (assez)... dommage");
-    }
+
+    
 
     close_elf(elf);
 

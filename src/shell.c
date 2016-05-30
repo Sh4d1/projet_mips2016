@@ -10,6 +10,7 @@
 #include "../include/shell.h"
 #include "../include/mem.h"
 #include "../include/gpr.h"
+#include "../include/instructions.h"
 
 // int main(int argc, char **argv)
 // {
@@ -144,6 +145,7 @@ int shell_load(char **args)
         fprintf(stderr, "Pas assez d'arguments pour load\n");
         return 1;
     } else {
+        init_GPR();
         file_to_memory(args[1]);
     }
     return 1;
@@ -151,7 +153,14 @@ int shell_load(char **args)
 
 int shell_dreg(char **args)
 {
+    print_gpr();
+    return 1;
+}
 
+int shell_run(char **args)
+{
+    run();
+    return 1;
 }
 
 

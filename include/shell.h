@@ -13,6 +13,7 @@ int shell_help(char **args);
 int shell_exit(char **args);
 int shell_load(char **args);
 int shell_dreg(char **args);
+int shell_run(char **args);
 
 /* shell_num_func : retourne le nombre de fonctions */
 int shell_num_func();
@@ -22,14 +23,16 @@ static char *func_str[] = {
     "help",
     "exit",
     "load",
-    "dreg"
+    "dreg",
+    "run"
 };
 
 static int (*func[]) (char **) = {
     &shell_help,
     &shell_exit,
     &shell_load,
-    &shell_dreg
+    &shell_dreg,
+    &shell_run
 };
 
 /* shell_loop : launch the shell lopp */

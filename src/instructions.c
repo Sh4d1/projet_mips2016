@@ -1,5 +1,6 @@
 #include "../include/instructions.h"
 #include "../include/operations.h"
+#include "../include/mem.h"
 
 
 
@@ -70,4 +71,20 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
         default:
             printf("I or J not finished :) \n");
     }
+}
+
+void run()
+{
+    do {
+        //printf("%u\n", get_PC_value());
+        uint32_t word = memory.memory[get_PC_value()+3].value;
+        word += memory.memory[get_PC_value()+2].value<<8;
+        word += memory.memory[get_PC_value()+1].value<<16;
+        word += memory.memory[get_PC_value()].value<<24;
+
+        parse_instruction(word);
+        set_PC_value(get_PC_value()+4);
+
+    } while(memory.memory[get_PC_value()].value != 0);
+
 }

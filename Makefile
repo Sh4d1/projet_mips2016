@@ -28,7 +28,7 @@ first_test: $(OBJDIR)/elf_reader.o $(OBJDIR)/first_test.o $(OBJDIR)/operations.o
 
 $(OBJDIR)/second_test.o: $(SRCDIR)/second_test.c
 	$(CC) -c $(CFLAGS) $< -o $@
-second_test: $(OBJDIR)/second_test.o $(OBJDIR)/shell.o $(OBJDIR)/mem.o $(OBJDIR)/elf_reader.o
+second_test: $(OBJDIR)/second_test.o $(OBJDIR)/shell.o $(OBJDIR)/mem.o $(OBJDIR)/elf_reader.o $(OBJDIR)/gpr.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 

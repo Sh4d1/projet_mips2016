@@ -11,6 +11,7 @@ void init_GPR()
                 GPR[i].value = 0;
                 strncpy(GPR[i].name, reg_names[i], strlen(reg_names[i]));
         }
+        PC.value = 0;
 }
 
 // retourne l'index du registre
@@ -87,5 +88,11 @@ void set_LO_value(uint32_t value)
 
 void print_gpr()
 {
-    
+    for (uint8_t i = 0; i < GPR_LENGTH; i++) {
+        printf("Reg $%02u ($%s) : ", i, GPR[i].name);
+        printf("0x%x  ", GPR[i].value);
+        if ((i+1) % 2 == 0) {
+            printf("\n");
+        }
+    }
 }

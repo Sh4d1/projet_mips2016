@@ -33,11 +33,11 @@ void lui(uint8_t rt, uint16_t imm);
 void slt(uint8_t rd, uint8_t rs, uint8_t rt);
 
 // instructions r/w memoire
-/*void lw(uint8_t rt, uint8_t base, uint16_t offset);
+void lw(uint8_t rt, uint8_t base, uint16_t offset);
 void sw(uint8_t rt, uint8_t base, uint16_t offset);
 void lb(uint8_t rt, uint8_t base, uint16_t offset);
 void lbu(uint8_t rt, uint8_t base, uint16_t offset);
-void sb(uint8_t rt, uint8_t base, uint16_t offset);*/
+void sb(uint8_t rt, uint8_t base, uint16_t offset);
 void mfhi(uint8_t rd);
 void mflo(uint8_t rd);
 

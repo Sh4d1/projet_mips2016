@@ -17,7 +17,7 @@
 
 void init_memory(uint32_t mem_size)
 {
-    memory.memory = malloc(mem_size * sizeof(struct memory_case));
+    memory.memory = calloc(mem_size, sizeof(struct memory_case));
     memory.memory_size = mem_size;
     for (uint32_t i = 0; i < mem_size; i++) {
         memory.memory[i].value = 0;
@@ -101,9 +101,9 @@ void file_to_memory(char *file)
         exit(EXIT_FAILURE);
     }
     get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
-    init_memory(text_size);
+    init_memory(0x1000000);
 
     for (uint32_t i = 0; i < text_size; i++) {
-        set_byte(text_addr + i, text_bytes[i]);
+        set_byte(i, text_bytes[i]);
     }
 }

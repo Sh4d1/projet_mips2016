@@ -63,7 +63,9 @@ void set_register_value(uint8_t index, uint32_t value)
                 fprintf(stderr, "Le registre %u n'existe pas.\n", index);
                 exit(EXIT_FAILURE);
         }
-        GPR[index].value = value;
+        if (index != 0) {
+                GPR[index].value = value;
+        }
 }
 
 void set_register_value_by_name(char *name, uint32_t value)

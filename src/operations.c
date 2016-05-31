@@ -1,11 +1,46 @@
-#include "../include/mem.h"
+#include <stdio.h>
+#include <stdlib.h>
+//#include "../include/mem.h"
 #include "../include/operations.h"
 #include "../include/gpr.h"
+
+// realise une extension de 16 a 32 bit
+uint32_t extend(uint16_t value, bool sign)
+{
+        uint8_t bitfort = value >> 15;
+        if (sign && bitfort) {
+                return 0xFFFF0000 | value;
+        } else {
+                return value;
+        }
+}
+
+// renvoie le nieme bit en partant de 0
+uint64_t get_bit(uint64_t value, uint8_t n, uint8_t pos)
+{
+        return ((value >> n) & 1) << pos;
+}
+
+// leve l'exception de depassement
+void overflow(uint32_t value1, uint32_t value2, bool sub)
+{
+        uint64_t x = value1;
+        uint64_t y = value2;
+        uint64_t res;
+        x = get_bit(x, 31, 32) | x;
+        y = get_bit(y, 31, 32) | y;
+        res = (sub) ? x - y : x + y;
+        if (get_bit(res, 32, 0) ^ get_bit(res, 31, 0)) {
+                fprintf(stderr, "Dépassement.\n");
+                exit(EXIT_FAILURE);
+        }
+}
 
 // instructions arithmetiques
 void add(uint8_t rd, uint8_t rs, uint8_t rt)
 {
-        // TODO lever exception depacement
+        // exception depacement
+        overflow(get_register_value(rs), get_register_value(rt), false);
         addu(rd, rs, rt);
 }
 
@@ -16,7 +51,8 @@ void addu(uint8_t rd, uint8_t rs, uint8_t rt)
 
 void addi(uint8_t rt, uint8_t rs, uint16_t imm)
 {
-        // TODO lever exception depacement
+        // exception depacement
+        overflow(get_register_value(rs), extend(imm, true), false);
         addiu(rt, rs, imm);
 }
 
@@ -27,7 +63,8 @@ void addiu(uint8_t rt, uint8_t rs, uint16_t imm)
 
 void sub(uint8_t rd, uint8_t rs, uint8_t rt)
 {
-        // TODO lever exception depacement
+        // exception depacement
+        overflow(get_register_value(rs), get_register_value(rt), true);
         set_register_value(rd, get_register_value(rs) - get_register_value(rt));
 }
 
@@ -88,7 +125,7 @@ void slt(uint8_t rd, uint8_t rs, uint8_t rt)
 }
 
 // instructions r/w memoire
-void lw(uint8_t rt, uint8_t base, uint16_t offset)
+/*void lw(uint8_t rt, uint8_t base, uint16_t offset)
 {
         set_register_value(rt, get_word(get_register_value(base) + extend(offset, true)));
 }
@@ -111,20 +148,20 @@ void lbu(uint8_t rt, uint8_t base, uint16_t offset)
 void sb(uint8_t rt, uint8_t base, uint16_t offset)
 {
         set_byte(get_register_value(base) + extend(offset, true), get_register_value(rt));
-}
+}*/
 
 void mfhi(uint8_t rd) {
-        set_HI_value(rd);
+        set_register_value(rd, get_HI_value());
 }
 
 void mflo(uint8_t rd) {
-        set_LO_value(rd);
+        set_register_value(rd, get_LO_value());
 }
 
 // instructions de branchement, saut et controle
 void b(uint16_t offset)
 {
-        set_PC_value(get_PC_value() + (extend(offset, false) << 2));
+        set_PC_value(get_PC_value() + (extend(offset, true) << 2));
 }
 
 void beq(uint8_t rs, uint8_t rt, uint16_t offset)
@@ -185,15 +222,4 @@ void nop()
 void move(uint8_t rt, uint8_t rs)
 {
         addu(rt, rs, 0);
-}
-
-// realise une extension de 16 a 32 bit
-uint32_t extend(uint16_t value, bool sign)
-{
-        uint8_t bitfort = value >> 15;
-        if (sign && bitfort) {
-                return 0xFFFF0000 | value;
-        } else {
-                return value;
-        }
 }

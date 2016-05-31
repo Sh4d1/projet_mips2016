@@ -6,9 +6,9 @@
 int main()
 {
         init_GPR();
-        set_register_value(8, 11);
-        set_register_value(10, 1);
-        sll(8, 8, 2);
-        printf("%u\n", get_register_value(8));
+        set_register_value(2, -2147483645);
+        set_register_value(10, -10);
+        sub(2, 2, 10);
+        printf("%d\n", get_register_value(2));
         return 0;
 }

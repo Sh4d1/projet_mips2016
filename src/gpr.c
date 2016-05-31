@@ -90,7 +90,7 @@ void print_gpr()
 {
     for (uint8_t i = 0; i < GPR_LENGTH; i++) {
         printf("Reg %-4s ($%02u): ", GPR[i].name, i);
-        printf("0x%04x\t\t", GPR[i].value);
+        printf("0x%08x\t\t", GPR[i].value);
         if ((i+1) % 4 == 0) {
             printf("\n");
         }

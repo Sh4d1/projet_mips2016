@@ -34,8 +34,8 @@ void sub(uint8_t rd, uint8_t rs, uint8_t rt)
 void mult(uint8_t rs, uint8_t rt)
 {
         uint64_t res = get_register_value(rs) * get_register_value(rt);
-        set_LO_value(res);
-        set_HI_value(res >> 32);
+        set_LO_value(res & 0xFFFFFFFFFFFFFFFF);
+        set_HI_value((res >> 32) & 0xFFFFFFFFFFFFFFFF);
 }
 
 void divi(uint8_t rs, uint8_t rt)
@@ -114,11 +114,11 @@ void sb(uint8_t rt, uint8_t base, uint16_t offset)
 }
 
 void mfhi(uint8_t rd) {
-        set_HI_value(rd);
+        set_register_value(rd, get_HI_value());
 }
 
 void mflo(uint8_t rd) {
-        set_LO_value(rd);
+        set_register_value(rd, get_LO_value());
 }
 
 // instructions de branchement, saut et controle

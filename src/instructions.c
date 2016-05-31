@@ -104,6 +104,39 @@ void parse_instruction(uint32_t inst, bool dasm)
                 case ADDIU:
                     addiu(rt, rs, imm);
                     break;
+                case BEQ:
+                    beq(rs, rt, imm);
+                    break;
+                case BGTZ:
+                    bgtz(rs, imm);
+                    break;
+                case BLEZ:
+                    blez(rs, imm);
+                    break;
+                case BNE:
+                    bne(rs, rt, imm);
+                    break;
+                case LB:
+                    lb(rt, rs, imm);
+                    break;
+                case LBU:
+                    lbu(rt, rs, imm);
+                    break;
+                case LUI:
+                    lui(rt, imm);
+                    break;
+                case LW:
+                    lw(rt, rs, imm);
+                    break;
+                case ORI:
+                    ori(rt, rs, imm);
+                    break;
+                case SB:
+                    sb(rt, rs, imm);
+                    break;
+                case SW:
+                    sw(rt, rs, imm);
+                    break;
                 default: /* les types I ont été traité, passons aux J
                     /* J-type instruction */
                     printf("I or J not done yet\n");
@@ -169,6 +202,42 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
     switch (code) {
         case ADDI:
             printf("ADDI $%u, $%u, %u\n", rt, rs, imm);
+            break;
+        case ADDIU:
+            printf("ADDIU $%u, $%u, %u\n", rt, rs, imm);
+            break;
+        case BEQ:
+            printf("BEQ $%u, $%u, %u\n", rs, rt, imm);
+            break;
+        case BGTZ:
+            printf("BGTZ $%u, %u\n", rs, imm);
+            break;
+        case BLEZ:
+            printf("BLEZ $%u, %u\n", rs, imm);
+            break;
+        case BNE:
+            printf("BNE $%u, $%u, %u\n", rs, rt, imm);
+            break;
+        case LB:
+            printf("LB $%u, %u($%u)\n", rt, imm, rs);
+            break;
+        case LBU:
+            printf("LBU $%u, %u($%u)\n", rt, imm, rs);
+            break;
+        case LUI:
+            printf("LUI $%u, %u\n", rt, imm);
+            break;
+        case LW:
+            printf("LW $%u, %u($%u)\n", rt, imm, rs);
+            break;
+        case ORI:
+            printf("ORI $%u, $%u, %u\n", rt, rs, imm);
+            break;
+        case SB:
+            printf("SB $%u, %u($%u)\n", rt, imm, rs);
+            break;
+        case SW:
+            printf("SW $%u, %u($%u)\n", rt, imm, rs);
             break;
         default:
             printf("IJ %u\n", code);

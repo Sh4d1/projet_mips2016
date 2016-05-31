@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "../include/mem.h"
+
+#include "../include/mem.h"
 #include "../include/operations.h"
 #include "../include/gpr.h"
 
@@ -125,7 +126,7 @@ void slt(uint8_t rd, uint8_t rs, uint8_t rt)
 }
 
 // instructions r/w memoire
-/*void lw(uint8_t rt, uint8_t base, uint16_t offset)
+void lw(uint8_t rt, uint8_t base, uint16_t offset)
 {
         set_register_value(rt, get_word(get_register_value(base) + extend(offset, true)));
 }
@@ -148,7 +149,7 @@ void lbu(uint8_t rt, uint8_t base, uint16_t offset)
 void sb(uint8_t rt, uint8_t base, uint16_t offset)
 {
         set_byte(get_register_value(base) + extend(offset, true), get_register_value(rt));
-}*/
+}
 
 void mfhi(uint8_t rd) {
         set_register_value(rd, get_HI_value());
@@ -187,14 +188,14 @@ void bgtz(uint8_t rs, uint16_t offset)
 
 void blez(uint8_t rs, uint16_t offset)
 {
-        if ((int32_t)get_register_value(rs) < 0) {
+        if ((int32_t)get_register_value(rs) <= 0) {
                 b(offset);
         }
 }
 
 void j(uint16_t instr_index)
 {
-        set_PC_value((0xF0000000 & get_PC_value()) | (extend(instr_index, false) << 2));
+        set_PC_value((0xF0000000 & get_PC_value()) | (instr_index << 2));
 }
 
 void jal(uint16_t instr_index)

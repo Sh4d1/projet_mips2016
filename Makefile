@@ -55,7 +55,7 @@ $(OBJDIR)/mem.o: $(SRCDIR)/mem.c $(INCDIR)/mem.h
 proc.o: proc.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-proc: proc.o $(OBJDIR)/gpr.o $(OBJDIR)/operations.o $(OBJDIR)/mem.o
+proc: proc.o $(OBJDIR)/gpr.o $(OBJDIR)/operations.o $(OBJDIR)/mem.o $(OBJDIR)/elf_reader.o
 	$(CC) $(LDFLAGS) $^ -o $@
 # FIN TEST PROC
 

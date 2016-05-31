@@ -137,7 +137,7 @@ void parse_instruction(uint32_t inst, bool dasm)
                 case SW:
                     sw(rt, rs, imm);
                     break;
-                default: /* les types I ont été traité, passons aux J
+                default: /* les types I ont été traités, passons aux J
                     /* J-type instruction */
                     printf("I or J not done yet\n");
             }

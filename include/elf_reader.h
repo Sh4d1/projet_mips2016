@@ -6,18 +6,18 @@
  * Ensimag 2016, première année.
  *
  * @section Introduction
- * Ce module fournit un ensemble de fonctions permettant d'extraire facilement 
+ * Ce module fournit un ensemble de fonctions permettant d'extraire facilement
  * les données contenues dans un fichier relogeable au format ELF.
  * Il permet d'accéder:
- * -# aux sections d'instructions et de données: \em .text, \em .data 
+ * -# aux sections d'instructions et de données: \em .text, \em .data
  *    et \em .bss
  * -# à la table des symboles
  * -# à la table des chaînes (noms des symboles)
  * -# aux sections de relocation \em .rel.text et \em .rel.data
  * -# au type de fichier: relogeable ou executable
  * -# au point d'entree du programme, le cas echeant
- * 
- * Le principe d'utilisation est d'appeller les fonctions séquentiellement, 
+ *
+ * Le principe d'utilisation est d'appeller les fonctions séquentiellement,
  * selon le shéma suivant:
  * -# read_elf: ouvre le fichier en lecture et retourne un descripteur elf
  * (de format privé) contenant toutes les informations lues

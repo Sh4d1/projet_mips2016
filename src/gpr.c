@@ -89,9 +89,9 @@ void set_LO_value(uint32_t value)
 void print_gpr()
 {
     for (uint8_t i = 0; i < GPR_LENGTH; i++) {
-        printf("Reg $%02u ($%04s) : ", i, GPR[i].name);
-        printf("0x%04x  ", GPR[i].value);
-        if ((i+1) % 3 == 0) {
+        printf("Reg %-4s ($%02u): ", GPR[i].name, i);
+        printf("0x%04x\t\t", GPR[i].value);
+        if ((i+1) % 4 == 0) {
             printf("\n");
         }
     }

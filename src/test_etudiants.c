@@ -34,13 +34,14 @@ int main(int argc, char *argv[])
 
     printf("\nInfos sur la section .text: adresse 0x%x, taille %lu, alignement %hhd\n",
            text_addr, text_size, text_align);
-    printf("Les 4 premiers octets sont: ");
-    if (text_size >= 4) {
-        printf("%02x%02x%02x%02x ", text_bytes[0], text_bytes[1], text_bytes[2], text_bytes[3]);
-        printf(" -- quelle est cette instruction? A vous!");
-    } else {
-        printf(" y'en a pas (assez)... dommage");
+
+    for (int i = 0; i < text_size; i++) {
+        printf("%02x ", text_bytes[i]);
+        if ((i+1) % 4 == 0) {
+            printf("\n");
+        }
     }
+
 
     close_elf(elf);
 

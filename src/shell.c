@@ -205,6 +205,53 @@ int shell_dmem(char **args)
     return 1;
 }
 
+int shell_smem(char **args)
+{
+    if (args[2] != NULL) {
+        uint32_t value;
+        if (strncmp("0x", args[2], 2) == 0) {
+            args[2]+=2;
+            value = strtoul(args[2], NULL, 16);
+            printf("%x\n", value);
+        } else {
+            value = strtol(args[2], NULL, 10);
+        }
+        uint32_t nbOctets;
+        if (args[3] == NULL) {
+            nbOctets = 1;
+        }
+        else {
+            nbOctets = strtol(args[3], NULL, 10);
+        }
+        switch (nbOctets) {
+            case 1:
+                if (is_byte(value)) {
+                    set_byte(get_adress_from_string(args[1]), value);
+                } else {
+                    fprintf(stderr, "La valeur est trop grande\
+pour rentrée sur un octet\n");
+                }
+                break;
+            case 2:
+                if (is_half_word(value)) {
+                    set_half_word(get_adress_from_string(args[1]), value);
+                } else {
+                    fprintf(stderr, "La valeur est trop grande\
+pour rentrée sur un demi-mot\n");
+                }
+                break;
+            case 4:
+                set_word(get_adress_from_string(args[1]), value);
+                break;
+            default:
+                fprintf(stderr, "Le nombre d'octers à écrire est soit 1, 2 ou 4\n");
+        }
+    } else {
+        fprintf(stderr, "Il manque des arguments\n");
+    }
+    return 1;
+}
+
 
 
 

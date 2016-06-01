@@ -36,6 +36,9 @@ void print_a_gpr(char *name) {
 // retourne l'index du registre
 uint8_t get_register_index(char *name)
 {
+        if (strncmp("$", name, 1) == 0) {
+            name++;
+        }
         for (uint8_t i = 0; i < GPR_LENGTH; i++) {
                 if (!strcmp(name, GPR[i].name)) {
                         return i;

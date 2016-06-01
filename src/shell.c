@@ -178,10 +178,16 @@ int shell_dasm(char **args)
 
 int shell_sreg(char **args)
 {
-    if (isNumeric(args[1]) == 1) {
-        set_register_value(atoi(args[1]), atoi(args[2]));
+    uint32_t value;
+    if (strncmp("0x", args[2], 2) == 0) {
+        value = strtoul(args[2], NULL, 16);
     } else {
-        set_register_value_by_name(args[1], atoi(args[2]));
+        value = strtol(args[2], NULL, 10);
+    }
+    if (isNumeric(args[1]) == 1) {
+        set_register_value(atoi(args[1]), value);
+    } else {
+        set_register_value_by_name(args[1], value);
     }
     return 1;
 }

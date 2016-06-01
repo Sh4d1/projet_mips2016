@@ -100,7 +100,7 @@ void get_string(uint32_t address, char **string) {
     uint32_t string_length = 0;
     printf("chow\n");
     while (get_byte(address + string_length++));
-    *string = malloc(string_length * sizeof(char));
+    *string = malloc((string_length + 1) * sizeof(char));
     printf("mow\n");
     for (uint32_t i = 0; i < string_length; i++) {
         (*string)[i] = get_byte(address + i);

@@ -14,6 +14,7 @@ int main()
     printf("%s\n", hello);
     free(hello);
     set_register_value(10, 10);
+    set_register_value_by_name("v0", 1);
     set_register_value_by_name("a0", 49);
     syscall();
     free_memory();

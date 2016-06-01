@@ -227,7 +227,7 @@ void syscall()
         case 8:
             break;
         default:
-            
+            break;
         }
 }
 

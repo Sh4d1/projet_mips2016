@@ -37,6 +37,9 @@ void set_half_word(uint32_t address, uint16_t value);
 /* change la valeur d'un mot en mémoire */
 void set_word(uint32_t address, uint32_t value);
 
+/* place une chaine de charactere en memoire */
+void set_string(uint32_t address, char *string);
+
 uint8_t get_byte(uint32_t address);
 
 uint16_t get_half_word(uint32_t address);
@@ -44,6 +47,9 @@ uint16_t get_half_word(uint32_t address);
 uint32_t get_word(uint32_t address);
 
 uint32_t get_memory_size();
+
+/* recupere une chaine de charactere en memoire */
+char *get_string(uint32_t address);
 
 /* affiche la mémoire */
 void print_memory();

@@ -103,7 +103,7 @@ void get_string(uint32_t address, char **string) {
     *string = malloc(string_length * sizeof(char));
     printf("mow\n");
     for (uint32_t i = 0; i < string_length; i++) {
-        *string[i] = get_byte(address + i);
+        (*string)[i] = get_byte(address + i);
     }
 
     printf("low\n");

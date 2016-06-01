@@ -2,13 +2,20 @@
 
 #include "include/operations.h"
 #include "include/gpr.h"
+#include "include/mem.h"
+
+#define INT32_MAX 2147483647
+#define UINT32_MAX 4294967295
 
 int main()
 {
         init_GPR();
-        set_register_value(2, -2147483645);
-        set_register_value(10, -10);
-        sub(2, 2, 10);
-        printf("%d\n", get_register_value(2));
+        init_memory(0x1000);
+        set_register_value(10, INT32_MAX);
+        set_register_value(11, 2);
+        mult(10, 11);
+        printf("%x\n", get_LO_value());
+        printf("%x\n", get_HI_value());
+
         return 0;
 }

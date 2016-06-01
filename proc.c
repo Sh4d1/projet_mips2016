@@ -14,8 +14,8 @@ int main()
         set_register_value(10, INT32_MAX);
         set_register_value(11, 2);
         mult(10, 11);
-        printf("%u\n", get_LO_value());
-        printf("%u\n", get_HI_value());
+        printf("%x\n", get_LO_value());
+        printf("%x\n", get_HI_value());
 
         return 0;
 }

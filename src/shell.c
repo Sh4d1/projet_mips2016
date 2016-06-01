@@ -177,7 +177,15 @@ int shell_run(char **args)
 
 int shell_dasm(char **args)
 {
-    dasm();
+    if (args[1] == NULL) {
+        dasm_line(1);
+    } else if (strcmp("all", args[1]) == 0) {
+        dasm();
+    } else if (isNumeric(args[1])) {
+        dasm_line(strtol(args[1], NULL, 10));
+    }
+
+
     return 1;
 }
 
@@ -257,6 +265,17 @@ pour rentrée sur un demi-mot\n");
     return 1;
 }
 
+int shell_step(char **args)
+{
+    run_line();
+    return 1;
+}
+
+int shell_stepi(char **args)
+{
+    run_line();
+    return 1;
+}
 
 
 

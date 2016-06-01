@@ -36,7 +36,6 @@ void print_gpr();
 
 void print_a_gpr(char *name);
 
-
 // retourne l'index du registre
 uint8_t get_register_index(char *name);
 

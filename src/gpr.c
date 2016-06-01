@@ -15,6 +15,18 @@ void init_GPR()
         PC.value = 0;
 }
 
+// affiche tous les registres
+void print_gpr()
+{
+    for (uint8_t i = 0; i < GPR_LENGTH; i++) {
+        printf("Reg %-4s ($%02u): ", GPR[i].name, i);
+        printf("0x%08x\t\t", GPR[i].value);
+        if ((i+1) % 4 == 0) {
+            printf("\n");
+        }
+    }
+}
+
 // retourne l'index du registre
 uint8_t get_register_index(char *name)
 {
@@ -87,17 +99,6 @@ void set_HI_value(uint32_t value)
 void set_LO_value(uint32_t value)
 {
         LO.value = value;
-}
-
-void print_gpr()
-{
-    for (uint8_t i = 0; i < GPR_LENGTH; i++) {
-        printf("Reg %-4s ($%02u): ", GPR[i].name, i);
-        printf("0x%08x\t\t", GPR[i].value);
-        if ((i+1) % 4 == 0) {
-            printf("\n");
-        }
-    }
 }
 
 uint32_t isNumeric(char *s)

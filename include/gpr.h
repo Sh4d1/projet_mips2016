@@ -23,11 +23,16 @@ struct reg {
         uint32_t value;
 };
 
+// 32 registres
 struct reg GPR[GPR_LENGTH];
+// registres speciaux
 struct reg PC, HI, LO;
 
 // initialise les registres
 void init_GPR();
+
+// affiche tous les registres
+void print_gpr();
 
 // retourne l'index du registre
 uint8_t get_register_index(char *name);
@@ -47,10 +52,5 @@ void set_HI_value(uint32_t value);
 void set_LO_value(uint32_t value);
 
 uint32_t isNumeric(char *s);
-
-// affiche tout les registres
-void print_gpr();
-
-
 
 #endif /* end of include guard: _GPR_ */

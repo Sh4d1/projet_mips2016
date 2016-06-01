@@ -50,17 +50,16 @@ uint8_t get_register_index(char *name)
         }
         if (isNumeric(name)) {
             uint8_t index = strtol(name, NULL, 10);
-            if (index < 32 && index >= 0) {
-                return index;
-            }
+            return index;
         } else {
             for (uint8_t i = 0; i < GPR_LENGTH; i++) {
                 if (!strcmp(name, GPR[i].name)) {
                     return i;
                 }
             }
+            check_register(32);
         }
-        check_register(32);
+
 }
 
 // retourne la valeur d'un registre

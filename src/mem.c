@@ -45,13 +45,13 @@ void check_adress(uint32_t adress, uint8_t alignment)
 
 void set_byte(uint32_t adress, uint8_t value)
 {
-    check_adress(adresse, 1);
+    check_adress(adress, 1);
     memory.memory[adress].value = value;
 }
 
 void set_half_word(uint32_t adress, uint16_t value)
 {
-    check_adress(adresse, 2);
+    check_adress(adress, 2);
     memory.memory[adress].value = (value & 0xFF00) >> 8;
     memory.memory[adress+1].value = (value & 0x00FF);
 }
@@ -67,19 +67,19 @@ void set_word(uint32_t adress, uint32_t value)
 
 uint8_t get_byte(uint32_t adress)
 {
-    check_adress(adresse, 1);
+    check_adress(adress, 1);
     return memory.memory[adress].value;
 }
 
 uint16_t get_half_word(uint32_t adress)
 {
-    check_adress(adresse, 2);
+    check_adress(adress, 2);
     return (memory.memory[adress].value << 8) + memory.memory[adress + 1].value;
 }
 
 uint32_t get_word(uint32_t adress)
 {
-    check_adress(adresse, 4);
+    check_adress(adress, 4);
     return (memory.memory[adress].value << 24) + (memory.memory[adress + 1].value << 16) + (memory.memory[adress + 2].value << 8) + memory.memory[adress + 3].value;
 }
 

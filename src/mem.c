@@ -70,7 +70,7 @@ void set_string(uint32_t address, char *string)
         i++;
     }
     set_byte(address + i, 0);
-    printf("%x\n", get_byte(i-1));
+    printf("%x\n", get_byte(address + i - 1));
 }
 
 uint8_t get_byte(uint32_t address)

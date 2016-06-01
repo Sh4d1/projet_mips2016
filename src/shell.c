@@ -196,9 +196,9 @@ int shell_sreg(char **args)
 int shell_dmem(char **args)
 {
     if (args[1] != NULL && args[2] == NULL) {
-        display_memory(get_adress_from_string(args[1]));
+        display_memory(get_address_from_string(args[1]));
     } else if (args[1] != NULL && args[2] != NULL) {
-        diplay_memory_between(get_adress_from_string(args[1]), get_adress_from_string(args[2]));
+        diplay_memory_between(get_address_from_string(args[1]), get_address_from_string(args[2]));
     } else {
         printf("Il manque un argument.\n");
     }
@@ -226,7 +226,7 @@ int shell_smem(char **args)
         switch (nbOctets) {
             case 1:
                 if (is_byte(value)) {
-                    set_byte(get_adress_from_string(args[1]), value);
+                    set_byte(get_address_from_string(args[1]), value);
                 } else {
                     fprintf(stderr, "La valeur est trop grande\
 pour rentrée sur un octet\n");
@@ -234,14 +234,14 @@ pour rentrée sur un octet\n");
                 break;
             case 2:
                 if (is_half_word(value)) {
-                    set_half_word(get_adress_from_string(args[1]), value);
+                    set_half_word(get_address_from_string(args[1]), value);
                 } else {
                     fprintf(stderr, "La valeur est trop grande\
 pour rentrée sur un demi-mot\n");
                 }
                 break;
             case 4:
-                set_word(get_adress_from_string(args[1]), value);
+                set_word(get_address_from_string(args[1]), value);
                 break;
             default:
                 fprintf(stderr, "Le nombre d'octers à écrire est soit 1, 2 ou 4\n");

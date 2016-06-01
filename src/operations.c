@@ -16,7 +16,7 @@ uint32_t extend(uint16_t value, bool sign)
         }
 }
 
-// renvoie le nieme bit en partant de 0
+// renvoie le nieme bit en partant de 0 avec decalage
 uint64_t get_bit(uint64_t value, uint8_t n, uint8_t pos)
 {
         return ((value >> n) & 1) << pos;

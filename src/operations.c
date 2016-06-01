@@ -211,7 +211,24 @@ void jr(uint8_t rs)
 
 void syscall()
 {
-        // TODO
+        uint8_t service_code = get_register_value(2);
+        switch (service_code) {
+        case 1:
+            printf("%d\n", get_register_value(4));
+            break;
+        case 4:
+            //printf("%s\n", get_word(get_register_value(4));
+            break;
+        case 5:
+            uint32_t integer;
+            sscanf(stdin, "%d", integer);
+            set_register_value(2, integer);
+            break;
+        case 8:
+            break;
+        default:
+            
+        }
 }
 
 // pseudo-instructions

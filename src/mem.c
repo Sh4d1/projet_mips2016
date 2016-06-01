@@ -60,6 +60,12 @@ void set_word(uint32_t address, uint32_t value)
     memory.memory[address+3].value = (value & 0x000000FF);
 }
 
+/* place une chaine de charactere en memoire */
+void set_string(uint32_t address, char *string)
+{
+    printf("%s\n", string);
+}
+
 uint8_t get_byte(uint32_t address)
 {
     check_address(address, 1);

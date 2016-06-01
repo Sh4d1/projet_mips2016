@@ -59,6 +59,12 @@ proc: proc.o $(OBJDIR)/gpr.o $(OBJDIR)/operations.o $(OBJDIR)/mem.o $(OBJDIR)/el
 	$(CC) $(LDFLAGS) $^ -o $@
 # FIN TEST PROC
 
+# simips
+$(OBJDIR)/simips.o: $(SRCDIR)/simips.c
+	$(CC) -c $(CFLAGS) $< -o $@
+simips: $(OBJDIR)/simips.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
 clean:
 	rm -rf $(OBJ)
 

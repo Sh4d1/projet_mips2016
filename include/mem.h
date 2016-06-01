@@ -41,6 +41,8 @@ uint16_t get_half_word(uint32_t adress);
 
 uint32_t get_word(uint32_t adress);
 
+uint32_t get_memory_size();
+
 /* affiche la mémoire */
 void print_memory();
 

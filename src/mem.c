@@ -66,6 +66,11 @@ uint32_t get_word(uint32_t adress)
     return (memory.memory[adress].value<<24) + (memory.memory[adress+1].value<<16) + (memory.memory[adress+2].value<<8) + memory.memory[adress+3].value;
 }
 
+uint32_t get_memory_size()
+{
+    return memory.memory_size;
+}
+
 
 void print_memory()
 {
@@ -101,7 +106,6 @@ void file_to_memory(char *file)
         exit(EXIT_FAILURE);
     }
     get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
-    init_memory(0x1000000);
 
     for (uint32_t i = 0; i < text_size; i++) {
         set_byte(i, text_bytes[i]);

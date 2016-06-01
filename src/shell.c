@@ -145,7 +145,6 @@ int shell_load(char **args)
         fprintf(stderr, "Pas assez d'arguments pour load\n");
         return 1;
     } else {
-        init_GPR();
         file_to_memory(args[1]);
     }
     return 1;

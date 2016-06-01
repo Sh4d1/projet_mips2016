@@ -9,13 +9,10 @@ int main()
     init_GPR();
     init_memory(0x1000000);
     set_string(0x1000, "bonjour");
-    char *hello = NULL;
-    get_string(0x1000, &hello);
-    printf("%s\n", hello);
-    free(hello);
-    set_register_value(10, 10);
-    set_register_value_by_name("a0", 49);
+    set_register_value_by_name("v0", 5);
+    set_register_value_by_name("a0", 0x1000);
     syscall();
+    printf("%u\n", get_register_value_by_name("v0"));
     free_memory();
     return 0;
 }

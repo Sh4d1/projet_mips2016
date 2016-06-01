@@ -31,23 +31,24 @@ void init_memory(uint32_t mem_size)
 }
 
 /* verifie la validite d'une adresse */
-void check_adress(uint32_t adress, uint8_t alignment)
+void check_adress(uint32_t address, uint8_t alignment)
 {
-        if (adress > memory.memory_size) {
-                printf("Adresse inexistante.\n");
-                exit(EXIT_FAILURE);
-        }
-        if (adress % alignment) {
-                printf("%u\n", adress);
-                printf("Adresse non alignée.\n");
-                exit(EXIT_FAILURE);
-        }
+    printf("adress %x\nalignment %x\n", address, alignment);
+    if (address > memory.memory_size) {
+        printf("Adresse inexistante.\n");
+        exit(EXIT_FAILURE);
+    }
+    if (address % alignment) {
+        printf("%u\n", address);
+        printf("Adresse non alignée.\n");
+        exit(EXIT_FAILURE);
+    }
 }
 
-void set_byte(uint32_t adress, uint8_t value)
+void set_byte(uint32_t address, uint8_t value)
 {
-    check_adress(adress, 1);
-    memory.memory[adress].value = value;
+    check_adress(address, 1);
+    memory.memory[address].value = value;
 }
 
 void set_half_word(uint32_t adress, uint16_t value)

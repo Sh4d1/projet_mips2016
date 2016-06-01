@@ -4,15 +4,13 @@
 #include "include/gpr.h"
 #include "include/mem.h"
 
-#define INT32_MAX 2147483647
-#define UINT32_MAX 4294967295
-
 int main()
 {
-        init_GPR();
-        init_memory(0x1000);
-        set_register_value(10, 10);
-        sw(10, 0x2000000);
+    init_GPR();
+    init_memory(0x1000);
+    set_register_value(10, 10);
+    set_register_value(5, 0x2000000);
+    sw(10, 5, 0);
 
-        return 0;
+    return 0;
 }

@@ -10,5 +10,6 @@ int main()
     init_memory(0x1000000);
     set_string(0x1000, "hello");
     printf("%s\n", get_string(0x1000));
+    free_memory();
     return 0;
 }

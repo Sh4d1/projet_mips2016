@@ -55,7 +55,7 @@ uint32_t get_word(uint32_t address);
 uint32_t get_memory_size();
 
 /* recupere une chaine de charactere en memoire */
-void get_string(uint32_t address, char *string);
+void get_string(uint32_t address, char **string);
 
 /* affiche la mémoire */
 void print_memory();

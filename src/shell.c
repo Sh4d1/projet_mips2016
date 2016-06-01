@@ -152,7 +152,14 @@ int shell_load(char **args)
 
 int shell_dreg(char **args)
 {
-    print_gpr();
+    if (args[1] == NULL) {
+        print_gpr();
+    } else {
+        uint32_t i = 1;
+        while (args[i] != NULL) {
+            print_a_gpr(args[i]);
+        }
+    }
     return 1;
 }
 

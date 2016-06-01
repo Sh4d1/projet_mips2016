@@ -195,7 +195,13 @@ int shell_sreg(char **args)
 
 int shell_dmem(char **args)
 {
-    display_memory(get_adress_from_string(args[1]));
+    if (args[1] != NULL && args[2] == NULL) {
+        display_memory(get_adress_from_string(args[1]));
+    } else if (args[1] != NULL && args[2] != NULL) {
+        diplay_memory_between(get_adress_from_string(args[1]), get_adress_from_string(args[2]));
+    } else {
+        printf("Il manque un argument.\n");
+    }
     return 1;
 }
 

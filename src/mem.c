@@ -90,13 +90,30 @@ void print_n_memory(uint32_t adress, uint32_t n)
     }
 }
 
-void display_memory(uint32_t adress)
+void display_memory(uint32_t address)
 {
-    printf("0x%x: ", adress);
-    for (uint32_t i = adress; i < adress + 16; i++) {
+    printf("0x%06x: ", address);
+    for (uint32_t i = address; i < address + 16; i++) {
         printf("%02x ", memory.memory[i].value);
     }
     printf("\n");
+}
+
+void diplay_memory_between(uint32_t address1, uint32_t address2)
+{
+    uint32_t offset = address2 - address1;
+    for (uint32_t i = 0; i <= offset; i++) {
+        if (!(i%16)) {
+            printf("0x%06x: ", address1+i);
+        }
+        printf("%02x ", memory.memory[address1 + i].value);
+        if (!((i+1)%16)) {
+            printf("\n");
+        }
+    }
+    if ((offset+1)%16) {
+        printf("\n");
+    }
 }
 
 uint32_t get_adress_from_string(char *adress)

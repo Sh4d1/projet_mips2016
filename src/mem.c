@@ -99,7 +99,7 @@ uint32_t get_memory_size()
 char* get_string(uint32_t address) {
     uint32_t string_length = 0;
     while (get_byte(address + string_length++));
-    string = malloc(string_length * sizeof(char));
+    char *string = malloc(string_length * sizeof(char));
     for (uint32_t i = 0; i < string_length; i++) {
         *string[i] = get_byte(address + i);
     }

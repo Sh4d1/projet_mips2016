@@ -39,10 +39,17 @@ uint8_t get_register_index(char *name)
         if (strncmp("$", name, 1) == 0) {
             name++;
         }
-        for (uint8_t i = 0; i < GPR_LENGTH; i++) {
+        if (isNumeric(name)) {
+            uint8_t index = strtol(name, NULL, 10);
+            if (index < 32 && index >= 0) {
+                return index;
+            }
+        } else {
+            for (uint8_t i = 0; i < GPR_LENGTH; i++) {
                 if (!strcmp(name, GPR[i].name)) {
-                        return i;
+                    return i;
                 }
+            }    
         }
         fprintf(stderr, "Le registre %s n'existe pas.\n", name);
         exit(EXIT_FAILURE);
@@ -108,4 +115,13 @@ void set_HI_value(uint32_t value)
 void set_LO_value(uint32_t value)
 {
         LO.value = value;
+}
+
+uint32_t isNumeric(char *s)
+{
+    if (s == NULL || *s == '\0' || isspace(*s))
+      return 0;
+    char * p;
+    strtod (s, &p);
+    return *p == '\0';
 }

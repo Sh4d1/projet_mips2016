@@ -225,7 +225,9 @@ void syscall()
             set_register_value(2, integer);
             break;
         case 8:
-
+            break;
+        default:
+            
         }
 }
 

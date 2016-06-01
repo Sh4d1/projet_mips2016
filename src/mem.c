@@ -101,6 +101,7 @@ void get_string(uint32_t address, char *string) {
     while (get_byte(address + string_length++));
     string = malloc(string_length * sizeof(char));
     for (uint32_t i = 0; i < string_length; i++) {
+        printf("%s\n", get_byte(address + i));
         string[i] = get_byte(address + i);
     }
 }

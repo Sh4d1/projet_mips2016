@@ -50,7 +50,9 @@ void print_memory();
 
 void print_n_memory(uint32_t adress, uint32_t n);
 
-void display_memory(uint32_t adress);
+void display_memory(uint32_t address);
+
+void diplay_memory_between(uint32_t address1, uint32_t address2);
 
 uint32_t get_adress_from_string(char *address);
 

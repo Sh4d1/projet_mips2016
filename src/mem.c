@@ -191,7 +191,7 @@ void file_to_memory(char *file)
         exit(EXIT_FAILURE);
     }
     get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
-    set_text(text_addr, text_size);
+    set_text(text_addr, text_size); // TODO name ?
     for (uint32_t i = 0; i < text_size; i++) {
         set_byte(i, text_bytes[i]);
     }

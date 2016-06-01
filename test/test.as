@@ -8,3 +8,5 @@ ADDI $4, $0, 3
 ADDI $5, $0, 4
 MULT $4, $5
 MFLO $23
+NOP
+ADDI $5, $0, 4

@@ -96,14 +96,13 @@ uint32_t get_memory_size()
 }
 
 /* recupere une chaine de charactere en memoire */
-char *get_string(uint32_t address) {
+void get_string(uint32_t address, char *string) {
     uint32_t string_length = 0;
     while (get_byte(address + string_length++));
-    char string[string_length];
+    string = malloc(string_length * sizeof(char));
     for (uint32_t i = 0; i < string_length; i++) {
         string[i] = get_byte(address + i);
     }
-    return string;
 }
 
 void print_memory()

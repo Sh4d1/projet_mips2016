@@ -53,5 +53,6 @@ char **shell_split_line(char *line);
 /* shell_exec : execute a command */
 int shell_exec(char ** args);
 
+uint32_t isNumeric(char *s);
 
 #endif

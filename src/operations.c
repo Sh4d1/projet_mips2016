@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <builtins.h>
 
 #include "../include/mem.h"
 #include "../include/operations.h"

@@ -1,5 +1,6 @@
 #include "../include/mem.h"
 #include "../include/elf_reader.h"
+##include "../include/gpr.h"
 
 // int main(int argc, char **argv)
 // {

@@ -101,8 +101,9 @@ void set_register_value(uint8_t index, uint32_t value)
 
 void set_register_value_by_name(char *name, uint32_t value)
 {
-        GPR[get_register_index(name)].value = value;
+    GPR[get_register_index(name)].value = value;
 }
+
 
 void set_PC_value(uint32_t value)
 {
@@ -126,4 +127,9 @@ uint32_t isNumeric(char *s)
     char * p;
     strtod (s, &p);
     return *p == '\0';
+}
+
+void advance_PC()
+{
+    set_PC_value(get_PC_value() + 4);
 }

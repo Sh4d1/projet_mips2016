@@ -37,7 +37,8 @@ void check_adress(uint32_t adress, uint8_t alignment)
                 printf("Adresse inexistante.\n");
                 exit(EXIT_FAILURE);
         }
-        if (!(adress % alignment)) {
+        if (adress % alignment) {
+                printf("%u\n", adress);
                 printf("Adresse non alignée.\n");
                 exit(EXIT_FAILURE);
         }
@@ -100,6 +101,20 @@ void print_n_memory(uint32_t adress, uint32_t n)
     for (uint32_t i = adress; i < adress+n; i++) {
         printf("0x%04x : 0x%02x\n", i, memory.memory[i].value);
     }
+}
+
+void display_memory(uint32_t adress)
+{
+    printf("0x%x: ", adress);
+    for (uint32_t i = adress; i < adress + 16; i++) {
+        printf("%02x ", memory.memory[i].value);
+    }
+    printf("\n");
+}
+
+uint32_t get_adress_from_string(char *adress)
+{
+    return strtoul(adress, NULL, 16);
 }
 
 void free_memory()

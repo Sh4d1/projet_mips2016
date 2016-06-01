@@ -50,6 +50,10 @@ void print_memory();
 
 void print_n_memory(uint32_t adress, uint32_t n);
 
+void display_memory(uint32_t adress);
+
+uint32_t get_adress_from_string(char *address);
+
 /* libère la mémoire */
 void free_memory();
 

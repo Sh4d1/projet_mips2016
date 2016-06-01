@@ -25,6 +25,8 @@ void init_memory(uint32_t mem_size)
         memory.memory[i].w = true;
         memory.memory[i].x = true;
     }
+    // initialisation du pointeur de pile
+    set_register_value(29, mem_size - 4);
 }
 
 void set_byte(uint32_t adress, uint8_t value)

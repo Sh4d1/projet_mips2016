@@ -16,6 +16,7 @@ int shell_dreg(char **args);
 int shell_run(char **args);
 int shell_dasm(char **args);
 int shell_sreg(char **args);
+int shell_dmem(char **args);
 
 /* shell_num_func : retourne le nombre de fonctions */
 int shell_num_func();
@@ -28,7 +29,8 @@ static char *func_str[] = {
     "dreg",
     "run",
     "dasm",
-    "sreg"
+    "sreg",
+    "dmem"
 };
 
 static int (*func[]) (char **) = {
@@ -38,7 +40,8 @@ static int (*func[]) (char **) = {
     &shell_dreg,
     &shell_run,
     &shell_dasm,
-    &shell_sreg
+    &shell_sreg,
+    &shell_dmem
 };
 
 /* shell_loop : launch the shell lopp */

@@ -193,6 +193,13 @@ int shell_sreg(char **args)
 }
 
 
+int shell_dmem(char **args)
+{
+    display_memory(get_adress_from_string(args[1]));
+    return 1;
+}
+
+
 
 
 int shell_exec(char ** args)

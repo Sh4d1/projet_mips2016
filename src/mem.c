@@ -58,7 +58,7 @@ void set_half_word(uint32_t adress, uint16_t value)
 
 void set_word(uint32_t adress, uint32_t value)
 {
-    check_adress(adresse, 4);
+    check_adress(adress, 4);
     memory.memory[adress].value = (value & 0xFF000000) >> 24;
     memory.memory[adress+1].value = (value & 0x00FF0000) >> 16;
     memory.memory[adress+2].value = (value & 0x0000FF00) >> 8;

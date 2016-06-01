@@ -50,6 +50,7 @@ uint8_t get_register_index(char *name)
         }
         if (isNumeric(name)) {
             uint8_t index = strtol(name, NULL, 10);
+            check_register(index);
             return index;
         } else {
             for (uint8_t i = 0; i < GPR_LENGTH; i++) {
@@ -57,7 +58,8 @@ uint8_t get_register_index(char *name)
                     return i;
                 }
             }
-            check_register(32);
+            printf("Le registre %s n'existe pas.\n", name);
+            exit(EXIT_FAILURE);
         }
 
 }

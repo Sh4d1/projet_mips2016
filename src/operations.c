@@ -219,11 +219,12 @@ void syscall()
         case 4:
             //printf("%s\n", get_word(get_register_value(4));
             break;
-        case 5:
+        case 5: {
             uint32_t integer;
             sscanf(stdin, "%d", integer);
             set_register_value(2, integer);
             break;
+        }
         case 8:
             break;
         default:

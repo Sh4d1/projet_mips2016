@@ -4,9 +4,6 @@
 #include "include/gpr.h"
 #include "include/mem.h"
 
-#define INT32_MAX 2147483647
-#define UINT32_MAX 4294967295
-
 int main()
 {
     init_GPR();

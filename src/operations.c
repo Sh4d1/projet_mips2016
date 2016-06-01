@@ -74,7 +74,7 @@ void mult(uint8_t rs, uint8_t rt)
         uint64_t x = get_register_value(rs);
         uint64_t y = get_register_value(rt);
         int64_t res = x * y;
-        printf("%llx\n", 0xFFFFFFFFFFFFFFFF);
+        printf("%llx\n", 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF);
         set_LO_value(res);
         set_HI_value(res >> 32);
 }

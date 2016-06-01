@@ -217,7 +217,10 @@ void syscall()
             printf("%d\n", get_register_value(4));
             break;
         case 4:
-            printf("%s\n", get_string(get_register_value(4));
+            char *string = NULL;
+            get_string(get_register_value(4), &string);
+            printf("%s\n", string);
+            free(string);
             break;
         case 5: {
             uint32_t integer = 0;

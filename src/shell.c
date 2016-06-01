@@ -158,6 +158,7 @@ int shell_dreg(char **args)
         uint32_t i = 1;
         while (args[i] != NULL) {
             print_a_gpr(args[i]);
+            i++;
         }
     }
     return 1;

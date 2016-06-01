@@ -27,6 +27,12 @@ void print_gpr()
     }
 }
 
+void print_a_gpr(char *name) {
+    uint8_t i = get_register_index(name);
+    printf("Reg %-4s ($%02u): ", GPR[i].name, i);
+    printf("0x%08x\n", GPR[i].value);
+}
+
 // retourne l'index du registre
 uint8_t get_register_index(char *name)
 {

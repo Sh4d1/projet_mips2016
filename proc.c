@@ -11,7 +11,7 @@ int main()
 {
         init_GPR();
         init_memory(0x1000);
-        set_register_value(10, INT32_MAX);
+        set_register_value(10, UINT32_MAX);
         set_register_value(11, 2);
         mult(10, 11);
         printf("%x\n", get_LO_value());

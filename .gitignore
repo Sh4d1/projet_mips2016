@@ -1,2 +1,7 @@
 .DS_Store
 documents/
+*.o
+obj/*.o
+!obj/elf_reader.o
+!obj/framebuffer.o
+!obj/relocation.o

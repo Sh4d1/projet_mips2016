@@ -225,7 +225,7 @@ void syscall()
         }
         case 5: {
             uint32_t integer = 0;
-            sscanf(stdin, "%d", integer);
+            sscanf(stdin, "%d", &integer);
             set_register_value(2, integer);
             break;
         }

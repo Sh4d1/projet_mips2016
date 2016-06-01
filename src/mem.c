@@ -42,15 +42,15 @@ void set_byte(uint32_t adress, uint8_t value)
 
 void set_half_word(uint32_t adress, uint16_t value)
 {
-    memory.memory[adress].value = (value & 0xFF00)>>8;
+    memory.memory[adress].value = (value & 0xFF00) >> 8;
     memory.memory[adress+1].value = (value & 0x00FF);
 }
 
 void set_word(uint32_t adress, uint32_t value)
 {
-    memory.memory[adress].value = (value & 0xFF000000)>>24;
-    memory.memory[adress+1].value = (value & 0x00FF0000)>>16;
-    memory.memory[adress+2].value = (value & 0x0000FF00)>>8;
+    memory.memory[adress].value = (value & 0xFF000000) >> 24;
+    memory.memory[adress+1].value = (value & 0x00FF0000) >> 16;
+    memory.memory[adress+2].value = (value & 0x0000FF00) >> 8;
     memory.memory[adress+3].value = (value & 0x000000FF);
 }
 
@@ -61,12 +61,12 @@ uint8_t get_byte(uint32_t adress)
 
 uint16_t get_half_word(uint32_t adress)
 {
-    return (memory.memory[adress].value<<8) + memory.memory[adress+1].value;
+    return (memory.memory[adress].value << 8) + memory.memory[adress + 1].value;
 }
 
 uint32_t get_word(uint32_t adress)
 {
-    return (memory.memory[adress].value<<24) + (memory.memory[adress+1].value<<16) + (memory.memory[adress+2].value<<8) + memory.memory[adress+3].value;
+    return (memory.memory[adress].value << 24) + (memory.memory[adress + 1].value << 16) + (memory.memory[adress + 2].value << 8) + memory.memory[adress + 3].value;
 }
 
 uint32_t get_memory_size()

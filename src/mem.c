@@ -2,20 +2,6 @@
 #include "../include/elf_reader.h"
 #include "../include/gpr.h"
 
-// int main(int argc, char **argv)
-// {
-//     struct memory *mem = malloc(sizeof(struct memory));
-//     init_memory(mem, 0x1000);
-//     set_byte(mem, 0x100, 0x20);
-//     set_half_word(mem, 0x102, 0x1234);
-//     set_word(mem, 0x106, 0x12345678);
-//     print_n_memory(*mem, 0x100, 10);
-//     printf("%x\n", get_word(mem, 0x100));
-//     //print_memory(*mem);
-//     free_memory(mem);
-//     return 0;
-// }
-
 void init_memory(uint32_t mem_size)
 {
     memory.memory = calloc(mem_size, sizeof(struct memory_case));
@@ -31,9 +17,8 @@ void init_memory(uint32_t mem_size)
 }
 
 /* verifie la validite d'une adresse */
-void check_adress(uint32_t address, uint8_t alignment)
+void check_address(uint32_t address, uint8_t alignment)
 {
-    printf("adress %x\nalignment %x\n", address, alignment);
     if (address > memory.memory_size) {
         printf("Adresse inexistante.\n");
         exit(EXIT_FAILURE);
@@ -55,42 +40,42 @@ bool is_half_word(uint32_t value) {
 
 void set_byte(uint32_t address, uint8_t value)
 {
-    check_adress(address, 1);
+    check_address(address, 1);
     memory.memory[address].value = value;
 }
 
-void set_half_word(uint32_t adress, uint16_t value)
+void set_half_word(uint32_t address, uint16_t value)
 {
-    check_adress(adress, 2);
-    memory.memory[adress].value = (value & 0xFF00) >> 8;
-    memory.memory[adress+1].value = (value & 0x00FF);
+    check_address(address, 2);
+    memory.memory[address].value = (value & 0xFF00) >> 8;
+    memory.memory[address+1].value = (value & 0x00FF);
 }
 
-void set_word(uint32_t adress, uint32_t value)
+void set_word(uint32_t address, uint32_t value)
 {
-    check_adress(adress, 4);
-    memory.memory[adress].value = (value & 0xFF000000) >> 24;
-    memory.memory[adress+1].value = (value & 0x00FF0000) >> 16;
-    memory.memory[adress+2].value = (value & 0x0000FF00) >> 8;
-    memory.memory[adress+3].value = (value & 0x000000FF);
+    check_address(address, 4);
+    memory.memory[address].value = (value & 0xFF000000) >> 24;
+    memory.memory[address+1].value = (value & 0x00FF0000) >> 16;
+    memory.memory[address+2].value = (value & 0x0000FF00) >> 8;
+    memory.memory[address+3].value = (value & 0x000000FF);
 }
 
-uint8_t get_byte(uint32_t adress)
+uint8_t get_byte(uint32_t address)
 {
-    check_adress(adress, 1);
-    return memory.memory[adress].value;
+    check_address(address, 1);
+    return memory.memory[address].value;
 }
 
-uint16_t get_half_word(uint32_t adress)
+uint16_t get_half_word(uint32_t address)
 {
-    check_adress(adress, 2);
-    return (memory.memory[adress].value << 8) + memory.memory[adress + 1].value;
+    check_address(address, 2);
+    return (memory.memory[address].value << 8) + memory.memory[address + 1].value;
 }
 
-uint32_t get_word(uint32_t adress)
+uint32_t get_word(uint32_t address)
 {
-    check_adress(adress, 4);
-    return (memory.memory[adress].value << 24) + (memory.memory[adress + 1].value << 16) + (memory.memory[adress + 2].value << 8) + memory.memory[adress + 3].value;
+    check_address(address, 4);
+    return (memory.memory[address].value << 24) + (memory.memory[address + 1].value << 16) + (memory.memory[address + 2].value << 8) + memory.memory[address + 3].value;
 }
 
 uint32_t get_memory_size()
@@ -105,9 +90,9 @@ void print_memory()
     }
 }
 
-void print_n_memory(uint32_t adress, uint32_t n)
+void print_n_memory(uint32_t address, uint32_t n)
 {
-    for (uint32_t i = adress; i < adress+n; i++) {
+    for (uint32_t i = address; i < address+n; i++) {
         printf("0x%04x : 0x%02x\n", i, memory.memory[i].value);
     }
 }
@@ -138,9 +123,9 @@ void diplay_memory_between(uint32_t address1, uint32_t address2)
     }
 }
 
-uint32_t get_adress_from_string(char *adress)
+uint32_t get_address_from_string(char *address)
 {
-    return strtoul(adress, NULL, 16);
+    return strtoul(address, NULL, 16);
 }
 
 void free_memory()

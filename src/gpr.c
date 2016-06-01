@@ -15,6 +15,15 @@ void init_GPR()
         PC.value = 0;
 }
 
+/* verifie la validite d'un registre */
+void check_register(uint8_t index)
+{
+    if (index > 31) {
+        fprintf(stderr, "Le registre %u n'existe pas.\n", index);
+        exit(EXIT_FAILURE);
+    }
+}
+
 // affiche tous les registres
 void print_gpr()
 {
@@ -36,7 +45,7 @@ void print_a_gpr(char *name) {
 // retourne l'index du registre
 uint8_t get_register_index(char *name)
 {
-        if (strncmp("$", name, 1) == 0) {
+        if (!strncmp("$", name, 1)) {
             name++;
         }
         if (isNumeric(name)) {
@@ -49,19 +58,15 @@ uint8_t get_register_index(char *name)
                 if (!strcmp(name, GPR[i].name)) {
                     return i;
                 }
-            }    
+            }
         }
-        fprintf(stderr, "Le registre %s n'existe pas.\n", name);
-        exit(EXIT_FAILURE);
+        check_register(32);
 }
 
 // retourne la valeur d'un registre
 uint32_t get_register_value(uint8_t index)
 {
-        if (index > 31) {
-                fprintf(stderr, "Le registre %u n'existe pas.\n", index);
-                exit(EXIT_FAILURE);
-        }
+        check_register(index);
         return GPR[index].value;
 }
 
@@ -88,13 +93,10 @@ uint32_t get_LO_value()
 // ecrit une valeur dans un registre
 void set_register_value(uint8_t index, uint32_t value)
 {
-        if (index > 31) {
-                fprintf(stderr, "Le registre %u n'existe pas.\n", index);
-                exit(EXIT_FAILURE);
-        }
-        if (index != 0) {
-                GPR[index].value = value;
-        }
+    check_register(index);
+    if (index) {
+        GPR[index].value = value;
+    }
 }
 
 void set_register_value_by_name(char *name, uint32_t value)
@@ -120,7 +122,7 @@ void set_LO_value(uint32_t value)
 uint32_t isNumeric(char *s)
 {
     if (s == NULL || *s == '\0' || isspace(*s))
-      return 0;
+        return 0;
     char * p;
     strtod (s, &p);
     return *p == '\0';

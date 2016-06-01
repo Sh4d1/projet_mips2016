@@ -31,11 +31,13 @@ struct reg PC, HI, LO;
 // initialise les registres
 void init_GPR();
 
+/* verifie la validite d'un registre */
+void check_register(uint8_t index);
+
 // affiche tous les registres
 void print_gpr();
 
 void print_a_gpr(char *name);
-
 
 // retourne l'index du registre
 uint8_t get_register_index(char *name);

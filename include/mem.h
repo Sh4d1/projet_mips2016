@@ -26,7 +26,7 @@ struct memory memory;
 void init_memory(uint32_t mem_size);
 
 /* verifie la validite d'une adresse */
-void check_adress(uint32_t adress, uint8_t alignment);
+void check_address(uint32_t address, uint8_t alignment);
 
 /* determine si value tiens sur un octet */
 bool is_byte(uint32_t value);
@@ -35,32 +35,32 @@ bool is_byte(uint32_t value);
 bool is_half_word(uint32_t value);
 
 /* change la valeur d'un octet en mémoire */
-void set_byte(uint32_t adress, uint8_t value);
+void set_byte(uint32_t address, uint8_t value);
 
 /* change la valeur d'un demi mot en mémoire */
-void set_half_word(uint32_t adress, uint16_t value);
+void set_half_word(uint32_t address, uint16_t value);
 
 /* change la valeur d'un mot en mémoire */
-void set_word(uint32_t adress, uint32_t value);
+void set_word(uint32_t address, uint32_t value);
 
-uint8_t get_byte(uint32_t adress);
+uint8_t get_byte(uint32_t address);
 
-uint16_t get_half_word(uint32_t adress);
+uint16_t get_half_word(uint32_t address);
 
-uint32_t get_word(uint32_t adress);
+uint32_t get_word(uint32_t address);
 
 uint32_t get_memory_size();
 
 /* affiche la mémoire */
 void print_memory();
 
-void print_n_memory(uint32_t adress, uint32_t n);
+void print_n_memory(uint32_t address, uint32_t n);
 
 void display_memory(uint32_t address);
 
 void diplay_memory_between(uint32_t address1, uint32_t address2);
 
-uint32_t get_adress_from_string(char *address);
+uint32_t get_address_from_string(char *address);
 
 /* libère la mémoire */
 void free_memory();

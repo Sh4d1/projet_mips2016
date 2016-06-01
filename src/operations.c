@@ -217,10 +217,10 @@ void syscall()
             printf("%d\n", get_register_value(4));
             break;
         case 4:
-            //printf("%s\n", get_word(get_register_value(4));
+            printf("%s\n", get_string(get_register_value(4));
             break;
         case 5: {
-            uint32_t integer;
+            uint32_t integer = 0;
             sscanf(stdin, "%d", integer);
             set_register_value(2, integer);
             break;

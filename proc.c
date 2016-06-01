@@ -9,13 +9,10 @@
 
 int main()
 {
-        init_GPR();
-        init_memory(0x1000);
-        set_register_value(10, INT32_MAX);
-        set_register_value(11, 2);
-        mult(10, 11);
-        printf("%x\n", get_LO_value());
-        printf("%x\n", get_HI_value());
+    init_GPR();
+    init_memory(0x1000);
+    set_register_value(10, 10);
+    sw(10, 0x2000000);
 
-        return 0;
+    return 0;
 }

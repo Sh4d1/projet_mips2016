@@ -17,9 +17,9 @@ void parse_instruction(uint32_t inst, bool dasm)
 {
     // on récupère l'opcode
     uint32_t opcode = inst >> 26;
-    if (!dasm) {
-        advance_PC();
-    }
+
+    advance_PC();
+
     /* opcode qui vaut 0 donc instruction de type R */
     if (opcode == SPECIAL) {
         /* on recupère func */
@@ -150,7 +150,7 @@ void parse_instruction(uint32_t inst, bool dasm)
 
 void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
 {
-    printf("0x%06x:\t%08x\t", get_PC_value(), get_word(get_PC_value()));
+    printf("0x%06x:\t%08x\t", get_PC_value()-4, get_word(get_PC_value()-4));
     switch (code) {
         case ADD:
             printf("ADD $%u, $%u, $%u\n", rd, rs, rt);
@@ -201,7 +201,7 @@ void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
 
 void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t instr_index)
 {
-    printf("0x%06x:\t%08x\t", get_PC_value(), get_word(get_PC_value()));
+    printf("0x%06x:\t%08x\t", get_PC_value()-4, get_word(get_PC_value()-4));
     switch (code) {
         case ADDI:
             printf("ADDI $%u, $%u, %u\n", rt, rs, imm);
@@ -250,12 +250,29 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
 void run(uint32_t address)
 {
     set_PC_value(address);
-    while(get_word(get_PC_value()) != 0) {
+    while(get_PC_value() <= get_text_end()) {
         //printf("%u\n", get_PC_value());
         uint32_t word = get_word(get_PC_value());
         parse_instruction(word, false);
         printf("%u\n", get_PC_value());
     }
+}
+
+void run_line()
+{
+    uint32_t word = get_word(get_PC_value());
+    parse_instruction(word, false);
+}
+
+void dasm_line(uint32_t n)
+{
+    uint32_t word;
+    uint32_t pc_back = get_PC_value();
+    for (uint32_t i = 0; i < n; i++) {
+        word = get_word(get_PC_value());
+        parse_instruction(word, true);
+    }
+    set_PC_value(pc_back);
 }
 
 void dasm()

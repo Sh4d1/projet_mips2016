@@ -28,6 +28,12 @@ void init_memory(uint32_t mem_size);
 /* verifie la validite d'une adresse */
 void check_address(uint32_t address, uint8_t alignment);
 
+/* determine si value tiens sur un octet */
+bool is_byte(uint32_t value);
+
+/* determine si value tiens sur un demi mot */
+bool is_half_word(uint32_t value);
+
 /* change la valeur d'un octet en mémoire */
 void set_byte(uint32_t address, uint8_t value);
 

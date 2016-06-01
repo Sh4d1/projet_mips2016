@@ -30,6 +30,14 @@ void check_address(uint32_t address, uint8_t alignment)
     }
 }
 
+bool is_byte(uint32_t value) {
+    return !(value>>8);
+}
+
+bool is_half_word(uint32_t value) {
+    return !(value>>16);
+}
+
 void set_byte(uint32_t address, uint8_t value)
 {
     check_address(address, 1);

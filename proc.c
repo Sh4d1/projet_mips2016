@@ -2,6 +2,7 @@
 
 #include "include/operations.h"
 #include "include/gpr.h"
+#include "include/mem.h"
 
 int main()
 {

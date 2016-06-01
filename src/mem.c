@@ -33,7 +33,7 @@ void init_memory(uint32_t mem_size)
 void set_byte(uint32_t adress, uint8_t value)
 {
     if (adress > memory.memory_size) {
-        printf("DEAD\n");
+        printf("Bad adress.\n");
         exit(EXIT_FAILURE);
     } else {
         memory.memory[adress].value = value;

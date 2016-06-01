@@ -71,7 +71,7 @@ void sub(uint8_t rd, uint8_t rs, uint8_t rt)
 
 void mult(uint8_t rs, uint8_t rt)
 {
-        uint64_t res = (uint64_t) get_register_value(rs) * (uint64_t) get_register_value(rt);
+        uint64_t res = (uint64_t)get_register_value(rs) * (uint64_t)get_register_value(rt);
         set_LO_value(res);
         set_HI_value(res >> 32);
 }

@@ -6,9 +6,7 @@
 int main()
 {
         init_GPR();
-        set_register_value(2, -2147483645);
-        set_register_value(10, -10);
-        sub(2, 2, 10);
-        printf("%d\n", get_register_value(2));
+        init_memory(0x1000);
+        printf("%x\n", get_register_value(29));
         return 0;
 }

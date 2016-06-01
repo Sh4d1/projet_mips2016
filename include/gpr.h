@@ -58,5 +58,8 @@ void set_LO_value(uint32_t value);
 
 uint32_t isNumeric(char *s);
 
+void advance_PC();
+
+
 
 #endif /* end of include guard: _GPR_ */

@@ -50,17 +50,16 @@ uint8_t get_register_index(char *name)
         }
         if (isNumeric(name)) {
             uint8_t index = strtol(name, NULL, 10);
-            if (index < 32 && index >= 0) {
-                return index;
-            }
+            return index;
         } else {
             for (uint8_t i = 0; i < GPR_LENGTH; i++) {
                 if (!strcmp(name, GPR[i].name)) {
                     return i;
                 }
             }
+            check_register(32);
         }
-        check_register(32);
+
 }
 
 // retourne la valeur d'un registre
@@ -101,8 +100,9 @@ void set_register_value(uint8_t index, uint32_t value)
 
 void set_register_value_by_name(char *name, uint32_t value)
 {
-        GPR[get_register_index(name)].value = value;
+    GPR[get_register_index(name)].value = value;
 }
+
 
 void set_PC_value(uint32_t value)
 {
@@ -126,4 +126,9 @@ uint32_t isNumeric(char *s)
     char * p;
     strtod (s, &p);
     return *p == '\0';
+}
+
+void advance_PC()
+{
+    set_PC_value(get_PC_value() + 4);
 }

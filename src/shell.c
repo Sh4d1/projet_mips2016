@@ -166,7 +166,12 @@ int shell_dreg(char **args)
 
 int shell_run(char **args)
 {
-    run();
+    if (args[1] != NULL) {
+        run(get_address_from_string(args[1]));
+    } else {
+        run(get_PC_value());
+    }
+
     return 1;
 }
 

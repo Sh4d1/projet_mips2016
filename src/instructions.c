@@ -1,6 +1,7 @@
 #include "../include/instructions.h"
 #include "../include/operations.h"
 #include "../include/mem.h"
+#include "../include/gpr.h"
 
 // uint8_t function_index[] = { ADD, ADDU, AND, DIV, JR,
 //     MFHI, MFLO, MULT, OR, SLL, SRL, SLT, SUB, SYSCALL, XOR}
@@ -16,7 +17,9 @@ void parse_instruction(uint32_t inst, bool dasm)
 {
     // on récupère l'opcode
     uint32_t opcode = inst >> 26;
-
+    if (!dasm) {
+        advance_PC();
+    }
     /* opcode qui vaut 0 donc instruction de type R */
     if (opcode == SPECIAL) {
         /* on recupère func */
@@ -244,16 +247,15 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
     }
 }
 
-void run()
+void run(uint32_t address)
 {
-    set_PC_value(0);
+    set_PC_value(address);
     while(get_word(get_PC_value()) != 0) {
         //printf("%u\n", get_PC_value());
         uint32_t word = get_word(get_PC_value());
         parse_instruction(word, false);
-        set_PC_value(get_PC_value()+4);
+        printf("%u\n", get_PC_value());
     }
-    set_PC_value(0);
 }
 
 void dasm()

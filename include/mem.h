@@ -26,7 +26,7 @@ struct memory memory;
 void init_memory(uint32_t mem_size);
 
 /* verifie la validite d'une adresse */
-void check_adress(uint32_t adress, uint8_t alignment);
+void check_adress(uint32_t address, uint8_t alignment);
 
 /* change la valeur d'un octet en mémoire */
 void set_byte(uint32_t adress, uint8_t value);

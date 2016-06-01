@@ -64,6 +64,13 @@ void set_word(uint32_t address, uint32_t value)
 void set_string(uint32_t address, char *string)
 {
     printf("%s\n", string);
+    uint32_t i = 0;
+    while (string[i]) {
+        set_byte(address + i, string[i]);
+        i++;
+    }
+    set_byte(address + i, 0);
+    printf("%x\n", get_byte(i-1));
 }
 
 uint8_t get_byte(uint32_t address)

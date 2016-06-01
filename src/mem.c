@@ -37,6 +37,7 @@ void check_adress(uint32_t adress, uint8_t alignment)
                 printf("Adresse inexistante.\n");
                 exit(EXIT_FAILURE);
         }
+        printf("verif alignment\n");
         if (adress % alignment) {
                 printf("%u\n", adress);
                 printf("Adresse non alignée.\n");

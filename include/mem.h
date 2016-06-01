@@ -22,9 +22,17 @@ struct memory {
 
 struct memory memory;
 
-
 /* initialise la mémoire */
 void init_memory(uint32_t mem_size);
+
+/* verifie la validite d'une adresse */
+void check_adress(uint32_t adress, uint8_t alignment);
+
+/* verifie l'existance d'une adresse */
+void adress_in_range(uint32_t adress);
+
+/* verifie le bon alignement d'une adresse */
+void adress_aligned(uint32_t adress);
 
 /* change la valeur d'un octet en mémoire */
 void set_byte(uint32_t adress, uint8_t value);
@@ -52,6 +60,5 @@ void print_n_memory(uint32_t adress, uint32_t n);
 void free_memory();
 
 void file_to_memory(char *file);
-
 
 #endif /* end of include guard: _MEM_ */

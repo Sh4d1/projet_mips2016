@@ -30,24 +30,35 @@ void init_memory(uint32_t mem_size)
     set_register_value(29, mem_size - 4);
 }
 
+/* verifie la validite d'une adresse */
+void check_adress(uint32_t adress, uint8_t alignment)
+{
+        if (adress > memory.memory_size) {
+                printf("Adresse inexistante.\n");
+                exit(EXIT_FAILURE);
+        }
+        if (!(adress % alignment)) {
+                printf("Adresse non alignée.\n");
+                exit(EXIT_FAILURE);
+        }
+}
+
 void set_byte(uint32_t adress, uint8_t value)
 {
-    if (adress > memory.memory_size) {
-        printf("Bad adress.\n");
-        exit(EXIT_FAILURE);
-    } else {
-        memory.memory[adress].value = value;
-    }
+    check_adress(adresse, 1);
+    memory.memory[adress].value = value;
 }
 
 void set_half_word(uint32_t adress, uint16_t value)
 {
+    check_adress(adresse, 2);
     memory.memory[adress].value = (value & 0xFF00) >> 8;
     memory.memory[adress+1].value = (value & 0x00FF);
 }
 
 void set_word(uint32_t adress, uint32_t value)
 {
+    check_adress(adresse, 4);
     memory.memory[adress].value = (value & 0xFF000000) >> 24;
     memory.memory[adress+1].value = (value & 0x00FF0000) >> 16;
     memory.memory[adress+2].value = (value & 0x0000FF00) >> 8;
@@ -56,16 +67,19 @@ void set_word(uint32_t adress, uint32_t value)
 
 uint8_t get_byte(uint32_t adress)
 {
+    check_adress(adresse, 1);
     return memory.memory[adress].value;
 }
 
 uint16_t get_half_word(uint32_t adress)
 {
+    check_adress(adresse, 2);
     return (memory.memory[adress].value << 8) + memory.memory[adress + 1].value;
 }
 
 uint32_t get_word(uint32_t adress)
 {
+    check_adress(adresse, 4);
     return (memory.memory[adress].value << 24) + (memory.memory[adress + 1].value << 16) + (memory.memory[adress + 2].value << 8) + memory.memory[adress + 3].value;
 }
 
@@ -73,7 +87,6 @@ uint32_t get_memory_size()
 {
     return memory.memory_size;
 }
-
 
 void print_memory()
 {
@@ -93,7 +106,6 @@ void free_memory()
 {
     free(memory.memory);
 }
-
 
 void file_to_memory(char *file)
 {

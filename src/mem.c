@@ -63,7 +63,6 @@ void set_word(uint32_t address, uint32_t value)
 /* place une chaine de charactere en memoire */
 void set_string(uint32_t address, char *string)
 {
-    printf("%s\n", string);
     uint32_t i = 0;
     while (string[i]) {
         set_byte(address + i, string[i]);
@@ -98,15 +97,11 @@ uint32_t get_memory_size()
 /* recupere une chaine de charactere en memoire */
 void get_string(uint32_t address, char **string) {
     uint32_t string_length = 0;
-    printf("chow\n");
     while (get_byte(address + string_length++));
     *string = malloc((string_length + 1) * sizeof(char));
-    printf("mow\n");
     for (uint32_t i = 0; i < string_length; i++) {
-        (*string)[i] = get_byte(address + i);
+        *string[i] = get_byte(address + i);
     }
-
-    printf("low\n");
 }
 
 void print_memory()

@@ -193,14 +193,14 @@ void blez(uint8_t rs, uint16_t offset)
         }
 }
 
-void j(uint16_t instr_index)
+void j(uint32_t instr_index)
 {
         set_PC_value((0xF0000000 & get_PC_value()) | (instr_index << 2));
 }
 
-void jal(uint16_t instr_index)
+void jal(uint32_t instr_index)
 {
-        set_register_value(RA, get_PC_value() + 8);
+        set_register_value(RA, get_PC_value() + 4);
         j(instr_index);
 }
 

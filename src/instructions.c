@@ -140,9 +140,16 @@ void parse_instruction(uint32_t inst, bool dasm)
                 case SW:
                     sw(rt, rs, imm);
                     break;
-                default: /* les types I ont été traités, passons aux J
-                    /* J-type instruction */
-                    printf("I or J not done yet\n");
+                /* les types I ont été traités, passons aux J */
+                /* J-type instruction */
+                case J:
+                    j(instr_index);
+                    break;
+                case JAL:
+                    jal(instr_index);
+                    break;
+                default:
+                    printf("I or J not recongnized opcode : %u\n", opcode);
             }
         }
     }
@@ -242,6 +249,12 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
         case SW:
             printf("SW $%u, %u($%u)\n", rt, imm, rs);
             break;
+        case J:
+            printf("J %u\n", instr_index);
+            break;
+        case JAL:
+            printf("JAL %u\n", instr_index);
+            break;
         default:
             printf("IJ %u\n", code);
     }
@@ -254,7 +267,7 @@ void run(uint32_t address)
         //printf("%u\n", get_PC_value());
         uint32_t word = get_word(get_PC_value());
         parse_instruction(word, false);
-        printf("%u\n", get_PC_value());
+        //printf("%x - %x\n", get_PC_value(), get_text_end());
     }
 }
 

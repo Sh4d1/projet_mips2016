@@ -1,6 +1,6 @@
 CC=clang
 CFLAGS = -std=c99 -Wall -Wextra -I$(INCDIR)
-LDFLAGS = # -lSDL    # si besoin pour le framebuffer...
+LDFLAGS = -lSDL    # si besoin pour le framebuffer...
 
 INCDIR=./include
 SRCDIR=./src
@@ -58,6 +58,14 @@ proc.o: proc.c
 proc: proc.o $(OBJDIR)/gpr.o $(OBJDIR)/operations.o $(OBJDIR)/mem.o $(OBJDIR)/elf_reader.o
 	$(CC) $(LDFLAGS) $^ -o $@
 # FIN TEST PROC
+
+# TEST FRAMEBUFFER
+framebuffer_test.o: framebuffer_test.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+framebuffer_test: framebuffer_test.o $(OBJDIR)/framebuffer.o
+	$(CC) $(LDFLAGS) $^ -o $@
+# FIN TEST FRAMEBUFFER
 
 # simips
 $(OBJDIR)/simips.o: $(SRCDIR)/simips.c

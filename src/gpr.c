@@ -8,11 +8,12 @@
 // initialise les registres
 void init_GPR()
 {
-        for (uint8_t i = 0; i < GPR_LENGTH; i++) {
-                GPR[i].value = 0;
-                strncpy(GPR[i].name, reg_names[i], strlen(reg_names[i]));
-        }
-        PC.value = 0;
+    GPR[0].value = 0;
+    for (uint8_t i = 1; i < GPR_LENGTH; i++) {
+        set_register_value(i, 0);
+        strncpy(GPR[i].name, reg_names[i], strlen(reg_names[i]));
+    }
+    PC.value = 0;
 }
 
 /* verifie la validite d'un registre */
@@ -45,12 +46,9 @@ void print_a_gpr(char *name) {
 // retourne l'index du registre
 uint8_t get_register_index(char *name)
 {
-        if (!strncmp("$", name, 1)) {
-            name++;
-        }
+        name = (strncmp("$", name, 1)) ? name : name + 1;
         if (isNumeric(name)) {
             uint8_t index = strtol(name, NULL, 10);
-            check_register(index);
             return index;
         } else {
             for (uint8_t i = 0; i < GPR_LENGTH; i++) {
@@ -73,7 +71,7 @@ uint32_t get_register_value(uint8_t index)
 
 uint32_t get_register_value_by_name(char *name)
 {
-        return GPR[get_register_index(name)].value;
+        return get_register_value(get_register_index(name));
 }
 
 uint32_t get_PC_value()
@@ -102,13 +100,17 @@ void set_register_value(uint8_t index, uint32_t value)
 
 void set_register_value_by_name(char *name, uint32_t value)
 {
-    GPR[get_register_index(name)].value = value;
+    set_register_value(get_register_index(name), value);
 }
-
 
 void set_PC_value(uint32_t value)
 {
         PC.value = value;
+}
+
+void advance_PC()
+{
+    set_PC_value(get_PC_value() + 4);
 }
 
 void set_HI_value(uint32_t value)
@@ -128,9 +130,4 @@ uint32_t isNumeric(char *s)
     char * p;
     strtod (s, &p);
     return *p == '\0';
-}
-
-void advance_PC()
-{
-    set_PC_value(get_PC_value() + 4);
 }

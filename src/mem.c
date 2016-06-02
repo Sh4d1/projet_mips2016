@@ -92,6 +92,7 @@ void set_n_string(uint32_t address, char *string, uint32_t size)
     for (uint32_t i = 0; i < size; i++) {
         set_byte(address + i, string[i]);
     }
+    set_byte(adress + i, 0);
 }
 
 uint8_t get_byte(uint32_t address)

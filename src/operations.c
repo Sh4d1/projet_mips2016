@@ -235,8 +235,12 @@ void syscall()
             set_n_string(get_register_value(A0), buffer, get_register_value(A1));
             break;
         }
-        default:
+        case 10:
+            exit(EXIT_SUCCESS);
             break;
+        default:
+            printf("Code de service inconnu.\n");
+            exit(EXIT_FAILURE);
         }
 }
 

@@ -63,7 +63,7 @@ proc: proc.o $(OBJDIR)/gpr.o $(OBJDIR)/operations.o $(OBJDIR)/mem.o $(OBJDIR)/el
 framebuffer_test.o: framebuffer_test.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-proc: framebuffer_test.o $(OBJDIR)/framebuffer.o
+framebuffer_test: framebuffer_test.o $(OBJDIR)/framebuffer.o
 	$(CC) $(LDFLAGS) $^ -o $@
 # FIN TEST FRAMEBUFFER
 

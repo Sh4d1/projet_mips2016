@@ -11,6 +11,7 @@ int main()
     char *bonjour = NULL;
     get_string(0x1000, &bonjour);
     printf("%s\n", bonjour);
+    set_register_value(V0, 8);
     set_register_value(A0, 0x1000);
     set_register_value(A1, 7);
     syscall();

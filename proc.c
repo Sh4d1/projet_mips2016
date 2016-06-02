@@ -6,13 +6,12 @@
 
 int main()
 {
-    init_GPR();
     init_memory(0x1000000);
-    set_string(0x1000, "bonjour");
-    set_register_value_by_name("v0", 5);
-    set_register_value_by_name("a0", 0x1000);
-    syscall();
-    printf("%u\n", get_register_value_by_name("v0"));
+    set_n_string(0x1000, "bonjour", 7);
+    char *bonjour = NULL;
+    get_string(0x1000, &bonjour);
+    printf("%s\n", bonjour);
+    free(bonjour);
     free_memory();
     return 0;
 }

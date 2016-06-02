@@ -12,6 +12,8 @@ void init_memory(uint32_t mem_size)
         memory.memory[i].w = true;
         memory.memory[i].x = true;
     }
+    // initialisation des registres
+    init_GPR();
     // initialisation du pointeur de pile
     set_register_value(29, mem_size - 4);
 }
@@ -85,12 +87,11 @@ void set_word(uint32_t address, uint32_t value)
 }
 
 /* place une chaine de charactere en memoire */
-void set_string(uint32_t address, char *string)
+void set_n_string(uint32_t address, char *string, uint32_t size)
 {
     uint32_t i = 0;
-    while (string[i]) {
+    for (i = 0; i < size; i++) {
         set_byte(address + i, string[i]);
-        i++;
     }
     set_byte(address + i, 0);
 }

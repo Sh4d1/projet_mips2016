@@ -53,13 +53,10 @@ uint32_t get_LO_value();
 void set_register_value(uint8_t index, uint32_t value);
 void set_register_value_by_name(char *name, uint32_t value);
 void set_PC_value(uint32_t value);
+void advance_PC();
 void set_HI_value(uint32_t value);
 void set_LO_value(uint32_t value);
 
 uint32_t isNumeric(char *s);
-
-void advance_PC();
-
-
 
 #endif /* end of include guard: _GPR_ */

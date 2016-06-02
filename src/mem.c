@@ -32,6 +32,29 @@ void check_address(uint32_t address, uint8_t alignment)
     }
 }
 
+void set_text(uint32_t address, uint32_t size)
+{
+    text.address = address;
+    text.size = size;
+}
+
+void set_data(uint32_t address, uint32_t size)
+{
+    data.address = address;
+    data.size = size;
+}
+
+void set_bss(uint32_t address, uint32_t size)
+{
+    bss.address = address;
+    bss.size = size;
+}
+
+uint32_t get_text_end()
+{
+    return text.address + text.size;
+}
+
 bool is_byte(uint32_t value) {
     return !(value>>8);
 }
@@ -170,7 +193,7 @@ void file_to_memory(char *file)
         exit(EXIT_FAILURE);
     }
     get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
-
+    set_text(text_addr, text_size);
     for (uint32_t i = 0; i < text_size; i++) {
         set_byte(i, text_bytes[i]);
     }

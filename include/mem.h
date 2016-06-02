@@ -20,13 +20,29 @@ struct memory {
     uint32_t memory_size;
 };
 
-struct memory memory;
+struct section {
+    uint32_t address;
+    uint32_t size;
+};
 
+struct memory memory;
+struct section text, data, bss;
 /* initialise la mémoire */
 void init_memory(uint32_t mem_size);
 
 /* verifie la validite d'une adresse */
 void check_address(uint32_t address, uint8_t alignment);
+
+/* change la section text */
+void set_text(uint32_t address, uint32_t size);
+
+/* change la section data */
+void set_data(uint32_t address, uint32_t size);
+
+uint32_t get_text_end();
+
+/* change la section bss */
+void set_bss(uint32_t address, uint32_t size);
 
 /* determine si value tiens sur un octet */
 bool is_byte(uint32_t value);

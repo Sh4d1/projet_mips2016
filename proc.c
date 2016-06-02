@@ -15,6 +15,7 @@ int main()
     set_register_value(A0, 0x1000);
     set_register_value(A1, 7);
     syscall();
+    get_string(0x1000, &bonjour);
     printf("%s\n", bonjour);
     free(bonjour);
     free_memory();

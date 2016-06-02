@@ -59,6 +59,14 @@ proc: proc.o $(OBJDIR)/gpr.o $(OBJDIR)/operations.o $(OBJDIR)/mem.o $(OBJDIR)/el
 	$(CC) $(LDFLAGS) $^ -o $@
 # FIN TEST PROC
 
+# TEST FRAMEBUFFER
+framebuffer_test.o: framebuffer_test.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+proc: framebuffer_test.o $(OBJDIR)/framebuffer.o
+	$(CC) $(LDFLAGS) $^ -o $@
+# FIN TEST FRAMEBUFFER
+
 # simips
 $(OBJDIR)/simips.o: $(SRCDIR)/simips.c
 	$(CC) -c $(CFLAGS) $< -o $@

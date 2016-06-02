@@ -47,8 +47,8 @@ void beq(uint8_t rs, uint8_t rt, uint16_t offset);
 void bne(uint8_t rs, uint8_t rt, uint16_t offset);
 void bgtz(uint8_t rs, uint16_t offset);
 void blez(uint8_t rs, uint16_t offset);
-void j(uint16_t instr_index);
-void jal(uint16_t instr_index);
+void j(uint32_t instr_index);
+void jal(uint32_t instr_index);
 void jr(uint8_t rs);
 void syscall();
 

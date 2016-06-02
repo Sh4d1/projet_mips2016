@@ -76,6 +76,7 @@ void set_half_word(uint32_t address, uint16_t value)
 
 void set_word(uint32_t address, uint32_t value)
 {
+    printf("%u\n", address);
     check_address(address, 4);
     memory.memory[address].value = (value & 0xFF000000) >> 24;
     memory.memory[address+1].value = (value & 0x00FF0000) >> 16;
@@ -190,9 +191,25 @@ void file_to_memory(char *file)
         printf("Erreur de lecture ELF\n");
         exit(EXIT_FAILURE);
     }
-    get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
-    set_text(text_addr, text_size); // TODO name ?
-    for (uint32_t i = 0; i < text_size; i++) {
-        set_byte(i, text_bytes[i]);
+
+    if (get_elf_type(elf) == ET_EXEC) {
+        set_PC_value(get_entry_point(elf));
+        get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
+        set_text(text_addr, text_size); // TODO name ?
+        for (uint32_t i = 0; i < text_size; i++) {
+            set_byte(i+text_addr, text_bytes[i]);
+        }
+        get_data_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
+        set_data(text_addr, text_size);
+        for (uint32_t i = 0; i < text_size; i++) {
+            set_byte(i+text_addr, text_bytes[i]);
+        }
+        get_bss_section(elf, &text_size, &text_addr, &text_align);
+
+    } else if (get_elf_type(elf) == ET_REL) {
+        printf("rel");
+    } else {
+        fprintf(stderr, "Erreur ELF\n");
     }
+
 }

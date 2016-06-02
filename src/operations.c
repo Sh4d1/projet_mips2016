@@ -232,7 +232,7 @@ void syscall()
         case 8: {
             char buffer[100];
             scanf("%s", buffer);
-            set_string(get_register_value(A0), buffer, get_register_value(A1));
+            set_n_string(get_register_value(A0), buffer, get_register_value(A1));
             break;
         }
         default:

@@ -229,11 +229,12 @@ void syscall()
             set_register_value(V0, integer);
             break;
         }
-        case 8:
+        case 8: {
             char buffer[100];
             scanf("%s", buffer);
             set_string(get_register_value(A0), buffer, get_register_value(A1));
             break;
+        }
         default:
             break;
         }

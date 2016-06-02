@@ -230,9 +230,9 @@ void syscall()
             break;
         }
         case 8: {
-            char buffer[100];
-            scanf("%s", buffer);
-            set_n_string(get_register_value(A0), buffer, get_register_value(A1));
+            char max_buffer[100];
+            scanf("%s", max_buffer);
+            set_n_string(get_register_value(A0), max_buffer, get_register_value(A1));
             break;
         }
         case 10:

@@ -200,7 +200,7 @@ void j(uint16_t instr_index)
 
 void jal(uint16_t instr_index)
 {
-        set_register_value(31, get_PC_value() + 8);
+        set_register_value(RA, get_PC_value() + 8);
         j(instr_index);
 }
 
@@ -211,14 +211,14 @@ void jr(uint8_t rs)
 
 void syscall()
 {
-        uint8_t service_code = get_register_value(2);
+        uint8_t service_code = get_register_value(V0);
         switch (service_code) {
         case 1:
-            printf("%d\n", get_register_value(4));
+            printf("%d\n", get_register_value(A0));
             break;
         case 4: {
             char *string = NULL;
-            get_string(get_register_value(4), &string);
+            get_string(get_register_value(A0), &string);
             printf("%s\n", string);
             free(string);
             break;
@@ -226,10 +226,13 @@ void syscall()
         case 5: {
             uint32_t integer = 0;
             scanf("%d", &integer);
-            set_register_value(2, integer);
+            set_register_value(V0, integer);
             break;
         }
         case 8:
+            char buffer[100];
+            scanf("%s", buffer);
+            set_string(get_register_value(A0), buffer, get_register_value(A1));
             break;
         default:
             break;

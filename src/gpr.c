@@ -108,11 +108,6 @@ void set_PC_value(uint32_t value)
         PC.value = value;
 }
 
-void advance_PC()
-{
-    set_PC_value(get_PC_value() + 4);
-}
-
 void set_HI_value(uint32_t value)
 {
         HI.value = value;
@@ -121,6 +116,11 @@ void set_HI_value(uint32_t value)
 void set_LO_value(uint32_t value)
 {
         LO.value = value;
+}
+
+void advance_PC()
+{
+    set_PC_value(get_PC_value() + 4);
 }
 
 uint32_t isNumeric(char *s)

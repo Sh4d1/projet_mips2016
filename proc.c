@@ -7,7 +7,7 @@
 int main()
 {
     init_memory(0x1000000);
-    name = 0;
+    int name = 0;
     (name) ? : name++;
     free_memory();
     return 0;

@@ -7,9 +7,11 @@
 int main()
 {
     init_memory(0x1000000);
-    int name = 0;
-    (name) ? : name++;
-    printf("%d\n", name);
+    set_string(0x1000, "bonjour", 7);
+    char *bonjour = NULL;
+    get_string(0x1000, &bonjour);
+    printf("%s\n", bonjour);
+    free(bonjour);
     free_memory();
     return 0;
 }

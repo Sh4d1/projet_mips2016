@@ -7,7 +7,7 @@
 int main()
 {
     init_memory(0x1000000);
-    set_string(0x1000, "bonjour", 7);
+    set_n_string(0x1000, "bonjour", 7);
     char *bonjour = NULL;
     get_string(0x1000, &bonjour);
     printf("%s\n", bonjour);

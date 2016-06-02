@@ -86,7 +86,7 @@ void set_word(uint32_t address, uint32_t value)
 }
 
 /* place une chaine de charactere en memoire */
-void set_string(uint32_t address, char *string, uint32_t size)
+void set_n_string(uint32_t address, char *string, uint32_t size)
 {
     uint32_t i = 0;
     for (i = 0; i < size; i++) {

@@ -60,7 +60,7 @@ void set_half_word(uint32_t address, uint16_t value);
 void set_word(uint32_t address, uint32_t value);
 
 /* place une chaine de charactere en memoire */
-void set_string(uint32_t address, char *string, uint32_t size);
+void set_n_string(uint32_t address, char *string, uint32_t size);
 
 uint8_t get_byte(uint32_t address);
 

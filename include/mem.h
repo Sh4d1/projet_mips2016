@@ -41,7 +41,7 @@ void set_data_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t ali
 
 uint32_t get_text_end();
 void set_text_address(uint32_t address);
-vois set_data_address(uint32_t address);
+void set_data_address(uint32_t address);
 
 /* change la section bss */
 void set_bss_section(size_t size, uint32_t address, uint8_t align);

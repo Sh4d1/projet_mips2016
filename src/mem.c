@@ -32,22 +32,38 @@ void check_address(uint32_t address, uint8_t alignment)
     }
 }
 
-void set_text(uint32_t address, uint32_t size)
+void set_text_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align)
 {
     text.address = address;
     text.size = size;
+    for (uint32_t i = 0; i < size; i++) {
+        set_byte(i+address, bytes[i]);
+    }
 }
 
-void set_data(uint32_t address, uint32_t size)
+void set_data_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align)
 {
     data.address = address;
     data.size = size;
+    for (uint32_t i = 0; i < size; i++) {
+        set_byte(i+address, bytes[i]);
+    }
 }
 
-void set_bss(uint32_t address, uint32_t size)
+void set_bss_section(size_t size, uint32_t address, uint8_t align)
 {
     bss.address = address;
     bss.size = size;
+}
+
+void set_text_address(uint32_t address)
+{
+    text.address = address;
+}
+
+void set_data_address(uint32_t address)
+{
+    data.address = address;
 }
 
 uint32_t get_text_end()
@@ -182,10 +198,22 @@ void free_memory()
 void file_to_memory(char *file)
 {
     struct elf_descr *elf;
+    /* pour la section text */
     uint32_t text_addr = 0;
     uint8_t *text_bytes = NULL;
     size_t text_size = 0;
     uint8_t text_align = 0;
+
+    /* pour la section data */
+    uint32_t data_addr = 0;
+    uint8_t *data_bytes = NULL;
+    size_t data_size = 0;
+    uint8_t data_align = 0;
+
+    /* pour la section bss*/
+    uint32_t bss_addr = 0;
+    uint8_t bss_align = 0;
+    size_t bss_size = 0;
 
     elf = read_elf(file);
     if (elf == NULL) {
@@ -193,23 +221,23 @@ void file_to_memory(char *file)
         exit(EXIT_FAILURE);
     }
 
+    /* on récupere les diférentes section */
+    get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
+    get_data_section(elf, &data_bytes, &data_size, &data_addr, &data_align);
+    get_bss_section(elf, &bss_size, &bss_addr, &bss_align);
+
+    /* si c'est un fichier éxecutable,
+        on récupère le point d'entré et les
+        différentes section données */
     if (get_elf_type(elf) == ET_EXEC) {
         set_PC_value(get_entry_point(elf));
-        get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
-        set_text(text_addr, text_size); // TODO name ?
-        for (uint32_t i = 0; i < text_size; i++) {
-            set_byte(i+text_addr, text_bytes[i]);
-        }
-        get_data_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
-        set_data(text_addr, text_size);
-        for (uint32_t i = 0; i < text_size; i++) {
-            set_byte(i+text_addr, text_bytes[i]);
-        }
-        get_bss_section(elf, &text_size, &text_addr, &text_align);
-
+        set_text_section(text_bytes, text_size, text_addr, text_align);
+        set_data_section(data_bytes, data_size, data_addr, data_align);
+        set_bss_section(bss_size, bss_addr, bss_align);
     } else if (get_elf_type(elf) == ET_REL) {
+    /* si on a un fichier relogeable, on le reloge */
         printf("rel");
-    } else {
+    } else { /* sinon erreur ? */
         fprintf(stderr, "Erreur ELF\n");
     }
 

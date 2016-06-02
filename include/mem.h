@@ -34,15 +34,17 @@ void init_memory(uint32_t mem_size);
 void check_address(uint32_t address, uint8_t alignment);
 
 /* change la section text */
-void set_text(uint32_t address, uint32_t size);
+void set_text_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align);
 
 /* change la section data */
-void set_data(uint32_t address, uint32_t size);
+void set_data_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align);
 
 uint32_t get_text_end();
+void set_text_address(uint32_t address);
+vois set_data_address(uint32_t address);
 
 /* change la section bss */
-void set_bss(uint32_t address, uint32_t size);
+void set_bss_section(size_t size, uint32_t address, uint8_t align);
 
 /* determine si value tiens sur un octet */
 bool is_byte(uint32_t value);

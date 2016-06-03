@@ -232,6 +232,7 @@ uint32_t get_address_from_string(char *address)
 
 void free_memory()
 {
+    framebuffer_close_display();
     free(memory.memory);
 }
 

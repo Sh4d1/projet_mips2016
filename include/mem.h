@@ -19,8 +19,8 @@ struct memory_case {
 /* structure de la mémoire, un tableau de memory_case, plus la taille */
 struct memory {
     struct memory_case *memory;
-    uint8_t *framebuffer;
     uint32_t memory_size;
+    uint8_t *framebuffer;
 };
 
 struct section {

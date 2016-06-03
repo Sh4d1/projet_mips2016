@@ -56,9 +56,19 @@ void set_bss_section(size_t size, uint32_t address, uint8_t align)
     bss.size = size;
 }
 
+uint32_t get_text_address()
+{
+    return text.address;
+}
+
 void set_text_address(uint32_t address)
 {
     text.address = address;
+}
+
+uint32_t get_data_address()
+{
+    return data.address;
 }
 
 void set_data_address(uint32_t address)
@@ -236,7 +246,7 @@ void file_to_memory(char *file)
         set_bss_section(bss_size, bss_addr, bss_align);
     } else if (get_elf_type(elf) == ET_REL) {
     /* si on a un fichier relogeable, on le reloge */
-        printf("rel");
+        set_PC_value(get_text_address());
     } else { /* sinon erreur ? */
         fprintf(stderr, "Erreur ELF\n");
     }

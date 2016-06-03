@@ -3,6 +3,7 @@
 #include "../include/gpr.h"
 #include "../include/framebuffer.h"
 
+/* initialise la mémoire */
 void init_memory(uint32_t mem_size)
 {
     memory.memory = calloc(mem_size, sizeof(struct memory_case));
@@ -35,6 +36,7 @@ void check_address(uint32_t address, uint8_t alignment)
     }
 }
 
+/* change la section text */
 void set_text_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align)
 {
     text.address = address;
@@ -47,6 +49,7 @@ void set_text_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t ali
     }
 }
 
+/* change la section data */
 void set_data_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align)
 {
     data.address = address;
@@ -59,6 +62,7 @@ void set_data_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t ali
     }
 }
 
+/* change la section bss */
 void set_bss_section(size_t size, uint32_t address, uint8_t align)
 {
     bss.address = address;
@@ -68,6 +72,7 @@ void set_bss_section(size_t size, uint32_t address, uint8_t align)
     bss.size = size;
 }
 
+/* accesseurs des sections text et data */
 uint32_t get_text_address()
 {
     return text.address;
@@ -108,15 +113,17 @@ uint32_t get_data_end()
     return data.address + data.size;
 }
 
-
+/* determine si value tient sur un octet */
 bool is_byte(uint32_t value) {
     return !(value >> 8);
 }
 
+/* determine si value tient sur un demi-mot */
 bool is_half_word(uint32_t value) {
     return !(value >> 16);
 }
 
+/* change la valeur d'un octet en mémoire */
 void set_byte(uint32_t address, uint8_t value)
 {
     check_address(address, 1);
@@ -127,6 +134,7 @@ void set_byte(uint32_t address, uint8_t value)
     }
 }
 
+/* change la valeur d'un demi-mot en mémoire */
 void set_half_word(uint32_t address, uint16_t value)
 {
     check_address(address, 2);
@@ -134,6 +142,7 @@ void set_half_word(uint32_t address, uint16_t value)
     set_byte(address + 1, value);
 }
 
+/* change la valeur d'un mot en mémoire */
 void set_word(uint32_t address, uint32_t value)
 {
     printf("%u\n", address);
@@ -152,18 +161,21 @@ void set_n_string(uint32_t address, char *string, uint32_t size)
     set_byte(address + i, 0);
 }
 
+/* recupere la valeur d'un octet en mémoire */
 uint8_t get_byte(uint32_t address)
 {
     check_address(address, 1);
     return (address < 0xFFFF0600) ? memory.memory[address].value : (*memory.framebuffer)[address - 0xFFFF0600];
 }
 
+/* recupere la valeur d'un demi-mot en mémoire */
 uint16_t get_half_word(uint32_t address)
 {
     check_address(address, 2);
     return (get_byte(address) << 8) + get_byte(address + 1);
 }
 
+/* recupere la valeur d'un mot en mémoire */
 uint32_t get_word(uint32_t address)
 {
     check_address(address, 4);
@@ -185,6 +197,7 @@ void get_string(uint32_t address, char **string) {
     }
 }
 
+/* affiche la mémoire */
 void print_memory()
 {
     for (uint32_t i = 0; i < get_memory_size(); i++) {
@@ -230,6 +243,7 @@ uint32_t get_address_from_string(char *address)
     return strtoul(address, NULL, 16);
 }
 
+/* libère la mémoire */
 void free_memory()
 {
     framebuffer_close_display();

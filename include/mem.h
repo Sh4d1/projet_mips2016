@@ -35,6 +35,7 @@ struct table_symboles {
 struct memory memory;
 struct section text, data, bss;
 struct table_symboles table_sym;
+
 /* initialise la mémoire */
 void init_memory(uint32_t mem_size);
 
@@ -47,6 +48,10 @@ void set_text_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t ali
 /* change la section data */
 void set_data_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align);
 
+/* change la section bss */
+void set_bss_section(size_t size, uint32_t address, uint8_t align);
+
+/* accesseurs des sections text et data */
 uint32_t get_text_end();
 uint32_t get_text_address();
 uint32_t get_text_size();
@@ -56,13 +61,10 @@ uint32_t get_data_address();
 uint32_t get_data_size();
 void set_data_address(uint32_t address);
 
-/* change la section bss */
-void set_bss_section(size_t size, uint32_t address, uint8_t align);
-
-/* determine si value tiens sur un octet */
+/* determine si value tient sur un octet */
 bool is_byte(uint32_t value);
 
-/* determine si value tiens sur un demi mot */
+/* determine si value tient sur un demi-mot */
 bool is_half_word(uint32_t value);
 
 /* change la valeur d'un octet en mémoire */
@@ -77,10 +79,13 @@ void set_word(uint32_t address, uint32_t value);
 /* place une chaine de charactere en memoire */
 void set_n_string(uint32_t address, char *string, uint32_t size);
 
+/* recupere la valeur d'un octet en mémoire */
 uint8_t get_byte(uint32_t address);
 
+/* recupere la valeur d'un demi-mot en mémoire */
 uint16_t get_half_word(uint32_t address);
 
+/* recupere la valeur d'un mot en mémoire */
 uint32_t get_word(uint32_t address);
 
 uint32_t get_memory_size();
@@ -90,11 +95,8 @@ void get_string(uint32_t address, char **string);
 
 /* affiche la mémoire */
 void print_memory();
-
 void print_n_memory(uint32_t address, uint32_t n);
-
 void display_memory(uint32_t address);
-
 void diplay_memory_between(uint32_t address1, uint32_t address2);
 
 uint32_t get_address_from_string(char *address);
@@ -105,9 +107,7 @@ void free_memory();
 void file_to_memory(char *file);
 
 void reloge(struct elf_descr *elf);
-
 void reloge_text(struct elf_descr *elf);
-
 void reloge_data(struct elf_descr *elf);
 
 #endif /* end of include guard: _MEM_ */

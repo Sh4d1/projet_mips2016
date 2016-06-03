@@ -5,7 +5,7 @@
 #include "../include/operations.h"
 #include "../include/gpr.h"
 
-// realise une extension de 16 a 32 bit
+// realise une extension de 16 a 32 bits */
 uint32_t extend(uint16_t value, bool sign)
 {
         uint8_t bitfort = value >> 15;
@@ -16,13 +16,13 @@ uint32_t extend(uint16_t value, bool sign)
         }
 }
 
-// renvoie le nieme bit en partant de 0 avec decalage
+/* renvoie le nieme bit en partant de 0 avec decalage */
 uint64_t get_bit(uint64_t value, uint8_t n, uint8_t pos)
 {
         return ((value >> n) & 1) << pos;
 }
 
-// leve l'exception de depassement
+/* leve l'exception de depassement */
 void overflow(uint32_t value1, uint32_t value2, bool sub)
 {
         uint64_t x = value1;
@@ -37,7 +37,7 @@ void overflow(uint32_t value1, uint32_t value2, bool sub)
         }
 }
 
-// instructions arithmetiques
+/* instructions arithmetiques */
 void add(uint8_t rd, uint8_t rs, uint8_t rt)
 {
         // exception depacement
@@ -83,7 +83,7 @@ void divi(uint8_t rs, uint8_t rt)
         return;
 }
 
-// instructions logiques
+/* instructions logiques */
 void and(uint8_t rd, uint8_t rs, uint8_t rt)
 {
         set_register_value(rd, get_register_value(rs) & get_register_value(rt));
@@ -104,7 +104,7 @@ void xor(uint8_t rd, uint8_t rs, uint8_t rt)
         set_register_value(rd, get_register_value(rs) ^ get_register_value(rt));
 }
 
-// instructions de decalage et set
+/* instructions de decalage et set */
 void sll(uint8_t rd, uint8_t rt, uint8_t sa)
 {
         set_register_value(rd, get_register_value(rt) << sa);
@@ -125,7 +125,7 @@ void slt(uint8_t rd, uint8_t rs, uint8_t rt)
         set_register_value(rd, get_register_value(rs) < get_register_value(rt));
 }
 
-// instructions r/w memoire
+/* instructions r/w memoire */
 void lw(uint8_t rt, uint8_t base, uint16_t offset)
 {
         set_register_value(rt, get_word(get_register_value(base) + extend(offset, true)));
@@ -159,7 +159,7 @@ void mflo(uint8_t rd) {
         set_register_value(rd, get_LO_value());
 }
 
-// instructions de branchement, saut et controle
+/* instructions de branchement, saut et controle */
 void b(uint16_t offset)
 {
         set_PC_value(get_PC_value() + (extend(offset, true) << 2));
@@ -244,7 +244,7 @@ void syscall()
         }
 }
 
-// pseudo-instructions
+/* pseudo-instructions */
 void nop()
 {
         sll(0, 0, 0);

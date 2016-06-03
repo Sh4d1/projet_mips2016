@@ -6,6 +6,8 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+#include "relocation.h"
+
 /* structure d'une case mémoire */
 struct memory_case {
     uint8_t value;
@@ -25,8 +27,13 @@ struct section {
     uint32_t size;
 };
 
+struct table_symboles {
+    struct symbole *sym;
+    uint32_t size;
+};
 struct memory memory;
 struct section text, data, bss;
+struct table_symboles table_sym;
 /* initialise la mémoire */
 void init_memory(uint32_t mem_size);
 
@@ -40,7 +47,12 @@ void set_text_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t ali
 void set_data_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align);
 
 uint32_t get_text_end();
+uint32_t get_text_address();
+uint32_t get_text_size();
 void set_text_address(uint32_t address);
+uint32_t get_data_end();
+uint32_t get_data_address();
+uint32_t get_data_size();
 void set_data_address(uint32_t address);
 
 /* change la section bss */
@@ -90,5 +102,11 @@ uint32_t get_address_from_string(char *address);
 void free_memory();
 
 void file_to_memory(char *file);
+
+void reloge(struct elf_descr *elf);
+
+void reloge_text(struct elf_descr *elf);
+
+void reloge_data(struct elf_descr *elf);
 
 #endif /* end of include guard: _MEM_ */

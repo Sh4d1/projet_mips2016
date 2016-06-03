@@ -5,8 +5,8 @@
  * Ensimag 2016, première année.
  *
  * @section Introduction
- * Les données contenues dans un fichier ELF peuvent être accompagnées 
- * d'informations permettant de reloger les symboles et les sections 
+ * Les données contenues dans un fichier ELF peuvent être accompagnées
+ * d'informations permettant de reloger les symboles et les sections
  * d'instructions (.text) et de données (.data, .bss) à des adresses mémoires
  * spécifiques.
  *
@@ -21,7 +21,7 @@
  * @note Outre l'API, un fichier objet binaire correspondant à ce module
  * vous est fourni. Vous pouvez ainsi charger des donnees relogées dans
  * votre simulateur.
- * Il vous revient ensuite de remplacer le fichier objet fourni pas votre 
+ * Il vous revient ensuite de remplacer le fichier objet fourni pas votre
  * propre implémentation de ce module!
  *
  * @version 1.2
@@ -35,7 +35,7 @@
 #include "elf_reader.h"
 
 
-/** 
+/**
  * @brief Structure représentant un symbole dans un format "clair".
  */
 struct symbole {
@@ -44,7 +44,7 @@ struct symbole {
 };
 
 
-/** 
+/**
  * @brief Traduit une table des symboles au format ELF en format "clair"
  *
  * Construit une table de \ref Symbole à partir de la table de symboles
@@ -69,15 +69,15 @@ extern void traduit_table_symboles(const Elf32_Sym *symtab, size_t symtab_size,
                                    size_t *nb_symboles);
 
 
-/** 
+/**
  * @brief Reloge les symboles d'une table ELF.
  *
  * Les adresses des symboles sont relogées à partir des adresses de section
- * définies en paramètres. Puis, une table de symboles identique à celle 
+ * définies en paramètres. Puis, une table de symboles identique à celle
  * générée par \ref traduit_table_symboles est construite.
  *
- * La validité des adresses (cohérence, non recouvrement, respect des 
- * contraintes d'alignement, etc.) n'est \em pas vérifiée. Il revient à 
+ * La validité des adresses (cohérence, non recouvrement, respect des
+ * contraintes d'alignement, etc.) n'est \em pas vérifiée. Il revient à
  * l'utilisateur de le faire, à partir des contraintes du fichier ELF
  * et de son simulateur.
  *
@@ -96,10 +96,10 @@ extern void reloge_symboles(const Elf32_Sym *symtab, size_t symtab_size,
                             struct symbole **table_symboles, size_t *nb_symboles);
 
 
-/** 
+/**
  * @brief Reloge une section d'instruction ou de données.
  *
- * Reloge une section à partir de ses données initiales, de sa table 
+ * Reloge une section à partir de ses données initiales, de sa table
  * de relocation associée, et d'une table de symboles déjà relogée.
  *
  * L'adresse addr doit naturellement correspondre à celle ayant

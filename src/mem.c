@@ -7,7 +7,7 @@ void init_memory(uint32_t mem_size)
     memory.memory = calloc(mem_size, sizeof(struct memory_case));
     memory.memory_size = mem_size;
     for (uint32_t i = 0; i < mem_size; i++) {
-        memory.memory[i].value = 0;
+        set_byte(i, 0);
         memory.memory[i].r = true;
         memory.memory[i].w = true;
         memory.memory[i].x = true;
@@ -72,11 +72,11 @@ uint32_t get_text_end()
 }
 
 bool is_byte(uint32_t value) {
-    return !(value>>8);
+    return !(value >> 8);
 }
 
 bool is_half_word(uint32_t value) {
-    return !(value>>16);
+    return !(value >> 16);
 }
 
 void set_byte(uint32_t address, uint8_t value)
@@ -88,18 +88,16 @@ void set_byte(uint32_t address, uint8_t value)
 void set_half_word(uint32_t address, uint16_t value)
 {
     check_address(address, 2);
-    memory.memory[address].value = (value & 0xFF00) >> 8;
-    memory.memory[address+1].value = (value & 0x00FF);
+    set_byte(address, value >> 8);
+    set_byte(address + 1, value);
 }
 
 void set_word(uint32_t address, uint32_t value)
 {
     printf("%u\n", address);
     check_address(address, 4);
-    memory.memory[address].value = (value & 0xFF000000) >> 24;
-    memory.memory[address+1].value = (value & 0x00FF0000) >> 16;
-    memory.memory[address+2].value = (value & 0x0000FF00) >> 8;
-    memory.memory[address+3].value = (value & 0x000000FF);
+    set_half_word(address, value >> 16);
+    set_half_word(address + 2, value);
 }
 
 /* place une chaine de charactere en memoire */
@@ -121,13 +119,13 @@ uint8_t get_byte(uint32_t address)
 uint16_t get_half_word(uint32_t address)
 {
     check_address(address, 2);
-    return (memory.memory[address].value << 8) + memory.memory[address + 1].value;
+    return (get_byte(address) << 8) + get_byte(address + 1);
 }
 
 uint32_t get_word(uint32_t address)
 {
     check_address(address, 4);
-    return (memory.memory[address].value << 24) + (memory.memory[address + 1].value << 16) + (memory.memory[address + 2].value << 8) + memory.memory[address + 3].value;
+    return (get_half_word(address) << 16) + get_half_word(address + 2);
 }
 
 uint32_t get_memory_size()
@@ -147,15 +145,15 @@ void get_string(uint32_t address, char **string) {
 
 void print_memory()
 {
-    for (uint32_t i = 0; i < memory.memory_size; i++) {
-        printf("0x%04x : 0x%02x\n", i, memory.memory[i].value);
+    for (uint32_t i = 0; i < get_memory_size(); i++) {
+        printf("0x%04x : 0x%02x\n", i, get_byte(i));
     }
 }
 
 void print_n_memory(uint32_t address, uint32_t n)
 {
     for (uint32_t i = address; i < address+n; i++) {
-        printf("0x%04x : 0x%02x\n", i, memory.memory[i].value);
+        printf("0x%04x : 0x%02x\n", i, get_byte(i));
     }
 }
 
@@ -163,7 +161,7 @@ void display_memory(uint32_t address)
 {
     printf("0x%06x: ", address);
     for (uint32_t i = address; i < address + 16; i++) {
-        printf("%02x ", memory.memory[i].value);
+        printf("%02x ", get_byte(i));
     }
     printf("\n");
 }
@@ -172,15 +170,15 @@ void diplay_memory_between(uint32_t address1, uint32_t address2)
 {
     uint32_t offset = address2 - address1;
     for (uint32_t i = 0; i <= offset; i++) {
-        if (!(i%16)) {
-            printf("0x%06x: ", address1+i);
+        if (!(i % 16)) {
+            printf("0x%06x: ", address1 + i);
         }
-        printf("%02x ", memory.memory[address1 + i].value);
-        if (!((i+1)%16)) {
+        printf("%02x ", get_byte(address1 + i));
+        if (!((i + 1) % 16)) {
             printf("\n");
         }
     }
-    if ((offset+1)%16) {
+    if ((offset + 1) % 16) {
         printf("\n");
     }
 }

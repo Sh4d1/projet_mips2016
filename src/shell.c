@@ -242,7 +242,7 @@ int shell_smem(char **args)
                     set_byte(get_address_from_string(args[1]), value);
                 } else {
                     fprintf(stderr, "La valeur est trop grande\
-pour rentrée sur un octet\n");
+pour rentrer sur un octet\n");
                 }
                 break;
             case 2:
@@ -250,14 +250,14 @@ pour rentrée sur un octet\n");
                     set_half_word(get_address_from_string(args[1]), value);
                 } else {
                     fprintf(stderr, "La valeur est trop grande\
-pour rentrée sur un demi-mot\n");
+pour rentrer sur un demi-mot\n");
                 }
                 break;
             case 4:
                 set_word(get_address_from_string(args[1]), value);
                 break;
             default:
-                fprintf(stderr, "Le nombre d'octers à écrire est soit 1, 2 ou 4\n");
+                fprintf(stderr, "Le nombre d'octets à écrire est soit 1, 2 ou 4\n");
         }
     } else {
         fprintf(stderr, "Il manque des arguments\n");

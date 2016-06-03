@@ -7,16 +7,16 @@
 
 void init_default_simips()
 {
-    init_GPR();
     init_memory(0x1000000);
 }
 
-void init_simips(uint32_t mem_size) {
-    init_GPR();
+void init_simips(uint32_t mem_size)
+{
     init_memory(mem_size);
 }
 
-void init_simips_argv(int argc, char **argv) {
+void init_simips_argv(int argc, char **argv)
+{
     if (argc == 1) {
         init_default_simips();
     } else {
@@ -46,7 +46,8 @@ void init_simips_argv(int argc, char **argv) {
     }
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     init_simips_argv(argc, argv);
 
     shell_loop();

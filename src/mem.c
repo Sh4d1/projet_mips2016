@@ -100,6 +100,12 @@ uint32_t get_text_end()
     return text.address + text.size;
 }
 
+uint32_t get_data_end()
+{
+    return data.address + data.size;
+}
+
+
 bool is_byte(uint32_t value) {
     return !(value>>8);
 }
@@ -294,7 +300,12 @@ void reloge_text(struct elf_descr *elf)
 {
     Elf32_Rel *data = NULL;
     size_t size = 0;
-    get_rel_text_section(elf, &bytes, &size);
+    //get_rel_text_section(elf, &bytes, &size);
 
 
+}
+
+void reloge_data(struct elf_descr *elf)
+{
+    int i = 0;
 }

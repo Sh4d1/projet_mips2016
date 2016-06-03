@@ -35,6 +35,9 @@ void check_address(uint32_t address, uint8_t alignment)
 void set_text_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align)
 {
     text.address = address;
+    if (address % align != 0) {
+        text.address += (address % align);
+    }
     text.size = size;
     for (uint32_t i = 0; i < size; i++) {
         set_byte(i+address, bytes[i]);
@@ -44,6 +47,9 @@ void set_text_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t ali
 void set_data_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align)
 {
     data.address = address;
+    if (address % align != 0) {
+        data.address += (address % align);
+    }
     data.size = size;
     for (uint32_t i = 0; i < size; i++) {
         set_byte(i+address, bytes[i]);
@@ -53,12 +59,20 @@ void set_data_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t ali
 void set_bss_section(size_t size, uint32_t address, uint8_t align)
 {
     bss.address = address;
+    if (address % align != 0) {
+        bss.address += (address % align);
+    }
     bss.size = size;
 }
 
 uint32_t get_text_address()
 {
     return text.address;
+}
+
+uint32_t get_text_size()
+{
+    return text.size;
 }
 
 void set_text_address(uint32_t address)
@@ -69,6 +83,11 @@ void set_text_address(uint32_t address)
 uint32_t get_data_address()
 {
     return data.address;
+}
+
+uint32_t get_data_size()
+{
+    return data.size;
 }
 
 void set_data_address(uint32_t address)
@@ -116,7 +135,7 @@ void set_word(uint32_t address, uint32_t value)
 void set_n_string(uint32_t address, char *string, uint32_t size)
 {
     uint32_t i = 0;
-    for (i = 0; i < size - 1; i++) {
+    for (i = 0; i < size; i++) {
         set_byte(address + i, string[i]);
     }
     set_byte(address + i, 0);
@@ -247,8 +266,35 @@ void file_to_memory(char *file)
     } else if (get_elf_type(elf) == ET_REL) {
     /* si on a un fichier relogeable, on le reloge */
         set_PC_value(get_text_address());
+        set_text_section(text_bytes, text_size, get_text_address(), text_align);
+
+        if (get_data_address() == 0) {
+            uint32_t nb_pages = 1 + (get_text_end() / 0x1000);
+            set_data_address(nb_pages * 0x1000);
+        }
+        set_data_section(data_bytes, data_size, get_data_address(), data_align);
+        set_bss_section(bss_size, get_data_end(), bss_align);
+        reloge(elf);
+
+        //printf("%x %x %x\n", get_text_address()+get_text_size(), get_text_size(), get_data_address());
+
     } else { /* sinon erreur ? */
         fprintf(stderr, "Erreur ELF\n");
     }
+    close_elf(elf);
+}
+
+void reloge(struct elf_descr *elf)
+{
+    reloge_text(elf);
+    reloge_data(elf);
+}
+
+void reloge_text(struct elf_descr *elf)
+{
+    Elf32_Rel *data = NULL;
+    size_t size = 0;
+    get_rel_text_section(elf, &bytes, &size);
+
 
 }

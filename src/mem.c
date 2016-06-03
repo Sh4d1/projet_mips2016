@@ -1,6 +1,7 @@
 #include "../include/mem.h"
 #include "../include/elf_reader.h"
 #include "../include/gpr.h"
+#include "../include/framebuffer.h"
 
 void init_memory(uint32_t mem_size)
 {
@@ -12,6 +13,8 @@ void init_memory(uint32_t mem_size)
         memory.memory[i].w = true;
         memory.memory[i].x = true;
     }
+    // initialisation du framebuffer
+    memory.framebuffer = framebuffer_init_display();
     // initialisation des registres
     init_GPR();
     // initialisation du pointeur de pile
@@ -117,7 +120,11 @@ bool is_half_word(uint32_t value) {
 void set_byte(uint32_t address, uint8_t value)
 {
     check_address(address, 1);
-    memory.memory[address].value = value;
+    if (address < 0xFFFF0600) {
+        memory.memory[address].value = value;
+    } else {
+        (*memory.framebuffer)[address - 0xFFFF0600] = value;
+    }
 }
 
 void set_half_word(uint32_t address, uint16_t value)
@@ -148,7 +155,7 @@ void set_n_string(uint32_t address, char *string, uint32_t size)
 uint8_t get_byte(uint32_t address)
 {
     check_address(address, 1);
-    return memory.memory[address].value;
+    return (address < 0xFFFF0600) ? memory.memory[address].value : (*memory.framebuffer)[address - 0xFFFF0600];
 }
 
 uint16_t get_half_word(uint32_t address)

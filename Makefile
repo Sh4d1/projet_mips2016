@@ -70,7 +70,7 @@ framebuffer_test: framebuffer_test.o $(OBJDIR)/framebuffer.o
 # simips
 $(OBJDIR)/simips.o: $(SRCDIR)/simips.c
 	$(CC) -c $(CFLAGS) $< -o $@
-simips: $(OBJDIR)/simips.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o
+simips: $(OBJDIR)/simips.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 clean:

@@ -2,6 +2,7 @@
 #include "../include/elf_reader.h"
 #include "../include/gpr.h"
 #include "../include/framebuffer.h"
+#include "../include/relocation.h"
 
 /* initialise la mémoire */
 void init_memory(uint32_t mem_size)
@@ -10,9 +11,6 @@ void init_memory(uint32_t mem_size)
     memory.memory_size = mem_size;
     for (uint32_t i = 0; i < mem_size; i++) {
         set_byte(i, 0);
-        memory.memory[i].r = true;
-        memory.memory[i].w = true;
-        memory.memory[i].x = true;
     }
     // initialisation du framebuffer
     memory.framebuffer = framebuffer_init_display();
@@ -128,9 +126,9 @@ void set_byte(uint32_t address, uint8_t value)
 {
     check_address(address, 1);
     if (address < 0xFFFF0600) {
-        memory.memory[address].value = value;
+        memory.memory[address] = value;
     } else {
-        (*memory.framebuffer)[address - 0xFFFF0600] = value;
+        memory.framebuffer[address - 0xFFFF0600] = value;
     }
 }
 
@@ -165,7 +163,7 @@ void set_n_string(uint32_t address, char *string, uint32_t size)
 uint8_t get_byte(uint32_t address)
 {
     check_address(address, 1);
-    return (address < 0xFFFF0600) ? memory.memory[address].value : (*memory.framebuffer)[address - 0xFFFF0600];
+    return (address < 0xFFFF0600) ? memory.memory[address] : memory.framebuffer[address - 0xFFFF0600];
 }
 
 /* recupere la valeur d'un demi-mot en mémoire */
@@ -281,6 +279,14 @@ void file_to_memory(char *file)
     get_data_section(elf, &data_bytes, &data_size, &data_addr, &data_align);
     get_bss_section(elf, &bss_size, &bss_addr, &bss_align);
 
+    Elf32_Sym *symtab;
+    size_t sym_size;
+    char *strtab = NULL;
+    size_t str_size;
+    get_string_table(elf, &strtab, &str_size);
+    get_symbol_table(elf, &symtab, &sym_size);
+
+
     /* si c'est un fichier éxecutable,
         on récupère le point d'entré et les
         différentes section données */
@@ -289,6 +295,7 @@ void file_to_memory(char *file)
         set_text_section(text_bytes, text_size, text_addr, text_align);
         set_data_section(data_bytes, data_size, data_addr, data_align);
         set_bss_section(bss_size, bss_addr, bss_align);
+        traduit_table_symboles(symtab, sym_size, strtab, &(table_sym.sym), &(table_sym.size));
     } else if (get_elf_type(elf) == ET_REL) {
     /* si on a un fichier relogeable, on le reloge */
         set_PC_value(get_text_address());
@@ -300,13 +307,22 @@ void file_to_memory(char *file)
         }
         set_data_section(data_bytes, data_size, get_data_address(), data_align);
         set_bss_section(bss_size, get_data_end(), bss_align);
-        reloge(elf);
+        // reloge(elf);
+        reloge_symboles(symtab, sym_size, strtab, text.address, data.address, bss.address, &(table_sym.sym), &(table_sym.size));
+
+
 
         //printf("%x %x %x\n", get_text_address()+get_text_size(), get_text_size(), get_data_address());
 
     } else { /* sinon erreur ? */
         fprintf(stderr, "Erreur ELF\n");
     }
+
+
+    for (int i = 0; i < table_sym.size; i++) {
+        printf("%x : %s\n", table_sym.sym[i].adresse, table_sym.sym[i].nom);
+    }
+
     close_elf(elf);
 }
 
@@ -320,8 +336,8 @@ void reloge_text(struct elf_descr *elf)
 {
     Elf32_Rel *data = NULL;
     size_t size = 0;
-    //get_rel_text_section(elf, &bytes, &size);
-
+    get_rel_text_section(elf, &data, &size);
+    // reloge_section(text.addr, memory.memory_case, data, size, )
 
 }
 

@@ -2,7 +2,6 @@
 #include "../include/elf_reader.h"
 #include "../include/gpr.h"
 #include "../include/framebuffer.h"
-#include "../include/relocation.h"
 
 /* initialise la mémoire */
 void init_memory(uint32_t mem_size)

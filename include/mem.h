@@ -58,10 +58,12 @@ void set_bss_section(size_t size, uint32_t address, uint8_t align);
 uint32_t get_text_end();
 uint32_t get_text_address();
 uint32_t get_text_size();
+uint8_t *get_text_bytes();
 void set_text_address(uint32_t address);
 uint32_t get_data_end();
 uint32_t get_data_address();
 uint32_t get_data_size();
+uint8_t *get_data_bytes();
 void set_data_address(uint32_t address);
 
 /* determine si value tient sur un octet */

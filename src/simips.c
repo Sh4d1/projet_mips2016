@@ -7,12 +7,12 @@
 
 void init_default_simips()
 {
-    init_memory(0x1000000);
+    init_memory(0x1000000, false);
 }
 
 void init_simips(uint32_t mem_size)
 {
-    init_memory(mem_size);
+    init_memory(mem_size, false);
 }
 
 void init_simips_argv(int argc, char **argv)

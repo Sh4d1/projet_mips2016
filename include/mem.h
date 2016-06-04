@@ -40,7 +40,7 @@ struct section text, data, bss;
 struct table_symboles table_sym;
 
 /* initialise la mémoire */
-void init_memory(uint32_t mem_size);
+void init_memory(uint32_t mem_size, bool framebuffer);
 
 /* verifie la validite d'une adresse */
 void check_address(uint32_t address, uint8_t alignment);

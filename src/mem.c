@@ -4,19 +4,25 @@
 #include "../include/framebuffer.h"
 
 /* initialise la mémoire */
-void init_memory(uint32_t mem_size)
+void init_memory(uint32_t mem_size, bool framebuffer)
 {
-    memory.memory = calloc(mem_size, sizeof(struct memory_case));
-    memory.memory_size = mem_size;
-    for (uint32_t i = 0; i < mem_size; i++) {
-        set_byte(i, 0);
+    if (framebuffer < 0xFFFF0600) {
+        memory.memory = calloc(mem_size, sizeof(struct memory_case));
+        memory.memory_size = mem_size;
+        for (uint32_t i = 0; i < mem_size; i++) {
+            set_byte(i, 0);
+        }
+        // initialisation du framebuffer
+        if (framebuffer) {
+            memory.framebuffer = framebuffer_init_display();
+        }
+        // initialisation des registres
+        init_GPR();
+        // initialisation du pointeur de pile
+        set_register_value(29, mem_size - ((mem_size % 4) + 4));
+    } else {
+        fprintf(stderr, "Taille de la mémoire trop grande.\n");
     }
-    // initialisation du framebuffer
-    memory.framebuffer = framebuffer_init_display();
-    // initialisation des registres
-    init_GPR();
-    // initialisation du pointeur de pile
-    set_register_value(29, mem_size - ((mem_size % 4) + 4));
 }
 
 /* verifie la validite d'une adresse */
@@ -24,13 +30,13 @@ void check_address(uint32_t address, uint8_t alignment)
 {
     if (address < 0xFFFF0600) {
         if (address > memory.memory_size) {
-            printf("Adresse inexistante.\n");
+            fprintf(stderr, "Adresse inexistante.\n");
             exit(EXIT_FAILURE);
         }
     }
     if (address % alignment) {
         printf("%u\n", address);
-        printf("Adresse non alignée.\n");
+        fprintf(stderr, "Adresse non alignée.\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -139,7 +145,11 @@ void set_byte(uint32_t address, uint8_t value)
     if (address < 0xFFFF0600) {
         memory.memory[address] = value;
     } else {
-        memory.framebuffer[address - 0xFFFF0600] = value;
+        if (memory.framebuffer) {
+            memory.framebuffer[address - 0xFFFF0600] = value;
+        } else {
+            printf("Le framebuffer n'est pas activé.\n");
+        }
     }
 }
 
@@ -255,7 +265,9 @@ uint32_t get_address_from_string(char *address)
 /* libère la mémoire */
 void free_memory()
 {
-    framebuffer_close_display();
+    if (memory.framebuffer) {
+        framebuffer_close_display();
+    }
     free(memory.memory);
 }
 

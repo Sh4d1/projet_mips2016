@@ -8,17 +8,8 @@
 
 #include "relocation.h"
 
-/* structure d'une case mémoire */
-struct memory_case {
-    uint8_t value;
-    bool r;
-    bool w;
-    bool x;
-};
-
 /* structure de la mémoire, un tableau de memory_case, plus la taille */
 struct memory {
-    //struct memory_case *memory;
     uint8_t *memory;
     uint32_t memory_size;
     uint8_t *framebuffer;
@@ -33,7 +24,6 @@ struct table_symboles {
     struct symbole *sym;
     uint32_t size;
 };
-
 
 struct memory memory;
 struct section text, data, bss;

@@ -6,23 +6,26 @@
 /* initialise la mémoire */
 void init_memory(uint32_t mem_size, bool framebuffer)
 {
-    if (framebuffer < 0xFFFF0600) {
-        memory.memory = calloc(mem_size, sizeof(struct memory_case));
-        memory.memory_size = mem_size;
-        for (uint32_t i = 0; i < mem_size; i++) {
-            set_byte(i, 0);
-        }
-        // initialisation du framebuffer
-        if (framebuffer) {
-            memory.framebuffer = framebuffer_init_display();
-        }
-        // initialisation des registres
-        init_GPR();
-        // initialisation du pointeur de pile
-        set_register_value(29, mem_size - ((mem_size % 4) + 4));
-    } else {
+    if (mem_size >= 0xFFFF0600) {
         fprintf(stderr, "Taille de la mémoire trop grande.\n");
+        exit(EXIT_FAILURE);
     }
+
+    // initialisation de la memoire
+    memory.memory = malloc(mem_size * sizeof(uint8_t));
+    memory.memory_size = mem_size;
+    for (uint32_t i = 0; i < mem_size; i++) {
+        set_byte(i, 0);
+    }
+
+    // initialisation du framebuffer si besoin
+    if (framebuffer) {
+        memory.framebuffer = framebuffer_init_display();
+    }
+
+    // initialisation des registres et du pointeur de pile
+    init_GPR();
+    set_register_value(29, mem_size - ((mem_size % 4) + 4));
 }
 
 /* verifie la validite d'une adresse */
@@ -33,6 +36,9 @@ void check_address(uint32_t address, uint8_t alignment)
             fprintf(stderr, "Adresse inexistante.\n");
             exit(EXIT_FAILURE);
         }
+    } else if (!memory.framebuffer) {
+        fprintf(stderr, "Le framebuffer n'est pas activé.\n");
+        exit(EXIT_FAILURE);
     }
     if (address % alignment) {
         printf("%u\n", address);
@@ -145,11 +151,7 @@ void set_byte(uint32_t address, uint8_t value)
     if (address < 0xFFFF0600) {
         memory.memory[address] = value;
     } else {
-        if (memory.framebuffer) {
-            memory.framebuffer[address - 0xFFFF0600] = value;
-        } else {
-            printf("Le framebuffer n'est pas activé.\n");
-        }
+        memory.framebuffer[address - 0xFFFF0600] = value;
     }
 }
 

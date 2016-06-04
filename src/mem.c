@@ -25,9 +25,11 @@ void init_memory(uint32_t mem_size)
 /* verifie la validite d'une adresse */
 void check_address(uint32_t address, uint8_t alignment)
 {
-    if (address > memory.memory_size) {
-        printf("Adresse inexistante.\n");
-        exit(EXIT_FAILURE);
+    if (address < 0xFFFF0600) {
+        if (address > memory.memory_size) {
+            printf("Adresse inexistante.\n");
+            exit(EXIT_FAILURE);
+        }
     }
     if (address % alignment) {
         printf("%u\n", address);

@@ -17,15 +17,17 @@ void init_memory(uint32_t mem_size)
     // initialisation des registres
     init_GPR();
     // initialisation du pointeur de pile
-    set_register_value(29, mem_size - (mem_size % 4));
+    set_register_value(29, mem_size - ((mem_size % 4) + 4));
 }
 
 /* verifie la validite d'une adresse */
 void check_address(uint32_t address, uint8_t alignment)
 {
-    if (address > memory.memory_size) {
-        printf("Adresse inexistante.\n");
-        exit(EXIT_FAILURE);
+    if (address < 0xFFFF0600) {
+        if (address > memory.memory_size) {
+            printf("Adresse inexistante.\n");
+            exit(EXIT_FAILURE);
+        }
     }
     if (address % alignment) {
         printf("%u\n", address);

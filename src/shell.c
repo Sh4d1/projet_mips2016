@@ -14,6 +14,8 @@
 #include "../include/instructions.h"
 #include "../include/framebuffer.h"
 
+#define UNUSED(x) (void)(x)
+
 void shell_loop(void)
 {
     char *line;
@@ -118,6 +120,8 @@ int shell_num_func()
 
 int shell_help(char **args)
 {
+    UNUSED(args);
+
     printf("Commandes Simips\n");
     for (uint8_t i = 0; i < shell_num_func(); i++) {
         printf(" %s\n", func_str[i]);
@@ -127,6 +131,8 @@ int shell_help(char **args)
 
 int shell_exit(char **args)
 {
+    UNUSED(args);
+
     return QUIT;
 }
 
@@ -227,12 +233,16 @@ pour rentrer sur un demi-mot\n");
 
 int shell_step(char **args)
 {
+    UNUSED(x);
+
     run_line();
     return 1;
 }
 
 int shell_stepi(char **args)
 {
+    UNUSED(x);
+
     run_line();
     return 1;
 }

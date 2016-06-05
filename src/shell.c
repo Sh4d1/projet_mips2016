@@ -259,11 +259,11 @@ int shell_sshot()
     fill_screenshot_name(filename);
 
     // ouverture du fichier et ecriture de l'entete
-    printf("0\n", );
+    printf("0\n");
     FILE *file = fopen(filename, "wb");
-    printf("1\n", );
+    printf("1\n");
     fprintf(file, "P6\n%d %d\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
-    printf("2\n", );
+    printf("2\n");
     unsigned char color[3];
 
     // ecriture de chaque pixel du framebuffer

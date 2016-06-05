@@ -255,7 +255,7 @@ int shell_stepi(char **args)
 
 int shell_sshot()
 {
-    char filename[40];
+    char filename[100];
     fill_screenshot_name(filename);
 
     // ouverture du fichier et ecriture de l'entete
@@ -294,5 +294,5 @@ void fill_screenshot_name(char *filename)
 {
     time_t t = time(NULL);
     struct tm *tmp = localtime(&t);
-    strftime(filename, 40, "screenshots/screenshot_%Y-%m-%d_%H:%M:%S.ppm", tmp);
+    strftime(filename, 100, "screenshots/screenshot_%Y-%m-%d_%H:%M:%S.ppm", tmp);
 }

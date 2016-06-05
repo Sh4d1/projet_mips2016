@@ -7,6 +7,7 @@
 
 void init_default_simips()
 {
+    printf("heellowflow\n");
     init_memory(0x1000000, true);
 }
 

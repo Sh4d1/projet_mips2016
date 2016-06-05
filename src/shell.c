@@ -12,6 +12,7 @@
 #include "../include/mem.h"
 #include "../include/gpr.h"
 #include "../include/instructions.h"
+#include "../include/framebuffer.h"
 
 void shell_loop(void)
 {

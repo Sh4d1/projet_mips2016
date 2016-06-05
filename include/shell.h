@@ -58,7 +58,7 @@ static int (*func_ptr[]) (char **) = {
 };
 
 /* shell_num_func : retourne le nombre de fonctions */
-int shell_nb_func();
+int shell_num_func();
 
 /* shell_loop : launch the shell lopp */
 void shell_loop(void);

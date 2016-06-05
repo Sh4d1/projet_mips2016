@@ -28,7 +28,8 @@ void shell_loop(void)
         line = shell_read_line();
         args = shell_split_line(line);
         status = shell_exec(args);
-    } while (status);
+        printf("%s\n", err_msgs[status]);
+    } while (status != QUIT);
     free(line);
     free(args);
 }
@@ -237,7 +238,7 @@ int shell_step(char **args)
     UNUSED(args);
 
     run_line();
-    return 1;
+    return OK;
 }
 
 int shell_stepi(char **args)
@@ -245,7 +246,7 @@ int shell_stepi(char **args)
     UNUSED(args);
 
     run_line();
-    return 1;
+    return OK;
 }
 
 int shell_sshot()

@@ -8,8 +8,15 @@
 #ifndef _SHELL_
 #define _SHELL_
 
-/* codes d'erreur */
+/* codes et messages d'erreur */
 enum {QUIT, OK, KO, UNKNOWN_FUNCTION, MISSING_ARGS};
+char *err_msgs[] = {
+    "Au revoir.",
+    "Commande effectuée sans erreur.",
+    "Erreur.",
+    "Fonction inconnue : essayez la commande help.",
+    "Arguments manquants"
+}
 
 /* liste des fonctions du shell */
 static char *func_str[] = {

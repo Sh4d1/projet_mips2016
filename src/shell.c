@@ -121,7 +121,7 @@ int shell_num_func()
 int shell_help(char **args)
 {
     printf("Commandes Simips\n");
-    for (uint8_t i = 0; i < shell_nb_func(); i++) {
+    for (uint8_t i = 0; i < shell_num_func(); i++) {
         printf(" %s\n", func_str[i]);
     }
     return OK;

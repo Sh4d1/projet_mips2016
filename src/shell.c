@@ -233,7 +233,7 @@ pour rentrer sur un demi-mot\n");
 
 int shell_step(char **args)
 {
-    UNUSED(x);
+    UNUSED(args);
 
     run_line();
     return 1;
@@ -241,7 +241,7 @@ int shell_step(char **args)
 
 int shell_stepi(char **args)
 {
-    UNUSED(x);
+    UNUSED(args);
 
     run_line();
     return 1;

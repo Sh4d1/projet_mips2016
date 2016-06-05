@@ -269,9 +269,9 @@ int shell_sshot()
         color[0] = get_byte(0xFFFF0600 + i);
         color[1] = get_byte(0xFFFF0600 + i);
         color[2] = get_byte(0xFFFF0600 + i);
-        printf("heelo\n");
         fwrite(color, 0, 2, file);
     }
+    printf("heelo\n");
 
     // fermeture du fichier
     fclose(file);

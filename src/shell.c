@@ -167,8 +167,8 @@ int shell_dasm(char **args)
         dasm_line(1);
     } else if (!strcmp("all", args[1])) {
         dasm();
-    } else { //if (isNumeric(args[1])) {
-        dasm_line(strtol(args[1], NULL, 10));
+    } else {
+        dasm_line(get_value_from_string(args[1]));
     }
     return OK;
 }

@@ -50,5 +50,12 @@ void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
 
 void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t instr_index);
 
+void run(uint32_t address);
+
+void run_line();
+
+void dasm_line(uint32_t n);
+
+void dasm();
 
 #endif /* end of include guard: _INSTRUCTIONS_ */

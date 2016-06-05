@@ -25,7 +25,7 @@ void init_simips_argv(int argc, char **argv)
         uint8_t t = 0;
         uint8_t d = 0;
         uint8_t s = 0;
-        for (uint32_t i = 1; i < argc; i++) {
+        for (int32_t i = 1; i < argc; i++) {
             if (strcmp(argv[i], "-s") == 0) {
                 init_simips(strtoul(argv[i+1], NULL, 16));
                 printf("0x%x\n", get_memory_size());

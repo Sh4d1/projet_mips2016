@@ -19,18 +19,16 @@ void shell_loop(void)
     char *line;
     char **args;
 
-    int8_t status;
+    uint8_t status = 0;
 
     do {
         printf("simips@test > ");
         line = shell_read_line();
         args = shell_split_line(line);
         status = shell_exec(args);
-
-        free(line);
-        free(args);
     } while (status);
-
+    free(line);
+    free(args);
 }
 
 #define SHELL_RL_BUFSIZE 1024
@@ -129,7 +127,7 @@ int shell_help(char **args)
 
 int shell_exit(char **args)
 {
-    return OK;
+    return QUIT;
 }
 
 int shell_load(char **args)
@@ -171,7 +169,7 @@ int shell_dasm(char **args)
         dasm_line(1);
     } else if (!strcmp("all", args[1])) {
         dasm();
-    } else if (isNumeric(args[1])) {
+    } else { //if (isNumeric(args[1])) {
         dasm_line(strtol(args[1], NULL, 10));
     }
     return OK;
@@ -197,7 +195,7 @@ int shell_dmem(char **args)
     } else {
         printf("Il manque un argument.\n");
     }
-    return 1;
+    return OK;
 }
 
 int shell_smem(char **args)
@@ -282,7 +280,7 @@ int shell_sshot()
 int shell_exec(char ** args)
 {
     if (!args[0]) {
-        // ligne vide
+        // ligne vide : ne rien faire
         return OK;
     }
     for (uint8_t i = 0; i < shell_num_func(); i++) {
@@ -290,10 +288,5 @@ int shell_exec(char ** args)
             return (*func_ptr[i])(args);
         }
     }
-    return KO;
-}
-
-void fill_screenshot_name(char *filename)
-{
-
+    return UNKNOWN_FUNCTION;
 }

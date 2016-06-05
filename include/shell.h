@@ -9,7 +9,7 @@
 #define _SHELL_
 
 /* codes d'erreur */
-enum {OK, KO};
+enum {QUIT, OK, KO, UNKNOWN_FUNCTION};
 
 /* liste des fonctions du shell */
 static char *func_str[] = {
@@ -71,7 +71,5 @@ char **shell_split_line(char *line);
 
 /* shell_exec : execute a command */
 int shell_exec(char ** args);
-
-void fill_screenshot_name(char *filename);
 
 #endif

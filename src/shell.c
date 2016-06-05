@@ -271,10 +271,10 @@ int shell_sshot()
     unsigned char color[3];
     uint8_t *pic = get_framebuffer();
     for (uint32_t i = 0; i < FRAMEBUFFER_W * FRAMEBUFFER_H; i++) {
+        color[0] = pic[i];
         color[1] = pic[i];
         color[2] = pic[i];
-        color[3] = pic[i];
-        fwrite(color, 1, 3, file);
+        fwrite(color, 0, 2, file);
     }
     fclose(file);
 }

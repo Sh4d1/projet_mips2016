@@ -80,7 +80,6 @@ void divi(uint8_t rs, uint8_t rt)
 {
         set_LO_value(get_register_value(rs) / get_register_value(rt));
         set_HI_value(get_register_value(rs) % get_register_value(rt));
-        return;
 }
 
 /* instructions logiques */

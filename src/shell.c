@@ -7,11 +7,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
+#include <time.h>
 #include "../include/shell.h"
 #include "../include/mem.h"
 #include "../include/gpr.h"
 #include "../include/instructions.h"
-#include "../include/framebuffer.h"
 
 void shell_loop(void)
 {
@@ -67,6 +67,7 @@ char *shell_read_line(void)
         position++;
 
         if (position >= bufsize) {
+            // on ne rentre jamais dans ce if ?
             bufsize += SHELL_RL_BUFSIZE;
             buffer = realloc(buffer, bufsize);
             if (!buffer) {
@@ -118,85 +119,73 @@ int shell_num_func()
 
 int shell_help(char **args)
 {
-    printf("Simips\n");
-    for (uint8_t i = 0; i < shell_num_func(); i++) {
+    printf("Commandes Simips\n");
+    for (uint8_t i = 0; i < shell_nb_func(); i++) {
         printf(" %s\n", func_str[i]);
     }
-
-    return 1;
+    return OK;
 }
 
 int shell_exit(char **args)
 {
-    return 0;
+    return OK;
 }
 
 int shell_load(char **args)
 {
-    if (args[1] == NULL) {
-        fprintf(stderr, "Pas assez d'arguments pour load\n");
-        return 1;
-    } else {
-        file_to_memory(args[1]);
+    if (!args[1]) {
+        fprintf(stderr, "usage : load input_file\n");
+        return KO;
     }
-    return 1;
+    file_to_memory(args[1]);
+    return OK;
 }
 
 int shell_dreg(char **args)
 {
-    if (args[1] == NULL) {
+    if (!args[1]) {
         print_gpr();
     } else {
-        uint32_t i = 1;
-        while (args[i] != NULL) {
+        uint32_t i = 0;
+        while (args[++i]) {
             print_a_gpr(args[i]);
-            i++;
         }
     }
-    return 1;
+    return OK;
 }
 
 int shell_run(char **args)
 {
-    if (args[1] != NULL) {
+    if (args[1]) {
         run(get_address_from_string(args[1]));
     } else {
         run(get_PC_value());
     }
-
-    return 1;
+    return OK;
 }
 
 int shell_dasm(char **args)
 {
-    if (args[1] == NULL) {
+    if (!args[1]) {
         dasm_line(1);
-    } else if (strcmp("all", args[1]) == 0) {
+    } else if (!strcmp("all", args[1])) {
         dasm();
     } else if (isNumeric(args[1])) {
         dasm_line(strtol(args[1], NULL, 10));
     }
-
-
-    return 1;
+    return OK;
 }
 
 int shell_sreg(char **args)
 {
-    uint32_t value;
-    if (strncmp("0x", args[2], 2) == 0) {
-        value = strtoul(args[2], NULL, 16);
-    } else {
-        value = strtol(args[2], NULL, 10);
-    }
-    if (isNumeric(args[1]) == 1) {
+    uint32_t value = (strncmp("0x", args[2], 2)) ? strtol(args[2], NULL, 10) : strtoul(args[2], NULL, 16);
+    if (isNumeric(args[1])) {
         set_register_value(atoi(args[1]), value);
     } else {
         set_register_value_by_name(args[1], value);
     }
-    return 1;
+    return OK;
 }
-
 
 int shell_dmem(char **args)
 {
@@ -265,30 +254,44 @@ int shell_stepi(char **args)
 
 int shell_sshot()
 {
-    FILE *file = fopen("screenshot.ppm", "wb");
+    char filename[40];
+    fill_screenshot_name(filename);
+
+    // ouverture du fichier et ecriture de l'entete
+    FILE *file = fopen(filename, "wb");
     fprintf(file, "P6\n%d %d\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
 
     unsigned char color[3];
-    uint8_t *pic = get_framebuffer();
+
+    // ecriture de chaque pixel du framebuffer
     for (uint32_t i = 0; i < FRAMEBUFFER_W * FRAMEBUFFER_H; i++) {
-        color[0] = pic[i];
-        color[1] = pic[i];
-        color[2] = pic[i];
+        color[0] = get_byte(0xFFFF0600 + i);
+        color[1] = get_byte(0xFFFF0600 + i);
+        color[2] = get_byte(0xFFFF0600 + i);
         fwrite(color, 0, 2, file);
     }
+
+    // fermeture du fichier
     fclose(file);
 }
 
 int shell_exec(char ** args)
 {
     if (!args[0]) {
-        // empty command
-        return FAIL;
+        // ligne vide
+        return OK;
     }
     for (uint8_t i = 0; i < shell_num_func(); i++) {
         if (!strcmp(args[0], func_str[i])) {
             return (*func_ptr[i])(args);
         }
     }
-    return FAIL;
+    return KO;
+}
+
+void fill_screenshot_name(char *filename)
+{
+    time_t t = time(NULL);
+    struct tm *tmp = localtime(&t);
+    strftime(filename, 40, "screenshots/screenshot_%Y-%m-%d_%H:%M:%S.ppm", tmp);
 }

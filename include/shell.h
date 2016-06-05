@@ -9,7 +9,7 @@
 #define _SHELL_
 
 /* codes d'erreur */
-enum {FAIL};
+enum {OK, KO};
 
 /* liste des fonctions du shell */
 static char *func_str[] = {
@@ -58,7 +58,7 @@ static int (*func_ptr[]) (char **) = {
 };
 
 /* shell_num_func : retourne le nombre de fonctions */
-int shell_num_func();
+int shell_nb_func();
 
 /* shell_loop : launch the shell lopp */
 void shell_loop(void);
@@ -72,5 +72,6 @@ char **shell_split_line(char *line);
 /* shell_exec : execute a command */
 int shell_exec(char ** args);
 
+void fill_screenshot_name(char *filename);
 
 #endif

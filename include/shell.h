@@ -9,12 +9,11 @@
 #define _SHELL_
 
 /* codes et messages d'erreur */
-enum {QUIT, OK, KO, WELCOME, UNKNOWN_FUNCTION, MISSING_ARGS, NO_FRAMEBUFFER};
+enum {QUIT, OK, KO, UNKNOWN_FUNCTION, MISSING_ARGS, NO_FRAMEBUFFER};
 char *err_msgs[] = {
     "Au revoir.",
     "Commande réalisée avec succès.",
     "Erreur.",
-    "Bienvenue dans le simulateur MIPS32. N'hésitez pas à utiliser la commande help.",
     "Fonction inconnue.",
     "Argument(s) manquant(s).",
     "Screenshot impossible, le framebuffer n'est pas activé."

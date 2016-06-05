@@ -9,7 +9,7 @@
 #define _SHELL_
 
 /* codes d'erreur */
-enum {QUIT, OK, KO, UNKNOWN_FUNCTION};
+enum {QUIT, OK, KO, UNKNOWN_FUNCTION, MISSING_ARGS};
 
 /* liste des fonctions du shell */
 static char *func_str[] = {

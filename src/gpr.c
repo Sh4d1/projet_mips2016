@@ -125,8 +125,7 @@ void advance_PC()
 
 uint32_t isNumeric(char *s)
 {
-    if (s == NULL || *s == '\0' || isspace(*s))
-        return 0;
+    if (s == NULL || *s == '\0' || isspace(*s)) return 0;
     char * p;
     strtod (s, &p);
     return *p == '\0';

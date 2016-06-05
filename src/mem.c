@@ -257,9 +257,9 @@ void diplay_memory_between(uint32_t address1, uint32_t address2)
     }
 }
 
-uint32_t get_address_from_string(char *address)
+uint32_t get_value_from_string(char *string)
 {
-    return strtoul(address, NULL, 16);
+    return (strncmp("0x", string, 2)) ? strtol(string, NULL, 16) : strtoul(string, NULL, 10);
 }
 
 /* libère la mémoire */

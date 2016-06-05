@@ -132,10 +132,8 @@ int shell_exit(char **args)
 
 int shell_load(char **args)
 {
-    if (!args[1]) {
-        fprintf(stderr, "usage : load input_file\n");
-        return KO;
-    }
+    if (!args[1]) return MISSING_ARGS;
+
     file_to_memory(args[1]);
     return OK;
 }
@@ -156,7 +154,7 @@ int shell_dreg(char **args)
 int shell_run(char **args)
 {
     if (args[1]) {
-        run(get_address_from_string(args[1]));
+        run(get_value_from_string(args[1]));
     } else {
         run(get_PC_value());
     }
@@ -177,64 +175,52 @@ int shell_dasm(char **args)
 
 int shell_sreg(char **args)
 {
-    uint32_t value = (strncmp("0x", args[2], 2)) ? strtol(args[2], NULL, 10) : strtoul(args[2], NULL, 16);
-    if (isNumeric(args[1])) {
-        set_register_value(atoi(args[1]), value);
-    } else {
-        set_register_value_by_name(args[1], value);
-    }
+    if (!args[2]) return MISSING_ARGS;
+
+    set_register_value_by_name(args[1], get_value_from_string(args[2]));
     return OK;
 }
 
 int shell_dmem(char **args)
 {
-    if (args[1] && !args[2]) {
-        display_memory(get_address_from_string(args[1]));
-    } else if (args[1] && args[2]) {
-        diplay_memory_between(get_address_from_string(args[1]), get_address_from_string(args[2]));
+    if (!args[1]) return MISSING_ARGS;
+
+    if (args[2]) {
+        diplay_memory_between(get_value_from_string(args[1]), get_value_from_string(args[2]));
     } else {
-        printf("Il manque un argument.\n");
+        display_memory(get_value_from_string(args[1]));
     }
     return OK;
 }
 
 int shell_smem(char **args)
 {
-    if (args[2]) {
-        uint32_t value;
-        if (!strncmp("0x", args[2], 2)) {
-            args[2]+=2;
-            value = strtoul(args[2], NULL, 16);
-            printf("%x\n", value);
+    if (!args[2]) return MISSING_ARGS;
+
+    uint32_t value = get_value_from_string(args[2]);
+    uint32_t nbOctets = (args[3]) ? get_value_from_string(args[3]) : 1;
+    switch (nbOctets) {
+    case 1:
+        if (is_byte(value)) {
+            set_byte(get_value_from_string(args[1]), value);
         } else {
-            value = strtol(args[2], NULL, 10);
-        }
-        uint32_t nbOctets = (args[3]) ? strtol(args[3], NULL, 10) : 1;
-        switch (nbOctets) {
-        case 1:
-            if (is_byte(value)) {
-                set_byte(get_address_from_string(args[1]), value);
-            } else {
-                fprintf(stderr, "La valeur est trop grande\
+            fprintf(stderr, "La valeur est trop grande\
 pour rentrer sur un octet\n");
-            }
-            break;
-        case 2:
-            if (is_half_word(value)) {
-                set_half_word(get_address_from_string(args[1]), value);
-            } else {
-                fprintf(stderr, "La valeur est trop grande\
-pour rentrer sur un demi-mot\n");
-            }
-            break;
-        case 4:
-            set_word(get_address_from_string(args[1]), value);
-            break;
-        default:
-            fprintf(stderr, "Le nombre d'octets à écrire est soit 1, 2 ou 4\n");
         }
-    } else {
-        fprintf(stderr, "Il manque des arguments\n");
+        break;
+    case 2:
+        if (is_half_word(value)) {
+            set_half_word(get_value_from_string(args[1]), value);
+        } else {
+            fprintf(stderr, "La valeur est trop grande\
+pour rentrer sur un demi-mot\n");
+        }
+        break;
+    case 4:
+        set_word(get_value_from_string(args[1]), value);
+        break;
+    default:
+        fprintf(stderr, "Le nombre d'octets à écrire est soit 1, 2 ou 4\n");
     }
     return OK;
 }
@@ -279,14 +265,11 @@ int shell_sshot()
 
 int shell_exec(char ** args)
 {
-    if (!args[0]) {
-        // ligne vide : ne rien faire
-        return OK;
-    }
+    // si ligne vide : ne rien faire
+    if (!args[0]) return OK;
+
     for (uint8_t i = 0; i < shell_num_func(); i++) {
-        if (!strcmp(args[0], func_str[i])) {
-            return (*func_ptr[i])(args);
-        }
+        if (!strcmp(args[0], func_str[i])) return (*func_ptr[i])(args);
     }
     return UNKNOWN_FUNCTION;
 }

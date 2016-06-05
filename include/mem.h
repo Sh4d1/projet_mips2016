@@ -94,7 +94,7 @@ void print_n_memory(uint32_t address, uint32_t n);
 void display_memory(uint32_t address);
 void diplay_memory_between(uint32_t address1, uint32_t address2);
 
-uint32_t get_address_from_string(char *address);
+uint32_t get_value_from_string(char *string)
 
 /* libère la mémoire */
 void free_memory();

@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "../include/mem.h"
 #include "../include/elf_reader.h"
 #include "../include/gpr.h"

@@ -259,9 +259,11 @@ int shell_sshot()
     fill_screenshot_name(filename);
 
     // ouverture du fichier et ecriture de l'entete
+    printf("0\n", );
     FILE *file = fopen(filename, "wb");
+    printf("1\n", );
     fprintf(file, "P6\n%d %d\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
-
+    printf("2\n", );
     unsigned char color[3];
 
     // ecriture de chaque pixel du framebuffer
@@ -293,11 +295,7 @@ int shell_exec(char ** args)
 
 void fill_screenshot_name(char *filename)
 {
-    printf("1\n");
     time_t t = time(NULL);
-    printf("2\n");
     struct tm *tmp = localtime(&t);
-    printf("3\n");
     strftime(filename, 100, "screenshots/screenshot_%Y-%m-%d_%H:%M:%S.ppm", tmp);
-    printf("hlloyow\n");
 }

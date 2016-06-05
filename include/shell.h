@@ -16,7 +16,7 @@ char *err_msgs[] = {
     "Erreur.",
     "Fonction inconnue : essayez la commande help.",
     "Arguments manquants"
-}
+};
 
 /* liste des fonctions du shell */
 static char *func_str[] = {

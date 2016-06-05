@@ -251,7 +251,7 @@ int shell_stepi(char **args)
 
 int shell_sshot()
 {
-    if (!get_frambuffer()) return NO_FRAMEBUFFER;
+    if (!get_framebuffer()) return NO_FRAMEBUFFER;
 
     // creation du nom de fichier en fonction de la date
     char filename[35];

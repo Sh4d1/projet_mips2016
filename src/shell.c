@@ -183,6 +183,7 @@ int shell_sreg(char **args)
 {
     if (!args[2]) return MISSING_ARGS;
 
+    printf("set_register_value_by_name(%s, get_value_from_string(%s));\n", args[1], args[2]);
     set_register_value_by_name(args[1], get_value_from_string(args[2]));
     return OK;
 }

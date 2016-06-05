@@ -21,8 +21,8 @@ void shell_loop(void)
     char *line;
     char **args;
 
+    printf("%s\n", WELCOME);
     uint8_t status = 0;
-
     do {
         printf("simips@test > ");
         line = shell_read_line();

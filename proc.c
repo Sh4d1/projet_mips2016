@@ -6,7 +6,8 @@
 
 int main()
 {
-    init_memory(0x1000000, false);
+    init_memory(0x1000000, true);
+
 
     free_memory();
     return 0;

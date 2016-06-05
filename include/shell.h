@@ -8,6 +8,25 @@
 #ifndef _SHELL_
 #define _SHELL_
 
+/* codes d'erreur */
+enum {FAIL};
+
+/* liste des fonctions du shell */
+static char *func_str[] = {
+    "help",
+    "exit",
+    "load",
+    "dreg",
+    "run",
+    "dasm",
+    "sreg",
+    "dmem",
+    "smem",
+    "step",
+    "stepi",
+    "sshot"
+};
+
 /* declarations des fonctions du shell */
 int shell_help(char **args);
 int shell_exit(char **args);
@@ -20,38 +39,26 @@ int shell_dmem(char **args);
 int shell_smem(char **args);
 int shell_step(char **args);
 int shell_stepi(char **args);
+int shell_sshot();
+
+/* tableau de pointeurs sur les differentes fonctions */
+static int (*func_ptr[]) (char **) = {
+    shell_help,
+    shell_exit,
+    shell_load,
+    shell_dreg,
+    shell_run,
+    shell_dasm,
+    shell_sreg,
+    shell_dmem,
+    shell_smem,
+    shell_step,
+    shell_stepi,
+    shell_sshot
+};
 
 /* shell_num_func : retourne le nombre de fonctions */
 int shell_num_func();
-
-/* liste des fonctions du shell, suivies de leur commandes */
-static char *func_str[] = {
-    "help",
-    "exit",
-    "load",
-    "dreg",
-    "run",
-    "dasm",
-    "sreg",
-    "dmem",
-    "smem",
-    "step",
-    "stepi"
-};
-
-static int (*func[]) (char **) = {
-    &shell_help,
-    &shell_exit,
-    &shell_load,
-    &shell_dreg,
-    &shell_run,
-    &shell_dasm,
-    &shell_sreg,
-    &shell_dmem,
-    &shell_smem,
-    &shell_step,
-    &shell_stepi
-};
 
 /* shell_loop : launch the shell lopp */
 void shell_loop(void);

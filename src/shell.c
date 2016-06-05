@@ -11,14 +11,7 @@
 #include "../include/mem.h"
 #include "../include/gpr.h"
 #include "../include/instructions.h"
-
-// int main(int argc, char **argv)
-// {
-//
-//     shell_loop(); // call the shell loop
-//
-//     return EXIT_SUCCESS; // everything went well
-// }
+#include "../include/framebuffer.h"
 
 void shell_loop(void)
 {
@@ -125,9 +118,8 @@ int shell_num_func()
 
 int shell_help(char **args)
 {
-    uint8_t i;
     printf("Simips\n");
-    for (i = 0; i < shell_num_func(); i++) {
+    for (uint8_t i = 0; i < shell_num_func(); i++) {
         printf(" %s\n", func_str[i]);
     }
 
@@ -208,9 +200,9 @@ int shell_sreg(char **args)
 
 int shell_dmem(char **args)
 {
-    if (args[1] != NULL && args[2] == NULL) {
+    if (args[1] && !args[2]) {
         display_memory(get_address_from_string(args[1]));
-    } else if (args[1] != NULL && args[2] != NULL) {
+    } else if (args[1] && args[2]) {
         diplay_memory_between(get_address_from_string(args[1]), get_address_from_string(args[2]));
     } else {
         printf("Il manque un argument.\n");
@@ -220,44 +212,38 @@ int shell_dmem(char **args)
 
 int shell_smem(char **args)
 {
-    if (args[2] != NULL) {
+    if (args[2]) {
         uint32_t value;
-        if (strncmp("0x", args[2], 2) == 0) {
+        if (!strncmp("0x", args[2], 2)) {
             args[2]+=2;
             value = strtoul(args[2], NULL, 16);
             printf("%x\n", value);
         } else {
             value = strtol(args[2], NULL, 10);
         }
-        uint32_t nbOctets;
-        if (args[3] == NULL) {
-            nbOctets = 1;
-        }
-        else {
-            nbOctets = strtol(args[3], NULL, 10);
-        }
+        uint32_t nbOctets = (args[3]) ? strtol(args[3], NULL, 10) : 1;
         switch (nbOctets) {
-            case 1:
-                if (is_byte(value)) {
-                    set_byte(get_address_from_string(args[1]), value);
-                } else {
-                    fprintf(stderr, "La valeur est trop grande\
+        case 1:
+            if (is_byte(value)) {
+                set_byte(get_address_from_string(args[1]), value);
+            } else {
+                fprintf(stderr, "La valeur est trop grande\
 pour rentrer sur un octet\n");
-                }
-                break;
-            case 2:
-                if (is_half_word(value)) {
-                    set_half_word(get_address_from_string(args[1]), value);
-                } else {
-                    fprintf(stderr, "La valeur est trop grande\
+            }
+            break;
+        case 2:
+            if (is_half_word(value)) {
+                set_half_word(get_address_from_string(args[1]), value);
+            } else {
+                fprintf(stderr, "La valeur est trop grande\
 pour rentrer sur un demi-mot\n");
-                }
-                break;
-            case 4:
-                set_word(get_address_from_string(args[1]), value);
-                break;
-            default:
-                fprintf(stderr, "Le nombre d'octets à écrire est soit 1, 2 ou 4\n");
+            }
+            break;
+        case 4:
+            set_word(get_address_from_string(args[1]), value);
+            break;
+        default:
+            fprintf(stderr, "Le nombre d'octets à écrire est soit 1, 2 ou 4\n");
         }
     } else {
         fprintf(stderr, "Il manque des arguments\n");
@@ -277,21 +263,30 @@ int shell_stepi(char **args)
     return 1;
 }
 
-
+int shell_sshot()
+{
+    FILE *file = fopen(filename, "wb");
+    fprintf(file, "P6\n%d %d\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
+    uint8_t *pic = get_framebuffer();
+    for (uint32_t i = 0; i < FRAMEBUFFER_W * FRAMEBUFFER_H; i++) {
+        color[1] = pic[i];
+        color[2] = pic[i];
+        color[3] = pic[i];
+        fwrite(color, 1, 3, file);
+    }
+    fclose(file);
+}
 
 int shell_exec(char ** args)
 {
-    uint8_t i;
-
-    if (args[0] == NULL) {
+    if (!args[0]) {
         // empty command
-        return 1;
+        return FAIL;
     }
-
-    for (i=0; i < shell_num_func(); i++) {
-        if (strcmp(args[0], func_str[i]) == 0) {
-            return (*func[i])(args);
+    for (uint8_t i = 0; i < shell_num_func(); i++) {
+        if (!strcmp(args[0], func_str[i])) {
+            return (*func_ptr[i])(args);
         }
     }
-    return 1;
+    return FAIL;
 }

@@ -32,7 +32,7 @@ void init_memory(uint32_t mem_size, bool framebuffer)
 void check_address(uint32_t address, uint8_t alignment)
 {
     if (address < 0xFFFF0600) {
-        if (address > memory.memory_size) {
+        if (address > get_memory_size()) {
             fprintf(stderr, "Adresse inexistante.\n");
             exit(EXIT_FAILURE);
         }
@@ -208,6 +208,11 @@ uint32_t get_memory_size()
     return memory.memory_size;
 }
 
+uint8_t *get_framebuffer()
+{
+    return memory.framebuffer;
+}
+
 /* recupere une chaine de charactere en memoire */
 void get_string(uint32_t address, char **string) {
     uint32_t string_length = 0;
@@ -219,13 +224,6 @@ void get_string(uint32_t address, char **string) {
 }
 
 /* affiche la mémoire */
-void print_memory()
-{
-    for (uint32_t i = 0; i < get_memory_size(); i++) {
-        printf("0x%04x : 0x%02x\n", i, get_byte(i));
-    }
-}
-
 void print_n_memory(uint32_t address, uint32_t n)
 {
     for (uint32_t i = address; i < address+n; i++) {

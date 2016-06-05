@@ -84,12 +84,12 @@ uint16_t get_half_word(uint32_t address);
 uint32_t get_word(uint32_t address);
 
 uint32_t get_memory_size();
+uint8_t *get_framebuffer();
 
 /* recupere une chaine de charactere en memoire */
 void get_string(uint32_t address, char **string);
 
 /* affiche la mémoire */
-void print_memory();
 void print_n_memory(uint32_t address, uint32_t n);
 void display_memory(uint32_t address);
 void diplay_memory_between(uint32_t address1, uint32_t address2);

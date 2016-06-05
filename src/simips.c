@@ -7,7 +7,7 @@
 
 void init_default_simips()
 {
-    init_memory(0x1000000, false);
+    init_memory(0x1000000, true);
 }
 
 void init_simips(uint32_t mem_size)

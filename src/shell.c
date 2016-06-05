@@ -265,8 +265,10 @@ int shell_stepi(char **args)
 
 int shell_sshot()
 {
-    FILE *file = fopen(filename, "wb");
+    FILE *file = fopen("screenshot.ppm", "wb");
     fprintf(file, "P6\n%d %d\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
+
+    unsigned char color[3];
     uint8_t *pic = get_framebuffer();
     for (uint32_t i = 0; i < FRAMEBUFFER_W * FRAMEBUFFER_H; i++) {
         color[1] = pic[i];

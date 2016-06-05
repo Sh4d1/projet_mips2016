@@ -292,6 +292,7 @@ int shell_exec(char ** args)
 
 void fill_screenshot_name(char *filename)
 {
+    printf("hlloyow\n");
     time_t t = time(NULL);
     struct tm *tmp = localtime(&t);
     strftime(filename, 100, "screenshots/screenshot_%Y-%m-%d_%H:%M:%S.ppm", tmp);

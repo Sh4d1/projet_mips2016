@@ -9,13 +9,14 @@
 #define _SHELL_
 
 /* codes et messages d'erreur */
-enum {QUIT, OK, KO, UNKNOWN_FUNCTION, MISSING_ARGS};
+enum {QUIT, OK, KO, UNKNOWN_FUNCTION, MISSING_ARGS, NO_FRAMEBUFFER};
 char *err_msgs[] = {
     "Au revoir.",
-    "Commande effectuée sans erreur.",
+    "Commande réalisée avec succès.",
     "Erreur.",
     "Fonction inconnue : essayez la commande help.",
-    "Arguments manquants"
+    "Arguments manquants",
+    "Screenshot impossible, le framebuffer n'est pas activé."
 };
 
 /* liste des fonctions du shell */

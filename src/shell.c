@@ -251,6 +251,8 @@ int shell_stepi(char **args)
 
 int shell_sshot()
 {
+    if (/* condition */) return NO_FRAMEBUFFER;
+
     // creation du nom de fichier en fonction de la date
     char filename[35];
     time_t t = time(NULL);
@@ -278,7 +280,7 @@ int shell_sshot()
 int shell_exec(char ** args)
 {
     // si ligne vide : ne rien faire
-    if (!args[0]) return OK;
+    if (!args[0]) return UNKNOWN_FUNCTION;
 
     for (uint8_t i = 0; i < shell_num_func(); i++) {
         if (!strcmp(args[0], func_str[i])) return (*func_ptr[i])(args);

@@ -250,7 +250,7 @@ int shell_sshot(char **args)
         struct tm *tmp = localtime(&t);
         strftime(filename, 50, "screenshots/screen_%Y-%m-%d_%H:%M:%S.ppm", tmp);
     } else {
-        strcmp(filename, args[2]);
+        strcpy(filename, args[2]);
     }
 
     // ouverture du fichier et ecriture de l'entete

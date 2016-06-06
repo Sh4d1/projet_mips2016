@@ -162,6 +162,9 @@ void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
         case ADD:
             printf("ADD $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
             break;
+        case ADDU:
+            printf("ADDU $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
+            break;
         case AND:
             printf("AND $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
             break;
@@ -181,7 +184,11 @@ void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
             printf("MULT $%s, $%s\n", get_register_name(rs), get_register_name(rt));
             break;
         case OR:
-            printf("OR $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
+            if (rt == 0) {
+                printf("MOVE $%s, $%s\n", get_register_name(rd), get_register_name(rs));
+            } else {
+                printf("OR $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
+            }
             break;
         case SLL:
             if (rd == 0 && rt == 0 && sa == 0) {
@@ -215,53 +222,53 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
     printf("0x%06x:\t%08x\t", get_PC_value()-4, get_word(get_PC_value()-4));
     switch (code) {
         case ADDI:
-            printf("ADDI $%s, $%s, %u\n", get_register_name(rt), get_register_name(rs), imm);
+            printf("ADDI $%s, $%s, %d\n", get_register_name(rt), get_register_name(rs), imm);
             break;
         case ADDIU:
             printf("ADDIU $%s, $%s, %u\n", get_register_name(rt), get_register_name(rs), imm);
             break;
         case BEQ:
             if (rs == 0 && rt == 0) {
-                printf("B %x <%s>\n", imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
+                printf("B 0x%hx <%s>\n", imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             } else {
-                printf("BEQ $%s, $%s, %x <%s>\n", get_register_name(rs), get_register_name(rt), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
+                printf("BEQ $%s, $%s, 0x%hx <%s>\n", get_register_name(rs), get_register_name(rt), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             }
             break;
         case BGTZ:
-            printf("BGTZ $%s, %x <%s>\n", get_register_name(rs), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
+            printf("BGTZ $%s, 0X%hx <%s>\n", get_register_name(rs), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             break;
         case BLEZ:
-            printf("BLEZ $%s, %x <%s>\n", get_register_name(rs), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
+            printf("BLEZ $%s, 0x%hx <%s>\n", get_register_name(rs), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             break;
         case BNE:
-            printf("BNE $%s, $%s, %x <%s>\n", get_register_name(rs), get_register_name(rt), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
+            printf("BNE $%s, $%s, 0x%hx <%s>\n", get_register_name(rs), get_register_name(rt), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             break;
         case LB:
-            printf("LB $%s, %u($%s)\n", get_register_name(rt), imm, get_register_name(rs));
+            printf("LB $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case LBU:
-            printf("LBU $%s, %u($%s)\n", get_register_name(rt), imm, get_register_name(rs));
+            printf("LBU $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case LUI:
-            printf("LUI $%s, 0x%x\n", get_register_name(rt), imm);
+            printf("LUI $%s, 0x%hx\n", get_register_name(rt), imm);
             break;
         case LW:
-            printf("LW $%s, %u($%s)\n", get_register_name(rt), imm, get_register_name(rs));
+            printf("LW $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case ORI:
-            printf("ORI $%s, $%s, 0x%x\n", get_register_name(rt), get_register_name(rs), imm);
+            printf("ORI $%s, $%s, 0x%hx\n", get_register_name(rt), get_register_name(rs), imm);
             break;
         case SB:
-            printf("SB $%s, %u($%s)\n", get_register_name(rt), imm, get_register_name(rs));
+            printf("SB $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case SW:
-            printf("SW $%s, %u($%s)\n", get_register_name(rt), imm, get_register_name(rs));
+            printf("SW $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case J:
-            printf("J %x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
+            printf("J 0x%x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
             break;
         case JAL:
-            printf("JAL %x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
+            printf("JAL 0x%x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
             break;
         default:
             printf("%x\n", get_word(get_PC_value()-4));

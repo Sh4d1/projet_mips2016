@@ -43,6 +43,7 @@ char *shell_read_line(void)
     char *buffer = malloc(sizeof(char)*bufsize);
     int32_t c;
 
+
     if (!buffer) {
         fprintf(stderr, "Shell : allocation error\n");
         exit(EXIT_FAILURE);

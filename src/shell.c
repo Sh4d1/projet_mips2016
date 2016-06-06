@@ -254,8 +254,10 @@ int shell_sshot()
     fprintf(file, "P5\n%d %d\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
 
     // ecriture de chaque pixel du framebuffer
+    unsigned char pixel;
     for (uint32_t i = 0; i < FRAMEBUFFER_W * FRAMEBUFFER_H; i++) {
-        fwrite(get_byte(0xFFFF0600 + i), sizeof(uint8_t), 1, file);
+        pixel = get_byte(0xFFFF0600 + i);
+        fwrite(pixel, 1, 1, file);
     }
 
     // fermeture du fichier

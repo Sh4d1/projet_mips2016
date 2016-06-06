@@ -251,15 +251,11 @@ int shell_sshot()
 
     // ouverture du fichier et ecriture de l'entete
     FILE *file = fopen(filename, "wb");
-    fprintf(file, "P6\n%d %d\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
+    fprintf(file, "P5\n%d %d\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
 
     // ecriture de chaque pixel du framebuffer
-    unsigned char color[3];
     for (uint32_t i = 0; i < FRAMEBUFFER_W * FRAMEBUFFER_H; i++) {
-        color[0] = get_byte(0xFFFF0600 + i);
-        color[1] = get_byte(0xFFFF0600 + i);
-        color[2] = get_byte(0xFFFF0600 + i);
-        fwrite(color, 0, 2, file);
+        fwrite(get_byte(0xFFFF0600 + i), 1, sizeof(uint8_t), file);
     }
 
     // fermeture du fichier

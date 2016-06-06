@@ -242,16 +242,22 @@ int shell_stepi()
 int shell_sshot(char **args)
 {
     if (!get_framebuffer()) return NO_FRAMEBUFFER;
-    
+
+    // creation du nom de fichier en fonction de la date
+    char filename[50];
+    time_t t = time(NULL);
+    struct tm *tmp = localtime(&t);
+    strftime(filename, 50, "screenshots/screen_%Y-%m-%d_%H:%M:%S.ppm", tmp);
 
     // ouverture du fichier et ecriture de l'entete
     FILE *file = fopen(filename, "wb");
-    fprintf(file, "P5\n%d %d\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
+    fprintf(file, "P5\n%u %u\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
 
     // ecriture de chaque pixel du framebuffer
+    unsigned char pixel;
     for (uint32_t i = 0; i < FRAMEBUFFER_W * FRAMEBUFFER_H; i++) {
-        //fwrite(get_byte(0xFFFF0600 + i), 1, 1, file);
-        fprintf(file, "%u\n", get_byte(0xFFFF0600 + i));
+        pixel = get_byte(0xFFFF0600 + i);
+        fwrite(&pixel, 1, 1, file);
     }
 
     // fermeture du fichier

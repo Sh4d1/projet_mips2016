@@ -271,7 +271,7 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
 void run(uint32_t address)
 {
     set_PC_value(address);
-    while(get_PC_value() <= get_text_end()) {
+    while(get_PC_value() < get_text_end()) {
         uint32_t word = get_word(get_PC_value());
         parse_instruction(word, false);
     }

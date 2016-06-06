@@ -244,13 +244,13 @@ int shell_sshot(char **args)
     if (!get_framebuffer()) return NO_FRAMEBUFFER;
 
     char filename[50];
-    if (!args[2]) {
+    if (!args[1]) {
         // creation du nom de fichier en fonction de la date
         time_t t = time(NULL);
         struct tm *tmp = localtime(&t);
         strftime(filename, 50, "screenshots/screen_%Y-%m-%d_%H:%M:%S.ppm", tmp);
     } else {
-        strcpy(filename, args[2]);
+        strcpy(filename, args[1]);
     }
 
     // ouverture du fichier et ecriture de l'entete

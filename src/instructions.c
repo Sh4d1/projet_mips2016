@@ -282,6 +282,10 @@ void dasm_line(uint32_t n)
     uint32_t word;
     uint32_t pc_back = get_PC_value();
     for (uint32_t i = 0; i < n; i++) {
+        char *sym = get_sym_from_address(get_PC_value());
+        if (sym) {
+            printf("%s\n", sym);
+        }
         word = get_word(get_PC_value());
         parse_instruction(word, true);
     }

@@ -37,14 +37,6 @@ void shell_loop(void)
 #define SHELL_RL_BUFSIZE 1024
 char *shell_read_line(void)
 {
-
-    /* may work --
-    char *line = NULL;
-    ssize_t bufsize = 0; // have getline allocate a buffer for us
-    getline(&line, &bufsize, stdin);
-    return line;
-    */
-
     int32_t bufsize = SHELL_RL_BUFSIZE;
     int32_t position = 0;
     char *buffer = malloc(sizeof(char)*bufsize);

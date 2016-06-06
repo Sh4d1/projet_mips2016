@@ -360,3 +360,13 @@ void reloge_data(struct elf_descr *elf)
     get_rel_data_section(elf, &data_data, &rel_data_size);
     reloge_section(data.address, get_data_bytes(), data_data, rel_data_size, table_sym.sym);
 }
+
+char* get_sym_from_address(uint32_t addr)
+{
+    for (size_t i = 0; i < table_sym.size; i++) {
+        if (table_sym.sym[i].adresse == addr) {
+            return table_sym.sym[i].nom;
+        }
+    }
+    return NULL;
+}

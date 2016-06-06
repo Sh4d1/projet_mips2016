@@ -6,55 +6,43 @@
 #include "../include/mem.h"
 #include "../include/shell.h"
 
-void init_default_simips()
-{
-    init_memory(0x1000000, false);
-}
-
-void init_simips(uint32_t mem_size)
-{
-    init_memory(mem_size, false);
-}
-
 void init_simips_argv(int argc, char **argv)
 {
-    if (argc == 1) {
-        init_default_simips();
-        set_text_address(0x400000);
-    } else {
-        uint8_t t = 0;
-        uint8_t d = 0;
-        uint8_t s = 0;
-        for (int32_t i = 1; i < argc; i++) {
-            if (strcmp(argv[i], "-s") == 0) {
-                init_simips(strtoul(argv[i+1], NULL, 16));
-                printf("0x%x\n", get_memory_size());
-                i++;
-                s = 1;
-            }
-            if (strcmp(argv[i], "-t") == 0) {
-                set_text_address(strtoul(argv[i+1], NULL, 16));
-                i++;
-                t = 1;
-            }
-            if (strcmp(argv[i], "-d") == 0) {
-                set_data_address(strtoul(argv[i+1], NULL, 16));
-                i++;
-                d = 1;
-            }
+    uint32_t mem_size = 0x1000000;
+    uint32_t text_address = 0x400000;
+    uint32_t data_address = 0;
+    bool fb = false;
+    bool t = false;
+    bool d = false;
+    for (int32_t i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-s") == 0) {
+            mem_size = strtoul(argv[i+1], NULL, 16);
+            i++;
         }
-        if (s == 0) {
-            init_default_simips();
+        if (strcmp(argv[i], "-t") == 0) {
+            text_address = strtoul(argv[i+1], NULL, 16);
+            i++;
+            t = true;
         }
-        if (d == 1 && t == 0) {
-            set_data_address(0);
-            printf("Option -d non prise en compte\n");
+        if (strcmp(argv[i], "-d") == 0) {
+            data_address = strtoul(argv[i+1], NULL, 16);
+            i++;
+            d = true;
         }
-        if (t == 0) {
-            set_text_address(0x400000);
-            set_data_address(0);
+        if(strcmp(argv[i], "-fb") == 0) {
+            fb = true;
+        }
+        if(strcmp(argv[i], "-no-fb") == 0) {
+            fb = false;
         }
     }
+    if (d && !t) {
+        data_address = 0;
+        printf("Option -d non prise en compte\n");
+    }
+    init_memory(mem_size, fb);
+    set_text_address(text_address);
+    set_data_address(data_address);
 }
 
 int main(int argc, char **argv)

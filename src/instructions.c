@@ -286,6 +286,21 @@ void run(uint32_t address)
 
 void run_line()
 {
+    uint32_t pc_back = get_PC_value();
+    uint32_t word = get_word(get_PC_value());
+    parse_instruction(word, false);
+    if (pc_back + 8 == get_register_value(RA)) {
+        while (get_PC_value() != pc_back + 8) {
+            word = get_word(get_PC_value());
+            parse_instruction(word, false);
+        }
+    }
+
+
+}
+
+void runi_line()
+{
     uint32_t word = get_word(get_PC_value());
     parse_instruction(word, false);
 }

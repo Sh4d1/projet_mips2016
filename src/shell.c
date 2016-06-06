@@ -267,7 +267,7 @@ int shell_step()
 
 int shell_stepi()
 {
-    run_line();
+    runi_line();
     return OK;
 }
 

@@ -170,7 +170,6 @@ void set_half_word(uint32_t address, uint16_t value)
 /* change la valeur d'un mot en mémoire */
 void set_word(uint32_t address, uint32_t value)
 {
-    printf("%u\n", address);
     check_address(address, 4);
     set_half_word(address, value >> 16);
     set_half_word(address + 2, value);

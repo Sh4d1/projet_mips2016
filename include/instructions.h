@@ -54,6 +54,8 @@ void run(uint32_t address);
 
 void run_line();
 
+void runi_line();
+
 void dasm_line(uint32_t n);
 
 void dasm();

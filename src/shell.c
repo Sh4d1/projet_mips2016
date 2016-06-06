@@ -8,6 +8,9 @@
 #include <string.h>
 #include <inttypes.h>
 #include <time.h>
+#include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "../include/shell.h"
 #include "../include/mem.h"
 #include "../include/gpr.h"
@@ -16,6 +19,32 @@
 
 void shell_loop(void)
 {
+#ifdef READLINE
+
+    char* input, shell_prompt[100];
+    char **args;
+    // Configure readline to auto-complete paths when the tab key is hit.
+    rl_bind_key('\t', rl_complete);
+
+    printf("Bienvenue dans le simulateur MIPS32. N'hésitez pas à utiliser la commande help.\n");
+    uint8_t status = 0;
+    do {
+
+        snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", getenv("USER"), getcwd(NULL, 1024));
+        input = readline(shell_prompt);
+        add_history(input);
+        args = shell_split_line(input);
+        status = shell_exec(args);
+        if (status != OK) {
+            printf("%s\n", err_msgs[status]);
+        }
+
+        if (!input)
+            break;
+        free(input);
+        free(args);
+    } while (status != QUIT);
+#else
     char *line;
     char **args;
 
@@ -32,6 +61,8 @@ void shell_loop(void)
         free(line);
         free(args);
     } while (status != QUIT);
+#endif
+
 
 }
 

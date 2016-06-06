@@ -273,6 +273,10 @@ void free_memory()
         framebuffer_close_display();
     }
     free(memory.memory);
+    for (size_t i = 0; i < table_sym.size; i++) {
+        free(table_sym.sym[i].nom);
+    }
+    free(table_sym.sym);
 }
 
 void file_to_memory(char *file)
@@ -338,6 +342,7 @@ void file_to_memory(char *file)
 
         reloge_text(elf);
         reloge_data(elf);
+
     } else { /* sinon erreur ? */
         fprintf(stderr, "Erreur ELF\n");
     }

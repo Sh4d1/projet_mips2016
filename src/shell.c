@@ -29,9 +29,10 @@ void shell_loop(void)
         if (status != OK) {
             printf("%s\n", err_msgs[status]);
         }
+        free(line);
+        free(args);
     } while (status != QUIT);
-    free(line);
-    free(args);
+
 }
 
 #define SHELL_RL_BUFSIZE 1024
@@ -91,12 +92,8 @@ char **shell_split_line(char *line)
         position++;
 
         if (position >= bufsize) {
-            bufsize += SHELL_TOK_BUFSIZE;
-            tokens = realloc(tokens, bufsize * sizeof(char*));
-            if (!tokens) {
                 fprintf(stderr, "Shell : allocation error\n");
                 exit(EXIT_FAILURE);
-            }
         }
 
         token = strtok(NULL, SHELL_TOK_DELIM);

@@ -22,7 +22,7 @@ struct section {
 
 struct table_symboles {
     struct symbole *sym;
-    uint32_t size;
+    size_t size;
 };
 
 struct memory memory;
@@ -101,7 +101,6 @@ void free_memory();
 
 void file_to_memory(char *file);
 
-void reloge(struct elf_descr *elf);
 void reloge_text(struct elf_descr *elf);
 void reloge_data(struct elf_descr *elf);
 

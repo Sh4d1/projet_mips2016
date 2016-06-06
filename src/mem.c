@@ -334,49 +334,29 @@ void file_to_memory(char *file)
         }
         set_data_section(data_bytes, data_size, get_data_address(), data_align);
         set_bss_section(bss_size, get_data_end(), bss_align);
-        // reloge(elf);
         reloge_symboles(symtab, sym_size, strtab, text.address, data.address, bss.address, &(table_sym.sym), &(table_sym.size));
 
-        Elf32_Rel *text_data = NULL;
-        size_t rel_text_size = 0;
-        get_rel_text_section(elf, &text_data, &rel_text_size);
-        reloge_section(text.address, get_text_bytes(), text_data, rel_text_size, table_sym.sym);
-
-        Elf32_Rel *data_data = NULL;
-        size_t rel_data_size = 0;
-        get_rel_data_section(elf, &data_data, &rel_data_size);
-        reloge_section(data.address, get_data_bytes(), data_data, rel_data_size, table_sym.sym);
-
-        //printf("%x %x %x\n", get_text_address()+get_text_size(), get_text_size(), get_data_address());
-
+        reloge_text(elf);
+        reloge_data(elf);
     } else { /* sinon erreur ? */
         fprintf(stderr, "Erreur ELF\n");
-    }
-
-
-    for (int i = 0; i < table_sym.size; i++) {
-        printf("%x : %s\n", table_sym.sym[i].adresse, table_sym.sym[i].nom);
     }
 
     close_elf(elf);
 }
 
-void reloge(struct elf_descr *elf)
-{
-    reloge_text(elf);
-    reloge_data(elf);
-}
-
 void reloge_text(struct elf_descr *elf)
 {
-    Elf32_Rel *data = NULL;
-    size_t size = 0;
-    get_rel_text_section(elf, &data, &size);
-    // reloge_section(text.addr, memory.memory_case, data, size, )
-
+    Elf32_Rel *text_data = NULL;
+    size_t rel_text_size = 0;
+    get_rel_text_section(elf, &text_data, &rel_text_size);
+    reloge_section(text.address, get_text_bytes(), text_data, rel_text_size, table_sym.sym);
 }
 
 void reloge_data(struct elf_descr *elf)
 {
-    int i = 0;
+    Elf32_Rel *data_data = NULL;
+    size_t rel_data_size = 0;
+    get_rel_data_section(elf, &data_data, &rel_data_size);
+    reloge_section(data.address, get_data_bytes(), data_data, rel_data_size, table_sym.sym);
 }

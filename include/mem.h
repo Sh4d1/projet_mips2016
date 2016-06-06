@@ -104,4 +104,9 @@ void file_to_memory(char *file);
 void reloge_text(struct elf_descr *elf);
 void reloge_data(struct elf_descr *elf);
 
+char *get_sym_from_address(uint32_t addr);
+
+void dasm_text();
+void dasm_data();
+
 #endif /* end of include guard: _MEM_ */

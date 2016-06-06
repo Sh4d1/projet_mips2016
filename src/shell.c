@@ -170,7 +170,8 @@ int shell_dasm(char **args)
     if (!args[1]) {
         dasm_line(1);
     } else if (!strcmp("all", args[1])) {
-        dasm();
+        dasm_text();
+        dasm_data();
     } else {
         dasm_line(get_value_from_string(args[1]));
     }

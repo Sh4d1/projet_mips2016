@@ -184,7 +184,11 @@ void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
             printf("OR $%u, $%u, $%u\n", rd, rs, rt);
             break;
         case SLL:
-            printf("SLL $%u, $%u, %u\n", rd, rt, sa);
+            if (rd == 0 && rt == 0 && sa == 0) {
+                printf("NOP\n");
+            } else {
+                printf("SLL $%u, $%u, %u\n", rd, rt, sa);
+            }
             break;
         case SLT:
             printf("SLT $%u, $%u, $%u\n", rd, rs, rt);
@@ -202,7 +206,7 @@ void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
             printf("XOR $%u, $%u, $%u\n", rd, rs, rt);
             break;
         default:
-            printf("R %u\n", code);
+            printf("%x\n", get_word(get_PC_value()-4));
     }
 }
 
@@ -217,7 +221,11 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
             printf("ADDIU $%u, $%u, %u\n", rt, rs, imm);
             break;
         case BEQ:
-            printf("BEQ $%u, $%u, %u\n", rs, rt, imm);
+            if (rs == 0 && rt == 0) {
+                printf("B %x <%s>\n", imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
+            } else {
+                printf("BEQ $%u, $%u, %u\n", rs, rt, imm);
+            }
             break;
         case BGTZ:
             printf("BGTZ $%u, %u\n", rs, imm);
@@ -235,7 +243,7 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
             printf("LBU $%u, %u($%u)\n", rt, imm, rs);
             break;
         case LUI:
-            printf("LUI $%u, %u\n", rt, imm);
+            printf("LUI $%u, %x\n", rt, imm);
             break;
         case LW:
             printf("LW $%u, %u($%u)\n", rt, imm, rs);
@@ -250,13 +258,13 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
             printf("SW $%u, %u($%u)\n", rt, imm, rs);
             break;
         case J:
-            printf("J %u\n", instr_index);
+            printf("J %x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
             break;
         case JAL:
-            printf("JAL %u\n", instr_index);
+            printf("JAL %x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
             break;
         default:
-            printf("IJ %u\n", code);
+            printf("%x\n", get_word(get_PC_value()-4));
     }
 }
 
@@ -264,10 +272,8 @@ void run(uint32_t address)
 {
     set_PC_value(address);
     while(get_PC_value() <= get_text_end()) {
-        //printf("%u\n", get_PC_value());
         uint32_t word = get_word(get_PC_value());
         parse_instruction(word, false);
-        //printf("%x - %x\n", get_PC_value(), get_text_end());
     }
 }
 
@@ -284,7 +290,7 @@ void dasm_line(uint32_t n)
     for (uint32_t i = 0; i < n; i++) {
         char *sym = get_sym_from_address(get_PC_value());
         if (sym) {
-            printf("%s\n", sym);
+            printf("<%s>\n", sym);
         }
         word = get_word(get_PC_value());
         parse_instruction(word, true);
@@ -292,12 +298,35 @@ void dasm_line(uint32_t n)
     set_PC_value(pc_back);
 }
 
-void dasm()
+
+void dasm_text()
 {
-    while (get_word(get_PC_value()) != 0) {
-        //printf("%u\n", get_PC_value());
+    uint32_t pc_back = get_PC_value();
+    printf("\nDessasemblage de la section .text\n");
+    set_PC_value(text.address);
+    while(get_PC_value() < get_text_end()) {
         uint32_t word = get_word(get_PC_value());
+        char *sym = get_sym_from_address(get_PC_value());
+        if (sym) {
+            printf("<%s>:\n", sym);
+        }
         parse_instruction(word, true);
-        set_PC_value(get_PC_value()+4);
     }
+    set_PC_value(pc_back);
+}
+
+void dasm_data()
+{
+    uint32_t pc_back = get_PC_value();
+    printf("\nDessasemblage de la section .data\n");
+    set_PC_value(data.address);
+    while(get_PC_value() < get_data_end()) {
+        uint32_t word = get_word(get_PC_value());
+        char *sym = get_sym_from_address(get_PC_value());
+        if (sym) {
+            printf("<%s>:\n", sym);
+        }
+        parse_instruction(word, true);
+    }
+    set_PC_value(pc_back);
 }

@@ -365,7 +365,15 @@ char* get_sym_from_address(uint32_t addr)
 {
     for (size_t i = 0; i < table_sym.size; i++) {
         if (table_sym.sym[i].adresse == addr) {
-            return table_sym.sym[i].nom;
+            if (strcmp(table_sym.sym[i].nom, ".text")) {
+                if (strcmp(table_sym.sym[i].nom, ".data")) {
+                    if (strcmp(table_sym.sym[i].nom, ".bss")) {
+                        if (strcmp(table_sym.sym[i].nom, "")) {
+                            return table_sym.sym[i].nom;
+                        }
+                    }
+                }
+            }
         }
     }
     return NULL;

@@ -35,9 +35,41 @@ static char *func_str[] = {
     "sshot"
 };
 
+/* descriptions des fonctions */
+static char *func_desc_str[] = {
+    "Affiche l'aide",
+    "Quitte le simulateur",
+    "charge un fichier (load filename)",
+    "affiche un ou tout les registres",
+    "exécute le programme",
+    "affiche le code désassemblé",
+    "modifie un registre",
+    "affiche la mémoire",
+    "modifie la mémoire",
+    "step",
+    "stepi",
+    "sshot"
+};
+
+/* aide pour les fonctions */
+static char *func_help_str[] = {
+    "Syntaxe : help [<command>]\nAffiche l'aide d'une commande et sa syntaxe.",
+    "Syntaxe : exit\nQuitte le simulateur.",
+    "Syntaxe : load <filename>\nLes données lues dans le fichier filename sont placées en mémoire.",
+    "Syntaxe : dreg [<registerName>]\nAffiche en héxadécimale la valeur du registre. Si il est omis tout les registres seront affichés.",
+    "Syntaxe : run [<adresse>]\nCharge PC avec l'adresse fournie et lance le microprocesseur. Si l'adresse est omise, il se lance à l'adresse courante de PC.",
+    "Syntaxe : dasm [n | all]\nSans option : désassemblage de l'instruction courante.\nParamètre entier n : désassemblage de n instuctions suivantes à partir de l'instruction courante.\nParamètre all : Désassemblage de tout le programme.",
+    "modifie un registre",
+    "affiche la mémoire",
+    "modifie la mémoire",
+    "step",
+    "stepi",
+    "sshot"
+};
+
 /* declarations des fonctions du shell */
 int shell_help(char **args);
-int shell_exit(char **args);
+int shell_exit();
 int shell_load(char **args);
 int shell_dreg(char **args);
 int shell_run(char **args);
@@ -45,8 +77,8 @@ int shell_dasm(char **args);
 int shell_sreg(char **args);
 int shell_dmem(char **args);
 int shell_smem(char **args);
-int shell_step(char **args);
-int shell_stepi(char **args);
+int shell_step();
+int shell_stepi();
 int shell_sshot();
 
 /* tableau de pointeurs sur les differentes fonctions */

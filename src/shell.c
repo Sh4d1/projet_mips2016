@@ -14,8 +14,6 @@
 #include "../include/instructions.h"
 #include "../include/framebuffer.h"
 
-#define UNUSED(x) (void)(x)
-
 void shell_loop(void)
 {
     char *line;
@@ -24,12 +22,13 @@ void shell_loop(void)
     printf("Bienvenue dans le simulateur MIPS32. N'hésitez pas à utiliser la commande help.\n");
     uint8_t status = 0;
     do {
-        fflush(stdin);
-        printf("simips@test > ");
+        printf("simips > ");
         line = shell_read_line();
         args = shell_split_line(line);
         status = shell_exec(args);
-        printf("%s\n", err_msgs[status]);
+        if (status != OK) {
+            printf("%s\n", err_msgs[status]);
+        }
     } while (status != QUIT);
     free(line);
     free(args);
@@ -122,19 +121,24 @@ int shell_num_func()
 
 int shell_help(char **args)
 {
-    UNUSED(args);
-
-    printf("Commandes Simips\n");
-    for (uint8_t i = 0; i < shell_num_func(); i++) {
-        printf(" %s\n", func_str[i]);
+    if (!args[1]) {
+        printf("Commandes Simips\nPour plus d'aide taper help <nom de la fonction>\n");
+        for (uint8_t i = 0; i < shell_num_func(); i++) {
+            printf(" %5s : %s\n", func_str[i], func_desc_str[i]);
+        }
+    } else {
+        for (uint8_t i = 0; i < shell_num_func(); i++) {
+            if (strcmp(args[1], func_str[i]) == 0) {
+                printf("%s\n", func_help_str[i]);
+            }
+        }
     }
+
     return OK;
 }
 
-int shell_exit(char **args)
+int shell_exit()
 {
-    UNUSED(args);
-
     return QUIT;
 }
 
@@ -233,18 +237,14 @@ pour rentrer sur un demi-mot\n");
     return OK;
 }
 
-int shell_step(char **args)
+int shell_step()
 {
-    UNUSED(args);
-
     run_line();
     return OK;
 }
 
-int shell_stepi(char **args)
+int shell_stepi()
 {
-    UNUSED(args);
-
     run_line();
     return OK;
 }

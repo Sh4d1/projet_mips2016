@@ -255,7 +255,7 @@ int shell_sshot()
 
     // ecriture de chaque pixel du framebuffer
     for (uint32_t i = 0; i < FRAMEBUFFER_W * FRAMEBUFFER_H; i++) {
-        fwrite(get_byte(0xFFFF0600 + i), 1, sizeof(uint8_t), file);
+        fwrite(get_byte(0xFFFF0600 + i), sizeof(uint8_t), 1, file);
     }
 
     // fermeture du fichier

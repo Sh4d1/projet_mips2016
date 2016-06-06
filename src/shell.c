@@ -239,15 +239,10 @@ int shell_stepi()
     return OK;
 }
 
-int shell_sshot()
+int shell_sshot(char **args)
 {
     if (!get_framebuffer()) return NO_FRAMEBUFFER;
-
-    // creation du nom de fichier en fonction de la date
-    char filename[35];
-    time_t t = time(NULL);
-    struct tm *tmp = localtime(&t);
-    strftime(filename, 35, "screenshots/screenshot_%Y-%m-%d_%H:%M:%S.ppm", tmp);
+    
 
     // ouverture du fichier et ecriture de l'entete
     FILE *file = fopen(filename, "wb");
@@ -264,7 +259,7 @@ int shell_sshot()
     return OK;
 }
 
-int shell_exec(char ** args)
+int shell_exec(char **args)
 {
     // si ligne vide : ne rien faire
     if (!args[0]) return UNKNOWN_FUNCTION;

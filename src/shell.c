@@ -239,25 +239,29 @@ int shell_stepi()
     return OK;
 }
 
-int shell_sshot()
+int shell_sshot(char **args)
 {
     if (!get_framebuffer()) return NO_FRAMEBUFFER;
 
-    // creation du nom de fichier en fonction de la date
     char filename[50];
-    time_t t = time(NULL);
-    struct tm *tmp = localtime(&t);
-    strftime(filename, 50, "screenshots/screen_%Y-%m-%d_%H:%M:%S.ppm", tmp);
+    if (!args[1]) {
+        // creation du nom de fichier en fonction de la date
+        time_t t = time(NULL);
+        struct tm *tmp = localtime(&t);
+        strftime(filename, 50, "screenshots/screen_%Y-%m-%d_%H:%M:%S.ppm", tmp);
+    } else {
+        strcpy(filename, args[1]);
+    }
 
     // ouverture du fichier et ecriture de l'entete
     FILE *file = fopen(filename, "wb");
     fprintf(file, "P5\n%u %u\n255\n", FRAMEBUFFER_W, FRAMEBUFFER_H);
 
     // ecriture de chaque pixel du framebuffer
+    unsigned char pixel;
     for (uint32_t i = 0; i < FRAMEBUFFER_W * FRAMEBUFFER_H; i++) {
-        unsigned char color = get_byte(0xFFFF0600 + i);
-        fwrite(&color, 1, 1, file);
-        //fprintf(file, "%u\n", get_byte(0xFFFF0600 + i));
+        pixel = get_byte(0xFFFF0600 + i);
+        fwrite(&pixel, 1, 1, file);
     }
 
     // fermeture du fichier
@@ -265,7 +269,7 @@ int shell_sshot()
     return OK;
 }
 
-int shell_exec(char ** args)
+int shell_exec(char **args)
 {
     // si ligne vide : ne rien faire
     if (!args[0]) return UNKNOWN_FUNCTION;

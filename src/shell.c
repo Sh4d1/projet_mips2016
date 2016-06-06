@@ -24,6 +24,7 @@ void shell_loop(void)
     printf("Bienvenue dans le simulateur MIPS32. N'hésitez pas à utiliser la commande help.\n");
     uint8_t status = 0;
     do {
+        fflush(stdin);
         printf("simips@test > ");
         line = shell_read_line();
         args = shell_split_line(line);

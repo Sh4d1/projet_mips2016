@@ -10,7 +10,7 @@
 
 /* codes et messages d'erreur */
 enum {QUIT, OK, KO, UNKNOWN_FUNCTION, MISSING_ARGS, NO_FRAMEBUFFER};
-char *err_msgs[] = {
+static char *err_msgs[] = {
     "Au revoir.",
     "Commande réalisée avec succès.",
     "Erreur.",

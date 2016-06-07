@@ -35,7 +35,7 @@ void shell_loop(void)
         add_history(input);
         args = shell_split_line(input);
         status = shell_exec(args);
-        if (status != OK) {
+        if (status != OK && status != EMPTY_LINE) {
             printf("%s\n", err_msgs[status]);
         }
 
@@ -329,7 +329,7 @@ int shell_dbp()
 int shell_exec(char **args)
 {
     // si ligne vide : ne rien faire
-    if (!args[0]) return UNKNOWN_FUNCTION;
+    if (!args[0]) return EMPTY_LINE;
 
     for (uint8_t i = 0; i < shell_num_func(); i++) {
         if (!strcmp(args[0], func_str[i])) return (*func_ptr[i])(args);

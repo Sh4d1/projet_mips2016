@@ -225,7 +225,7 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
             printf("ADDI $%s, $%s, %d\n", get_register_name(rt), get_register_name(rs), imm);
             break;
         case ADDIU:
-            printf("ADDIU $%s, $%s, %u\n", get_register_name(rt), get_register_name(rs), imm);
+            printf("ADDIU $%s, $%s, %d\n", get_register_name(rt), get_register_name(rs), imm);
             break;
         case BEQ:
             if (rs == 0 && rt == 0) {

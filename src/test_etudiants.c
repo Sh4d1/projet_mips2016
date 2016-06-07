@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     printf("\nInfos sur la section .text: adresse 0x%x, taille %lu, alignement %hhd\n",
            text_addr, text_size, text_align);
 
-    for (int i = 0; i < text_size; i++) {
+    for (size_t i = 0; i < text_size; i++) {
         printf("%02x ", text_bytes[i]);
         if ((i+1) % 4 == 0) {
             printf("\n");

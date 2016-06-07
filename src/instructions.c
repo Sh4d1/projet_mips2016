@@ -278,7 +278,15 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
 void run(uint32_t address)
 {
     set_PC_value(address);
+    bool bp_first_addr = false;
+    if (is_bp(get_PC_value())) {
+        bp_first_addr = true;
+    }
+
     while(get_PC_value() < get_text_end()) {
+        if (is_bp(get_PC_value()) && !bp_first_addr) {
+            break;
+        }
         uint32_t word = get_word(get_PC_value());
         parse_instruction(word, false);
     }
@@ -417,5 +425,21 @@ void free_bp()
         tmp = tmp->next;
         free(breakpoint);
         breakpoint = tmp;
+    }
+}
+
+bool is_bp(uint32_t addr)
+{
+    if (!breakpoint) {
+        return false;
+    } else {
+        struct bp *tmp = breakpoint;
+        while(tmp) {
+            if (tmp->address == addr) {
+                return true;
+            }
+            tmp = tmp->next;
+        }
+        return false;
     }
 }

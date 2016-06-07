@@ -75,4 +75,6 @@ void display_bp();
 
 void free_bp();
 
+bool is_bp(uint32_t addr);
+
 #endif /* end of include guard: _INSTRUCTIONS_ */

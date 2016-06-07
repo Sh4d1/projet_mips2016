@@ -5,7 +5,7 @@
 #include "../include/mem.h"
 #include "../include/elf_reader.h"
 #include "../include/gpr.h"
-#include "../include/framebuffer_s.h"
+#include "../include/framebuffer.h"
 #include "../include/instructions.h"
 
 /* initialise la mémoire */

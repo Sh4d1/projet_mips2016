@@ -6,6 +6,7 @@ LDFLAGS = -lSDL -lreadline  # si besoin pour le framebuffer...
 INCDIR=./include
 SRCDIR=./src
 OBJDIR=./obj
+TSTDIR=./test
 
 # les objets a ne pas compiler (ni effacer lors du clean!)
 OBJ_PROF=elf_reader.o relocation.o framebuffer.o
@@ -13,8 +14,9 @@ OBJ_PROF=elf_reader.o relocation.o framebuffer.o
 # ce qui est a vous
 SRC=$(wildcard $(SRCDIR)/*.c)
 OBJ=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+TST=$(wildcard $(TSTDIR)/*.s)
 
-all: test_etudiants
+all: test_etudiants simips
 
 $(OBJDIR)/test_etudiants.o: $(SRCDIR)/test_etudiants.c $(INCDIR)/elf_reader.h
 	$(CC) -c $(CFLAGS) $< -o $@
@@ -53,6 +55,9 @@ $(OBJDIR)/simips-no-readline.o: $(SRCDIR)/simips.c
 	$(CC) -c $(CFLAGS) $< -o $@
 simips-no-readline: $(OBJDIR)/simips-no-readline.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell-no-readline.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer.o
 	$(CC) $(LDFLAGS) $^ -o $@
+
+compile_tests: $(TST)
+	mips-elf-as $^ -o $@
 
 clean:
 	rm -rf $(OBJ)

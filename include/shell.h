@@ -9,7 +9,7 @@
 #define _SHELL_
 
 /* codes et messages d'erreur */
-enum {QUIT, OK, KO, EMPTY_LINE, UNKNOWN_FUNCTION, MISSING_ARGS, NO_FRAMEBUFFER};
+enum {QUIT, OK, KO, EMPTY_LINE, UNKNOWN_COMMAND, MISSING_ARGS, NO_FRAMEBUFFER};
 static char *err_msgs[] = {
     "Au revoir.",
     "Commande réalisée avec succès.",
@@ -42,39 +42,39 @@ static char *func_str[] = {
 /* descriptions des fonctions */
 static char *func_desc_str[] = {
     "Affiche l'aide",
-    "Quitte le simulateur",
-    "charge un fichier (load filename)",
-    "affiche un ou tout les registres",
-    "exécute le programme",
-    "affiche le code désassemblé",
-    "modifie un registre",
-    "affiche la mémoire",
-    "modifie la mémoire",
-    "step",
-    "stepi",
-    "sshot",
-    "addbp",
-    "rmbp",
-    "dbp"
+    "Quitte le simulateur et sa syntaxe",
+    "Charge un programme",
+    "Affiche les registres",
+    "Exécuter à partir d'une adresse",
+    "Affiche dans la console le code désassemblé",
+    "Modifie une valeur dans un registre",
+    "Affiche la mémoire",
+    "Modifie la mémoire",
+    "Exécution pas à pas (ligne à ligne)",
+    "Exécution pas à pas (exactement)",
+    "Effectue une copie d'écran",
+    "Ajoute un point d'arrêt",
+    "Supprime un point d'arrêt",
+    "Affiche les points d'arrêt"
 };
 
 /* aide pour les fonctions */
 static char *func_help_str[] = {
-    "Syntaxe : help [<command>]\nAffiche l'aide d'une commande et sa syntaxe.",
-    "Syntaxe : exit\nQuitte le simulateur.",
-    "Syntaxe : load <filename>\nLes données lues dans le fichier filename sont placées en mémoire.",
-    "Syntaxe : dreg [<registerName>]\nAffiche en héxadécimale la valeur du registre. Si il est omis tout les registres seront affichés.",
-    "Syntaxe : run [<adresse>]\nCharge PC avec l'adresse fournie et lance le microprocesseur. Si l'adresse est omise, il se lance à l'adresse courante de PC.",
-    "Syntaxe : dasm [n | all]\nSans option : désassemblage de l'instruction courante.\nParamètre entier n : désassemblage de n instuctions suivantes à partir de l'instruction courante.\nParamètre all : Désassemblage de tout le programme.",
-    "modifie un registre",
-    "affiche la mémoire",
-    "modifie la mémoire",
-    "step",
-    "stepi",
-    "sshot",
-    "addbp",
-    "rmbp",
-    "dbp"
+    "help [<command>]",
+    "exit",
+    "load <filename>\nfilename : nom du fichier objet à charger\nLes données lues dans le fichier filename sont placées en mémoire.\nLe fichier <filename> doit être au format ELF, exécutable ou relogeable sans symbole externe.",
+    "dreg [<registerList>]\nregisterList : liste de registres\nAffiche en héxadécimale la valeur du/des registre(s). Si il est omis tous les registres seront affichés.",
+    "run [<adresse>]\nCharge PC avec l'adresse fournie et lance le microprocesseur. Si l'adresse est omise, il se lance à l'adresse courante de PC.",
+    "dasm [n | all]\nSans option : désassemblage de l'instruction courante.\nParamètre entier n : désassemblage de n instuctions suivantes à partir de l'instruction courante.\nParamètre all : Désassemblage de tout le programme.",
+    "sreg <registerName> <value>\nregisterName : nom d'un registre\nvalue : valeur numérique valide, entrée au format hexadécimal (préfixe 0x) ou décimale\nÉcrit la valeur donnée dans le registre passé en paramètre.",
+    "dmem <address> ou dmem <address1> <address2>\naddress : valeur hexadécimale représentant une adresse sur 32 bits\nAffiche le contenu de la mémoire entre address et address + 16 ou address1 et address 2",
+    "smem <address> <value> [nbOctets]\naddress : valeur représentant une adresse mémoire valide\nvalue : valeur numérique, au format hexadécimale ou décimale\nnbOctets : paramètre optionnel indiquant le nombre d'octets à écrire en mémoire (1, 2 ou 4). S'il n'est pas présent, un seul octet est écrit.",
+    "step\nProvoque l'exécution de l'instruction dont l'adresse est contenue dans le registre PC puis rend la main à l'utilisateur.",
+    "stepi\nProvoque l'exécution de l'instruction dont l'adresse est contenue dans le registre PC puis rend la main à l'utilisateur. Si l'on rencontre un saut, seule l'instruction dans le delay slot puis le saut sont exécutés.",
+    "sshot <fichier.ppm>\nfichier.ppm : nom du fichier utilisé pour sauvegarder la copie d'écran. La sauvegarde est réalisée au format ppm",
+    "addbp <address>\naddress : valeur hexadécimale d'adresse\nAjoute un point d'arrêt à l'adresse fournie en paramètre. Lorsque le compteur ordinal PC sera égal à cette valeur, l'exécution sera interrompue et la main rendue à l'utilisateur.",
+    "rmbp [<address>]\naddress : valeur hexadécimale d'adresse\nEnlève le point d'arrêt à l'adresse fournie en paramètre, s'il y en a un. Si le paramètre est omis, cette commande efface tous les points d'arrêt.",
+    "dbp\nAffiche sur la console de visualisation l'adresse de tous les points d'arrêt positionnés dans la mémoire."
 };
 
 char **complete(const char *stem_text, int start, int end);

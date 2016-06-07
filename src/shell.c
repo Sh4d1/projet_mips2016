@@ -178,19 +178,19 @@ int shell_num_func()
 
 int shell_help(char **args)
 {
-    if (!args[1]) {
-        printf("Commandes Simips\nPour plus d'aide taper help <nom de la fonction>\n");
+    if (args[1]) {
         for (uint8_t i = 0; i < shell_num_func(); i++) {
-            printf(" %5s : %s\n", func_str[i], func_desc_str[i]);
-        }
-    } else {
-        for (uint8_t i = 0; i < shell_num_func(); i++) {
-            if (strcmp(args[1], func_str[i]) == 0) {
+            if (!strcmp(args[1], func_str[i])) {
                 printf("%s\n", func_help_str[i]);
+                return OK;
             }
         }
+        return UNKNOWN_COMMAND;
     }
-
+    printf("Commandes Simips\nPour plus d'aide taper help <nom de la fonction>\n");
+    for (uint8_t i = 0; i < shell_num_func(); i++) {
+        printf(" %5s : %s\n", func_str[i], func_desc_str[i]);
+    }
     return OK;
 }
 
@@ -339,7 +339,9 @@ int shell_sshot(char **args)
 
 int shell_addbp(char **args)
 {
-    add_bp(strtoul(args[1], NULL, 16));
+    if (!args[1]) return MISSING_ARGS;
+
+    add_bp(get_value_from_string(args[1]));
     return OK;
 }
 
@@ -350,16 +352,13 @@ int shell_rmbp(char **args)
     } else {
         free_bp();
     }
-
     return OK;
-
 }
 
 int shell_dbp()
 {
     display_bp();
     return OK;
-
 }
 
 int shell_exec(char **args)
@@ -370,7 +369,7 @@ int shell_exec(char **args)
     for (uint8_t i = 0; i < shell_num_func(); i++) {
         if (!strcmp(args[0], func_str[i])) return (*func_ptr[i])(args);
     }
-    return UNKNOWN_FUNCTION;
+    return UNKNOWN_COMMAND;
 }
 
 uint32_t get_value_from_string(char *string)

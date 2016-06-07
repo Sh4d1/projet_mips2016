@@ -15,7 +15,7 @@ static char *err_msgs[] = {
     "Commande réalisée avec succès.",
     "Erreur.",
     "Ligne vide",
-    "Fonction inconnue.",
+    "Commande inconnue.",
     "Argument(s) manquant(s).",
     "Screenshot impossible, le framebuffer n'est pas activé."
 };

@@ -317,7 +317,7 @@ int shell_sshot(char **args)
         // creation du nom de fichier en fonction de la date
         time_t t = time(NULL);
         struct tm *tmp = localtime(&t);
-        strftime(filename, 50, "screenshots/screen_%Y-%m-%d_%H:%M:%S.ppm", tmp);
+        strftime(filename, 50, "screen_%Y-%m-%d_%H:%M:%S.ppm", tmp);
     } else {
         strcpy(filename, args[1]);
     }

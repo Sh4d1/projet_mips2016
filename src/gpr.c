@@ -11,7 +11,7 @@ void init_GPR()
     GPR[0].value = 0;
     for (uint8_t i = 1; i < GPR_LENGTH; i++) {
         set_register_value(i, 0);
-        strncpy(GPR[i].name, reg_names[i], strlen(reg_names[i]));
+        strcpy(GPR[i].name, reg_names[i]);
     }
     PC.value = 0;
 }
@@ -59,7 +59,6 @@ uint8_t get_register_index(char *name)
             printf("Le registre %s n'existe pas.\n", name);
             exit(EXIT_FAILURE);
         }
-
 }
 
 // retourne la valeur d'un registre

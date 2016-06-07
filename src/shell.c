@@ -259,7 +259,7 @@ int shell_dmem(char **args)
     if (args[2]) {
         diplay_memory_between(get_value_from_string(args[1]), get_value_from_string(args[2]));
     } else {
-        diplay_memory_between(get_value_from_string(args[1]), get_value_from_string(args[1]) + 16);
+        diplay_memory_between(get_value_from_string(args[1]), get_value_from_string(args[1]) + 15);
     }
     return OK;
 }

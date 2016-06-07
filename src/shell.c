@@ -309,7 +309,12 @@ int shell_addbp(char **args)
 
 int shell_rmbp(char **args)
 {
-    rm_bp(strtoul(args[1], NULL, 16));
+    if (args[1]) {
+        rm_bp(strtoul(args[1], NULL, 16));
+    } else {
+        free_bp();
+    }
+
     return OK;
 
 }

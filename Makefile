@@ -59,4 +59,3 @@ clean:
 
 cleanall: clean
 	rm -rf test_etudiants
-	rm -rf screenshots/*

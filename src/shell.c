@@ -214,9 +214,7 @@ int shell_dreg(char **args)
     } else {
         uint32_t i = 0;
         while (args[++i]) {
-            switch_exitMask();
             print_a_gpr(args[i]);
-            switch_exitMask();
         }
     }
     return OK;
@@ -250,9 +248,7 @@ int shell_sreg(char **args)
 {
     if (!args[2]) return MISSING_ARGS;
 
-    switch_exitMask();
     set_register_value_by_name(args[1], get_value_from_string(args[2]));
-    switch_exitMask();
     return OK;
 }
 

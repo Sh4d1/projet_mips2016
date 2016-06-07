@@ -52,7 +52,7 @@ $(OBJDIR)/shell-no-readline.o: $(SRCDIR)/shell.c $(INCDIR)/shell.h
 
 $(OBJDIR)/simips.o: $(SRCDIR)/simips.c
 	$(CC) -c $(DFLAGS) $(CFLAGS) $< -o $@
-simips: $(OBJDIR)/simips.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer.o
+simips: $(OBJDIR)/simips.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer_s.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 #simips - without readline

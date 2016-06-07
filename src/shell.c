@@ -15,7 +15,7 @@
 #include "../include/mem.h"
 #include "../include/gpr.h"
 #include "../include/instructions.h"
-#include "../include/framebuffer.h"
+#include "../include/framebuffer_s.h"
 
 char **command_completion(const char *stem_text, int start, int end)
 {

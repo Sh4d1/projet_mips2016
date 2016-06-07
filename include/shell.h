@@ -77,6 +77,9 @@ static char *func_help_str[] = {
     "dbp"
 };
 
+char **complete(const char *stem_text, int start, int end);
+char *func_name_gen(const char *stem_text, int state);
+
 /* declarations des fonctions du shell */
 int shell_help(char **args);
 int shell_exit();

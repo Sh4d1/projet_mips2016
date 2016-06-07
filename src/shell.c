@@ -17,6 +17,38 @@
 #include "../include/instructions.h"
 #include "../include/framebuffer.h"
 
+char **command_completion(const char *stem_text, int start, int end)
+{
+    char **matches = NULL;
+    (void)(end);
+    (void)(start);
+    matches = rl_completion_matches(stem_text, func_name_gen);
+
+    return matches;
+}
+
+char *func_name_gen(const char *stem_text, int state)
+{
+    static int count;
+    if (state == 0) {
+        count = -1;
+    }
+
+    int text_len = strlen(stem_text);
+
+    while (count < 14) {
+        count++;
+        if (strncmp(func_str[count], stem_text, text_len) == 0) {
+            char *d = malloc (strlen(func_str[count]) + 1);
+            if (d == NULL) return NULL;
+            strcpy (d,func_str[count]);
+            return d;
+        }
+    }
+    return NULL;
+}
+
+
 void shell_loop(void)
 {
 #ifdef READLINE
@@ -25,6 +57,7 @@ void shell_loop(void)
     char **args;
     // Configure readline to auto-complete paths when the tab key is hit.
     rl_bind_key('\t', rl_complete);
+    rl_attempted_completion_function = command_completion;
 
     printf("Bienvenue dans le simulateur MIPS32. N'hésitez pas à utiliser la commande help.\n");
     uint8_t status = 0;
@@ -32,15 +65,18 @@ void shell_loop(void)
 
         snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", getenv("USER"), getcwd(NULL, 1024));
         input = readline(shell_prompt);
-        add_history(input);
+        if (!input)
+            break;
+        if (strcmp(input, "") != 0) {
+            add_history(input);
+        }
         args = shell_split_line(input);
         status = shell_exec(args);
         if (status != OK && status != EMPTY_LINE) {
             printf("%s\n", err_msgs[status]);
         }
 
-        if (!input)
-            break;
+
         free(input);
         free(args);
     } while (status != QUIT);

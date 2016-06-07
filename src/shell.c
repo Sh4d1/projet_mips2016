@@ -375,5 +375,5 @@ int shell_exec(char **args)
 
 uint32_t get_value_from_string(char *string)
 {
-    return strtoul(string, NULL, 16);
+    return strtoul(string, NULL, 0);
 }

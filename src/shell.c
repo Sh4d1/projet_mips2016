@@ -275,16 +275,14 @@ int shell_smem(char **args)
         if (is_byte(value)) {
             set_byte(get_value_from_string(args[1]), value);
         } else {
-            fprintf(stderr, "La valeur est trop grande\
-pour rentrer sur un octet\n");
+            fprintf(stderr, "La valeur est trop grande pour rentrer sur un octet\n");
         }
         break;
     case 2:
         if (is_half_word(value)) {
             set_half_word(get_value_from_string(args[1]), value);
         } else {
-            fprintf(stderr, "La valeur est trop grande\
-pour rentrer sur un demi-mot\n");
+            fprintf(stderr, "La valeur est trop grande pour rentrer sur un demi-mot\n");
         }
         break;
     case 4:

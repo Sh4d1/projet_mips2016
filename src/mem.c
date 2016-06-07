@@ -270,6 +270,7 @@ void free_memory()
         free(table_sym.sym[i].nom);
     }
     free(table_sym.sym);
+    free_bp();
 }
 
 void file_to_memory(char *file)

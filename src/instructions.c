@@ -354,3 +354,68 @@ void dasm_data()
         set_PC_value(pc_back);
     }
 }
+
+void add_bp(uint32_t addr)
+{
+    struct bp *new = malloc(sizeof(struct bp));
+    new->address = addr;
+    new->next = NULL;
+    if (!breakpoint) {
+        breakpoint = new;
+    } else {
+        struct bp *tmp = breakpoint;
+        while (tmp->next) {
+            tmp = tmp->next;
+        }
+        tmp->next = new;
+    }
+}
+
+void rm_bp(uint32_t addr)
+{
+    if (!breakpoint) {
+        printf("Liste des points d'arrêt vide, pas de suppression possible.\n");
+    } else {
+        struct bp *tmp = breakpoint;
+        struct bp *delete = tmp;
+        if (delete->address == addr) {
+            breakpoint = breakpoint->next;
+        } else {
+            while (delete && delete->address != addr) {
+                tmp = delete;
+                delete = delete->next;
+            }
+            if (!delete) {
+                printf("Element non trouvé dans la liste des points d'arrêt, pas de suppression.\n");
+            } else {
+                tmp->next = delete->next;
+            }
+        }
+        free(delete);
+    }
+}
+
+void display_bp()
+{
+    if (breakpoint) {
+        struct bp *tmp = breakpoint;
+        uint32_t i = 1;
+        while (tmp) {
+            printf("Breakpoint n°%d : 0x%08x\n", i, tmp->address);
+            tmp = tmp->next;
+            i++;
+        }
+    } else {
+        printf("Liste des points d'arrêt vide.\n");
+    }
+}
+
+void free_bp()
+{
+    struct bp *tmp = breakpoint;
+    while (tmp) {
+        tmp = tmp->next;
+        free(breakpoint);
+        breakpoint = tmp;
+    }
+}

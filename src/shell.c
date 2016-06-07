@@ -35,7 +35,7 @@ void shell_loop(void)
         add_history(input);
         args = shell_split_line(input);
         status = shell_exec(args);
-        if (status != OK && status != EMPTY_LINE) {
+        if (status != OK) {
             printf("%s\n", err_msgs[status]);
         }
 
@@ -282,8 +282,7 @@ int shell_sshot(char **args)
         struct tm *tmp = localtime(&t);
         strftime(filename, 50, "screenshots/screen_%Y-%m-%d_%H:%M:%S.ppm", tmp);
     } else {
-        strcpy(filename, "screenshots/");
-        strcat(filename, args[1]);
+        strcpy(filename, args[1]);
     }
 
     // ouverture du fichier et ecriture de l'entete
@@ -304,30 +303,28 @@ int shell_sshot(char **args)
 
 int shell_addbp(char **args)
 {
-    if (!breakpoint) {
-        breakpoint = malloc(sizeof(breakpoint));
-        if(breakpoint) {
-            breakpoint->address = strtoul(args[1], NULL, 16);
-            breakpoint->next = NULL;
-        }
-    }
+    add_bp(strtoul(args[1], NULL, 16));
+    return OK;
 }
 
 int shell_rmbp(char **args)
 {
+    rm_bp(strtoul(args[1], NULL, 16));
+    return OK;
 
 }
 
 int shell_dbp()
 {
-    for (size_t i = 0; i < breakpoint.size; i++) {
-        printf("Breakpoint n°%u : %u\n", i, breakpoint.address[i]);
-    }
+    display_bp();
+    return OK;
+
 }
 
 int shell_exec(char **args)
 {
-    if (!args[0]) return EMPTY_LINE;
+    // si ligne vide : ne rien faire
+    if (!args[0]) return UNKNOWN_FUNCTION;
 
     for (uint8_t i = 0; i < shell_num_func(); i++) {
         if (!strcmp(args[0], func_str[i])) return (*func_ptr[i])(args);
@@ -335,8 +332,7 @@ int shell_exec(char **args)
     return UNKNOWN_FUNCTION;
 }
 
-/* retourne la valeur d'une string ecrite au format decimal ou hexa */
 uint32_t get_value_from_string(char *string)
 {
-    return strtoul(string, NULL, 0);
+    return strtoul(string, NULL, 16);
 }

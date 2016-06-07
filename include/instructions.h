@@ -49,7 +49,7 @@ struct bp {
     struct bp *next;
 };
 
-struct bp *breakpoint = NULL;
+static struct bp *breakpoint = NULL;
 
 void parse_instruction(uint32_t inst, bool dasm);
 
@@ -66,5 +66,13 @@ void runi_line();
 void dasm_line(uint32_t n);
 
 void dasm();
+
+void add_bp(uint32_t addr);
+
+void rm_bp(uint32_t addr);
+
+void display_bp();
+
+void free_bp();
 
 #endif /* end of include guard: _INSTRUCTIONS_ */

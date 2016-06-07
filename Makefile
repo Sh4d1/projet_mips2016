@@ -15,7 +15,7 @@ OBJ_PROF=elf_reader.o relocation.o framebuffer.o
 SRC=$(wildcard $(SRCDIR)/*.c)
 OBJ=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 AS=$(wildcard $(TSTDIR)/*.s)
-ELF=$(patsubst $(TSTDIR)/%.s, $(OBJDIR)/%.o, $(AS))
+ELF=$(patsubst %.s, %.o, $(AS))
 
 all: test_etudiants simips
 

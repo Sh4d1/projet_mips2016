@@ -53,7 +53,7 @@ void shell_loop(void)
 {
 #ifdef READLINE
 
-    char* input, shell_prompt[100];
+    char* input;// shell_prompt[100];
     char **args;
     // Configure readline to auto-complete paths when the tab key is hit.
     rl_bind_key('\t', rl_complete);
@@ -63,8 +63,8 @@ void shell_loop(void)
     uint8_t status = 0;
     do {
 
-        snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", getenv("USER"), getcwd(NULL, 1024));
-        input = readline(shell_prompt);
+        //snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", getenv("USER"), getcwd(NULL, 1024));
+        input = readline("simips > ");
         if (!input)
             break;
         if (strcmp(input, "") != 0) {

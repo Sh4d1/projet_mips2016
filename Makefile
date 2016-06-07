@@ -17,7 +17,7 @@ OBJ=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 AS=$(wildcard $(TSTDIR)/*.s)
 ELF=$(patsubst %.s, %.o, $(AS))
 
-all: test_etudiants simips
+all: test_etudiants simips compile_tests
 
 $(OBJDIR)/test_etudiants.o: $(SRCDIR)/test_etudiants.c $(INCDIR)/elf_reader.h
 	$(CC) -c $(CFLAGS) $< -o $@
@@ -66,4 +66,4 @@ clean:
 	rm -rf $(OBJ)
 
 cleanall: clean
-	rm -rf test_etudiants
+	rm -rf test_etudiants exempleElf.o $(TSTDIR)/*.o

@@ -57,7 +57,7 @@ simips-no-readline: $(OBJDIR)/simips-no-readline.o $(OBJDIR)/gpr.o $(OBJDIR)/mem
 	$(CC) $(LDFLAGS) $^ -o $@
 
 compile_tests: $(TST)
-	mips-elf-as $^ -o $@
+	mips-elf-as $< -o $@
 
 clean:
 	rm -rf $(OBJ)

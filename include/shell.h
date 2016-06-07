@@ -32,7 +32,10 @@ static char *func_str[] = {
     "smem",
     "step",
     "stepi",
-    "sshot"
+    "sshot",
+    "addbp",
+    "rmbp",
+    "dbp"
 };
 
 /* descriptions des fonctions */
@@ -48,7 +51,10 @@ static char *func_desc_str[] = {
     "modifie la mémoire",
     "step",
     "stepi",
-    "sshot"
+    "sshot",
+    "addbp",
+    "rmbp",
+    "dbp"
 };
 
 /* aide pour les fonctions */
@@ -64,7 +70,10 @@ static char *func_help_str[] = {
     "modifie la mémoire",
     "step",
     "stepi",
-    "sshot"
+    "sshot",
+    "addbp",
+    "rmbp",
+    "dbp"
 };
 
 /* declarations des fonctions du shell */
@@ -80,6 +89,9 @@ int shell_smem(char **args);
 int shell_step();
 int shell_stepi();
 int shell_sshot();
+int shell_addbp(char **args);
+int shell_rmbp(char **args);
+int shell_dbp();
 
 /* tableau de pointeurs sur les differentes fonctions */
 static int (*func_ptr[]) (char **) = {
@@ -94,7 +106,10 @@ static int (*func_ptr[]) (char **) = {
     shell_smem,
     shell_step,
     shell_stepi,
-    shell_sshot
+    shell_sshot,
+    shell_addbp,
+    shell_rmbp,
+    shell_dbp
 };
 
 /* shell_num_func : retourne le nombre de fonctions */

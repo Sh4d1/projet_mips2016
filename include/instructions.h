@@ -44,6 +44,13 @@ enum opcode {
     SW = 43
 };
 
+struct bp {
+    uint32_t address;
+    struct bp *next;
+};
+
+struct bp *breakpoint = NULL;
+
 void parse_instruction(uint32_t inst, bool dasm);
 
 void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa);

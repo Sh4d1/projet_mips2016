@@ -301,6 +301,29 @@ int shell_sshot(char **args)
     return OK;
 }
 
+int shell_addbp(char **args)
+{
+    if (!breakpoint) {
+        breakpoint = malloc(sizeof(breakpoint));
+        if(breakpoint) {
+            breakpoint->address = strtoul(args[1], NULL, 16);
+            breakpoint->next = NULL;
+        }
+    }
+}
+
+int shell_rmbp(char **args)
+{
+
+}
+
+int shell_dbp()
+{
+    for (size_t i = 0; i < breakpoint.size; i++) {
+        printf("Breakpoint n°%u : %u\n", i, breakpoint.address[i]);
+    }
+}
+
 int shell_exec(char **args)
 {
     // si ligne vide : ne rien faire

@@ -2,6 +2,7 @@
 #define _GPR_
 
 #include <inttypes.h>
+#include <stdbool.h>
 
 /* indices des registres */
 enum {

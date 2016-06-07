@@ -14,6 +14,7 @@ OBJ_PROF=elf_reader.o relocation.o framebuffer.o
 # ce qui est a vous
 SRC=$(wildcard $(SRCDIR)/*.c)
 OBJ=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+AS=$(wildcard $(TSTDIR)/*.o)
 
 all: test_etudiants simips
 
@@ -54,6 +55,8 @@ $(OBJDIR)/simips-no-readline.o: $(SRCDIR)/simips.c
 	$(CC) -c $(CFLAGS) $< -o $@
 simips-no-readline: $(OBJDIR)/simips-no-readline.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell-no-readline.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer.o
 	$(CC) $(LDFLAGS) $^ -o $@
+
+compile_tests: $(AS)
 
 $(TSTDIR)/%.o: $(TSTDIR)/%.s
 	mips-elf-as $^ -o $@

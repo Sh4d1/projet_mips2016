@@ -103,7 +103,6 @@ uint8_t *get_framebuffer();
 void get_string(uint32_t address, char **string);
 
 /* affiche la mémoire */
-void display_memory(uint32_t address);
 void diplay_memory_between(uint32_t address1, uint32_t address2);
 
 /* libère la mémoire */

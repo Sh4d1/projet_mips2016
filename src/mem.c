@@ -236,15 +236,6 @@ void get_string(uint32_t address, char **string) {
     }
 }
 
-void display_memory(uint32_t address)
-{
-    printf("0x%06x: ", address);
-    for (uint32_t i = address; i < address + 16; i++) {
-        printf("%02x ", get_byte(i));
-    }
-    printf("\n");
-}
-
 void diplay_memory_between(uint32_t address1, uint32_t address2)
 {
     uint32_t offset = address2 - address1;

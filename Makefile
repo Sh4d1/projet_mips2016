@@ -55,7 +55,8 @@ $(OBJDIR)/simips-no-readline.o: $(SRCDIR)/simips.c
 simips-no-readline: $(OBJDIR)/simips-no-readline.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell-no-readline.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
-.PHONY
+.PHONY compile_tests
+
 compile_tests: $(wildcard $(TSTDIR)/*.o)
 
 $(TSTDIR)/%.o: $(TSTDIR)/%.s

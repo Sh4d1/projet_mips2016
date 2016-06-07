@@ -6,6 +6,8 @@ _start:
 MOVE $t0, $0
 MOVE $t1, $0
 ADDI $t3, 320
+MOVE $a0, $t3
+OR $a0, $t3, $0
 ADDI $t4, 200
 LUI $t2, 0xFFFF
 ADDI $t2, $t2, 0x0600
@@ -22,3 +24,6 @@ endwhile2:
 ADDI $t0, $t0, 1
 J while
 endwhile:
+
+ADDI $sp, $sp, -4
+SW $t1, -4($sp)

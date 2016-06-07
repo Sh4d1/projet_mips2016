@@ -160,50 +160,57 @@ void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
     printf("0x%06x:\t%08x\t", get_PC_value()-4, get_word(get_PC_value()-4));
     switch (code) {
         case ADD:
-            printf("ADD $%u, $%u, $%u\n", rd, rs, rt);
+            printf("ADD $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
+            break;
+        case ADDU:
+            printf("ADDU $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
             break;
         case AND:
-            printf("AND $%u, $%u, $%u\n", rd, rs, rt);
+            printf("AND $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
             break;
         case DIV:
-            printf("DIV $%u, $%u\n",rs, rt);
+            printf("DIV $%s, $%s\n",get_register_name(rs), get_register_name(rt));
             break;
         case JR:
-            printf("JR $%u\n", rs);
+            printf("JR $%s\n", get_register_name(rs));
             break;
         case MFHI:
-            printf("MFHI $%u\n", rd);
+            printf("MFHI $%s\n", get_register_name(rd));
             break;
         case MFLO:
-            printf("MFLO $%u\n", rd);
+            printf("MFLO $%s\n", get_register_name(rd));
             break;
         case MULT:
-            printf("MULT $%u, $%u\n", rs, rt);
+            printf("MULT $%s, $%s\n", get_register_name(rs), get_register_name(rt));
             break;
         case OR:
-            printf("OR $%u, $%u, $%u\n", rd, rs, rt);
+            if (rt == 0) {
+                printf("MOVE $%s, $%s\n", get_register_name(rd), get_register_name(rs));
+            } else {
+                printf("OR $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
+            }
             break;
         case SLL:
             if (rd == 0 && rt == 0 && sa == 0) {
                 printf("NOP\n");
             } else {
-                printf("SLL $%u, $%u, %u\n", rd, rt, sa);
+                printf("SLL $%s, $%s, %u\n", get_register_name(rd), get_register_name(rt), sa);
             }
             break;
         case SLT:
-            printf("SLT $%u, $%u, $%u\n", rd, rs, rt);
+            printf("SLT $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
             break;
         case SRL:
-            printf("SRL $%u, $%u, %u\n", rd, rt, sa);
+            printf("SRL $%s, $%s, %u\n", get_register_name(rd), get_register_name(rt), sa);
             break;
         case SUB:
-            printf("SUB $%u, $%u, $%u\n", rd, rs, rt);
+            printf("SUB $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
             break;
         case SYSCALL:
             printf("SYSCALL\n");
             break;
         case XOR:
-            printf("XOR $%u, $%u, $%u\n", rd, rs, rt);
+            printf("XOR $%s, $%s, $%s\n", get_register_name(rd), get_register_name(rs), get_register_name(rt));
             break;
         default:
             printf("%x\n", get_word(get_PC_value()-4));
@@ -215,53 +222,53 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
     printf("0x%06x:\t%08x\t", get_PC_value()-4, get_word(get_PC_value()-4));
     switch (code) {
         case ADDI:
-            printf("ADDI $%u, $%u, %u\n", rt, rs, imm);
+            printf("ADDI $%s, $%s, %d\n", get_register_name(rt), get_register_name(rs), imm);
             break;
         case ADDIU:
-            printf("ADDIU $%u, $%u, %u\n", rt, rs, imm);
+            printf("ADDIU $%s, $%s, %u\n", get_register_name(rt), get_register_name(rs), imm);
             break;
         case BEQ:
             if (rs == 0 && rt == 0) {
-                printf("B %x <%s>\n", imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
+                printf("B 0x%hx <%s>\n", imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             } else {
-                printf("BEQ $%u, $%u, %u\n", rs, rt, imm);
+                printf("BEQ $%s, $%s, 0x%hx <%s>\n", get_register_name(rs), get_register_name(rt), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             }
             break;
         case BGTZ:
-            printf("BGTZ $%u, %u\n", rs, imm);
+            printf("BGTZ $%s, 0X%hx <%s>\n", get_register_name(rs), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             break;
         case BLEZ:
-            printf("BLEZ $%u, %u\n", rs, imm);
+            printf("BLEZ $%s, 0x%hx <%s>\n", get_register_name(rs), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             break;
         case BNE:
-            printf("BNE $%u, $%u, %u\n", rs, rt, imm);
+            printf("BNE $%s, $%s, 0x%hx <%s>\n", get_register_name(rs), get_register_name(rt), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             break;
         case LB:
-            printf("LB $%u, %u($%u)\n", rt, imm, rs);
+            printf("LB $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case LBU:
-            printf("LBU $%u, %u($%u)\n", rt, imm, rs);
+            printf("LBU $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case LUI:
-            printf("LUI $%u, %x\n", rt, imm);
+            printf("LUI $%s, 0x%hx\n", get_register_name(rt), imm);
             break;
         case LW:
-            printf("LW $%u, %u($%u)\n", rt, imm, rs);
+            printf("LW $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case ORI:
-            printf("ORI $%u, $%u, %u\n", rt, rs, imm);
+            printf("ORI $%s, $%s, 0x%hx\n", get_register_name(rt), get_register_name(rs), imm);
             break;
         case SB:
-            printf("SB $%u, %u($%u)\n", rt, imm, rs);
+            printf("SB $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case SW:
-            printf("SW $%u, %u($%u)\n", rt, imm, rs);
+            printf("SW $%s, %d($%s)\n", get_register_name(rt), imm, get_register_name(rs));
             break;
         case J:
-            printf("J %x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
+            printf("J 0x%x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
             break;
         case JAL:
-            printf("JAL %x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
+            printf("JAL 0x%x <%s>\n", (0xF0000000 & get_PC_value()) | (instr_index << 2), get_sym_from_address((0xF0000000 & get_PC_value()) | (instr_index << 2)));
             break;
         default:
             printf("%x\n", get_word(get_PC_value()-4));
@@ -278,6 +285,21 @@ void run(uint32_t address)
 }
 
 void run_line()
+{
+    uint32_t pc_back = get_PC_value();
+    uint32_t word = get_word(get_PC_value());
+    parse_instruction(word, false);
+    if (pc_back + 8 == get_register_value(RA)) {
+        while (get_PC_value() != pc_back + 8) {
+            word = get_word(get_PC_value());
+            parse_instruction(word, false);
+        }
+    }
+
+
+}
+
+void runi_line()
 {
     uint32_t word = get_word(get_PC_value());
     parse_instruction(word, false);
@@ -308,7 +330,7 @@ void dasm_text()
         uint32_t word = get_word(get_PC_value());
         char *sym = get_sym_from_address(get_PC_value());
         if (sym) {
-            printf("<%s>:\n", sym);
+            printf("\n<%s>:\n", sym);
         }
         parse_instruction(word, true);
     }
@@ -317,16 +339,18 @@ void dasm_text()
 
 void dasm_data()
 {
-    uint32_t pc_back = get_PC_value();
-    printf("\nDessasemblage de la section .data\n");
-    set_PC_value(data.address);
-    while(get_PC_value() < get_data_end()) {
-        uint32_t word = get_word(get_PC_value());
-        char *sym = get_sym_from_address(get_PC_value());
-        if (sym) {
-            printf("<%s>:\n", sym);
+    if (get_data_size() != 0) {
+        uint32_t pc_back = get_PC_value();
+        printf("\nDessasemblage de la section .data\n");
+        set_PC_value(data.address);
+        while(get_PC_value() < get_data_end()) {
+            uint32_t word = get_word(get_PC_value());
+            char *sym = get_sym_from_address(get_PC_value());
+            if (sym) {
+                printf("<%s>:\n", sym);
+            }
+            parse_instruction(word, true);
         }
-        parse_instruction(word, true);
+        set_PC_value(pc_back);
     }
-    set_PC_value(pc_back);
 }

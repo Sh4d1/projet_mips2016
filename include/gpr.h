@@ -76,4 +76,6 @@ void advance_PC();
 
 uint32_t isNumeric(char *s);
 
+char *get_register_name(uint8_t index);
+
 #endif /* end of include guard: _GPR_ */

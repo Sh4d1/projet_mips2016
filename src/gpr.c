@@ -130,3 +130,9 @@ uint32_t isNumeric(char *s)
     strtod (s, &p);
     return *p == '\0';
 }
+
+char *get_register_name(uint8_t index)
+{
+    check_register(index);
+    return reg_names[index];
+}

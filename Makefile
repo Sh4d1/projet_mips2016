@@ -1,6 +1,7 @@
 CC=clang
 CFLAGS = -std=c99 -Wall -Wextra -I$(INCDIR)
-LDFLAGS = -lSDL    # si besoin pour le framebuffer...
+DFLAGS = -DREADLINE
+LDFLAGS = -lSDL -lreadline  # si besoin pour le framebuffer...
 
 INCDIR=./include
 SRCDIR=./src
@@ -33,7 +34,7 @@ second_test: $(OBJDIR)/second_test.o $(OBJDIR)/shell.o $(OBJDIR)/mem.o $(OBJDIR)
 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/%.h
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(DFLAGS) $(CFLAGS) $< -o $@
 
 
 
@@ -68,9 +69,19 @@ framebuffer_test: framebuffer_test.o $(OBJDIR)/framebuffer.o
 # FIN TEST FRAMEBUFFER
 
 # simips
-$(OBJDIR)/simips.o: $(SRCDIR)/simips.c
+
+$(OBJDIR)/shell-no-readline.o: $(SRCDIR)/shell.c $(INCDIR)/shell.h
 	$(CC) -c $(CFLAGS) $< -o $@
+
+$(OBJDIR)/simips.o: $(SRCDIR)/simips.c
+	$(CC) -c $(DFLAGS) $(CFLAGS) $< -o $@
 simips: $(OBJDIR)/simips.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
+#simips - without readline
+$(OBJDIR)/simips-no-readline.o: $(SRCDIR)/simips.c
+	$(CC) -c $(CFLAGS) $< -o $@
+simips-no-readline: $(OBJDIR)/simips-no-readline.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell-no-readline.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 clean:

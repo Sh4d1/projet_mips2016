@@ -170,7 +170,6 @@ void set_half_word(uint32_t address, uint16_t value)
 /* change la valeur d'un mot en mémoire */
 void set_word(uint32_t address, uint32_t value)
 {
-    printf("%u\n", address);
     check_address(address, 4);
     set_half_word(address, value >> 16);
     set_half_word(address + 2, value);
@@ -263,8 +262,6 @@ void diplay_memory_between(uint32_t address1, uint32_t address2)
 
 uint32_t get_value_from_string(char *string)
 {
-    // strtoul(string, NULL, 16) marche pas
-    //return (strncmp("0x", string, 2)) ? strtoul(string, NULL, 16) : strtoul(string, NULL, 10);
     return strtoul(string, NULL, 0);
 }
 

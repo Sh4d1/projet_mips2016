@@ -9,11 +9,12 @@
 #define _SHELL_
 
 /* codes et messages d'erreur */
-enum {QUIT, OK, KO, UNKNOWN_FUNCTION, MISSING_ARGS, NO_FRAMEBUFFER};
+enum {QUIT, OK, KO, EMPTY_LINE, UNKNOWN_FUNCTION, MISSING_ARGS, NO_FRAMEBUFFER};
 static char *err_msgs[] = {
     "Au revoir.",
     "Commande réalisée avec succès.",
     "Erreur.",
+    "Ligne vide",
     "Fonction inconnue.",
     "Argument(s) manquant(s).",
     "Screenshot impossible, le framebuffer n'est pas activé."
@@ -111,5 +112,8 @@ char **shell_split_line(char *line);
 
 /* shell_exec : execute a command */
 int shell_exec(char ** args);
+
+/* retourne la valeur d'une string ecrite au format decimal ou hexa */
+uint32_t get_value_from_string(char *string);
 
 #endif

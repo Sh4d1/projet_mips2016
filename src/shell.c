@@ -35,7 +35,7 @@ void shell_loop(void)
         add_history(input);
         args = shell_split_line(input);
         status = shell_exec(args);
-        if (status != OK) {
+        if (status != OK && status != EMPTY_LINE) {
             printf("%s\n", err_msgs[status]);
         }
 
@@ -304,11 +304,16 @@ int shell_sshot(char **args)
 
 int shell_exec(char **args)
 {
-    // si ligne vide : ne rien faire
-    if (!args[0]) return UNKNOWN_FUNCTION;
+    if (!args[0]) return EMPTY_LINE;
 
     for (uint8_t i = 0; i < shell_num_func(); i++) {
         if (!strcmp(args[0], func_str[i])) return (*func_ptr[i])(args);
     }
     return UNKNOWN_FUNCTION;
+}
+
+/* retourne la valeur d'une string ecrite au format decimal ou hexa */
+uint32_t get_value_from_string(char *string)
+{
+    return strtoul(string, NULL, 0);
 }

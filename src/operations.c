@@ -9,11 +9,7 @@
 uint32_t extend(uint16_t value, bool sign)
 {
         uint8_t bitfort = value >> 15;
-        if (sign && bitfort) {
-                return 0xFFFF0000 | value;
-        } else {
-                return value;
-        }
+        return (sign && bitfort) ? 0xFFFF0000 | value : value;
 }
 
 /* renvoie le nieme bit en partant de 0 avec decalage */

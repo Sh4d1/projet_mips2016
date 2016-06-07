@@ -27,10 +27,10 @@ void parse_instruction(uint32_t inst, bool dasm)
         func = func >> 26;
 
         /* on récupère ts, rt, rd et sa */
-        uint8_t rs = (inst>>21) & 0x1F;
-        uint8_t rt = (inst>>16) & 0x1F;
-        uint8_t rd = (inst>>11) & 0x1F;
-        uint8_t sa = (inst>>6) & 0x1F;
+        uint8_t rs = (inst >> 21) & 0x1F;
+        uint8_t rt = (inst >> 16) & 0x1F;
+        uint8_t rd = (inst >> 11) & 0x1F;
+        uint8_t sa = (inst >> 6) & 0x1F;
 
         /* si on veut juste désassembler */
         if (dasm) {
@@ -91,8 +91,8 @@ void parse_instruction(uint32_t inst, bool dasm)
     } else { /* cas des instructions I et J */
 
         /* on récupère rs, rt, imm et instr_index */
-        uint8_t rs = (inst>>21) & 0x1F;
-        uint8_t rt = (inst>>16) & 0x1F;
+        uint8_t rs = (inst >> 21) & 0x1F;
+        uint8_t rt = (inst >> 16) & 0x1F;
         int16_t imm = inst & 0xFFFF;
         uint32_t instr_index = (inst & 0x3FFFFFF);
 

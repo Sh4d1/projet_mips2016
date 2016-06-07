@@ -20,8 +20,12 @@ uint32_t pgcd(uint32_t a, uint32_t b)
     a : $a0
     b : $a1
 */
-addi $a0, $0, 256
-addi $a1, $0, 32
+addi $v0, $0, 5
+SYSCALL
+move $a0, $v0
+addi $v0, $0, 5
+SYSCALL
+move $a1, $v0
 jal pgcd
 move $a0, $v0
 addi $v0, $0, 1

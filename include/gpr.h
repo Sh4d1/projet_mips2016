@@ -3,6 +3,7 @@
 
 #include <inttypes.h>
 
+/* indices des registres */
 enum {
     ZERO,
     AT,
@@ -18,6 +19,7 @@ enum {
     RA
 };
 
+/* nom des registres */
 static char *reg_names[] = {
     "zero",
     "at",
@@ -33,6 +35,7 @@ static char *reg_names[] = {
     "ra"
 };
 
+/* structure d'un registre */
 struct reg {
         char name[4];
         uint32_t value;
@@ -41,6 +44,7 @@ struct reg {
 // 32 registres
 #define GPR_LENGTH 32
 struct reg GPR[GPR_LENGTH];
+
 /* registres speciaux */
 struct reg PC, HI, LO;
 
@@ -53,6 +57,7 @@ void check_register(uint8_t index);
 /* affiche tous les registres */
 void print_gpr();
 
+/* affiche un certain registre */
 void print_a_gpr(char *name);
 
 /* retourne l'index du registre */
@@ -72,10 +77,13 @@ void set_PC_value(uint32_t value);
 void set_HI_value(uint32_t value);
 void set_LO_value(uint32_t value);
 
+/* avance le registre PC de 4 */
 void advance_PC();
 
+/* determine si une chaine est un nombre */
 uint32_t isNumeric(char *s);
 
+/* recupere le nom d'un registre */
 char *get_register_name(uint8_t index);
 
 #endif /* end of include guard: _GPR_ */

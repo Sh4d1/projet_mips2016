@@ -8,23 +8,27 @@
 
 #include "relocation.h"
 
-/* structure de la mémoire, un tableau de memory_case, plus la taille */
+/* structure de la mémoire, un tableau de memory_case, plus la taille,et le framebuffer */
 struct memory {
     uint8_t *memory;
     uint32_t memory_size;
     uint8_t *framebuffer;
 };
 
+/* structure d'une section */
 struct section {
     uint32_t address;
     uint32_t size;
 };
 
+/* strucutre de la table des symboles */
 struct table_symboles {
     struct symbole *sym;
     size_t size;
 };
 
+/* decalaration de la memoire, des sections .text, .data et .bss
+et de la table des symboles */
 struct memory memory;
 struct section text, data, bss;
 struct table_symboles table_sym;
@@ -71,7 +75,7 @@ void set_half_word(uint32_t address, uint16_t value);
 /* change la valeur d'un mot en mémoire */
 void set_word(uint32_t address, uint32_t value);
 
-/* place une chaine de charactere en memoire */
+/* place une chaine de charactere en memoire, de taille size */
 void set_n_string(uint32_t address, char *string, uint32_t size);
 
 /* recupere la valeur d'un octet en mémoire */
@@ -83,30 +87,30 @@ uint16_t get_half_word(uint32_t address);
 /* recupere la valeur d'un mot en mémoire */
 uint32_t get_word(uint32_t address);
 
+/* recupere la taile de la mémoire */
 uint32_t get_memory_size();
+
+/* recupere un pointeur sur le premier octet du framebuffer */
 uint8_t *get_framebuffer();
 
 /* recupere une chaine de charactere en memoire */
 void get_string(uint32_t address, char **string);
 
 /* affiche la mémoire */
-void print_n_memory(uint32_t address, uint32_t n);
 void display_memory(uint32_t address);
 void diplay_memory_between(uint32_t address1, uint32_t address2);
-
-uint32_t get_value_from_string(char *string);
 
 /* libère la mémoire */
 void free_memory();
 
+/* charge le fichier file en mémoire + symbole + relocation */
 void file_to_memory(char *file);
 
+/* reloge les section text et data */
 void reloge_text(struct elf_descr *elf);
 void reloge_data(struct elf_descr *elf);
 
+/* recupere un symbole depuis addr */
 char *get_sym_from_address(uint32_t addr);
-
-void dasm_text();
-void dasm_data();
 
 #endif /* end of include guard: _MEM_ */

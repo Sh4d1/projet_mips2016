@@ -226,14 +226,6 @@ void get_string(uint32_t address, char **string) {
     }
 }
 
-/* affiche la mémoire */
-void print_n_memory(uint32_t address, uint32_t n)
-{
-    for (uint32_t i = address; i < address+n; i++) {
-        printf("0x%04x : 0x%02x\n", i, get_byte(i));
-    }
-}
-
 void display_memory(uint32_t address)
 {
     printf("0x%06x: ", address);

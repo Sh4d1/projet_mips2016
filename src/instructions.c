@@ -303,8 +303,6 @@ void run_line()
             parse_instruction(word, false);
         }
     }
-
-
 }
 
 void runi_line()

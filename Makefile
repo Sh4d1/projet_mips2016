@@ -1,7 +1,8 @@
 CC=clang
 CFLAGS = -std=c99 -Wall -Wextra -I$(INCDIR)
 DFLAGS = -DREADLINE
-LDFLAGS = -lSDL -lreadline  # si besoin pour le framebuffer...
+# si besoin pour le framebuffer...
+LDFLAGS = -lSDL -lreadline
 
 INCDIR=./include
 SRCDIR=./src

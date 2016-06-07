@@ -20,6 +20,9 @@ ELF=$(patsubst %.s, %.o, $(AS))
 
 all: test_etudiants simips compile_tests
 
+$(OBJDIR)/framebuffer_s.o: $(SRCDIR)/framebuffer_s.c $(INCDIR)/framebuffer_s.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 $(OBJDIR)/test_etudiants.o: $(SRCDIR)/test_etudiants.c $(INCDIR)/elf_reader.h
 	$(CC) -c $(CFLAGS) $< -o $@
 test_etudiants: $(OBJDIR)/elf_reader.o $(OBJDIR)/test_etudiants.o

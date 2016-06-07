@@ -45,7 +45,6 @@ void check_address(uint32_t address, uint8_t alignment)
         exit(EXIT_FAILURE);
     }
     if (address % alignment) {
-        printf("%u\n", address);
         fprintf(stderr, "Adresse non alignée.\n");
         exit(EXIT_FAILURE);
     }
@@ -258,12 +257,6 @@ void diplay_memory_between(uint32_t address1, uint32_t address2)
     if ((offset + 1) % 16) {
         printf("\n");
     }
-}
-
-uint32_t get_value_from_string(char *string)
-{
-    return strtoul(string, NULL, 16); //marche pas
-    //return (strncmp("0x", string, 2)) ? strtoul(string, NULL, 10) : strtoul(string, NULL, 16);
 }
 
 /* libère la mémoire */

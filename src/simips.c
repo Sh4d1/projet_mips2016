@@ -32,9 +32,6 @@ void init_simips_argv(int argc, char **argv)
         if(strcmp(argv[i], "-fb") == 0) {
             fb = true;
         }
-        if(strcmp(argv[i], "-no-fb") == 0) {
-            fb = false;
-        }
     }
     if (d && !t) {
         data_address = 0;

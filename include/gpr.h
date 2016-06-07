@@ -18,7 +18,7 @@ enum {
     RA
 };
 
-static const char* const reg_names[] = {
+static char *reg_names[] = {
     "zero",
     "at",
     "v0", "v1",

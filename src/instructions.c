@@ -331,8 +331,8 @@ void dasm_line(uint32_t n)
 void dasm_text()
 {
     uint32_t pc_back = get_PC_value();
-    printf("\nDessasemblage de la section .text\n");
     set_PC_value(text.address);
+    printf("\nDessasemblage de la section .text : Ox%x\n", get_PC_value());
     while(get_PC_value() < get_text_end()) {
         uint32_t word = get_word(get_PC_value());
         char *sym = get_sym_from_address(get_PC_value());
@@ -348,17 +348,39 @@ void dasm_data()
 {
     if (get_data_size() != 0) {
         uint32_t pc_back = get_PC_value();
-        printf("\nDessasemblage de la section .data\n");
         set_PC_value(data.address);
+        printf("\nDessasemblage de la section .data : Ox%x\n", get_PC_value());
         while(get_PC_value() < get_data_end()) {
-            uint32_t word = get_word(get_PC_value());
             char *sym = get_sym_from_address(get_PC_value());
             if (sym) {
                 printf("<%s>:\n", sym);
             }
-            parse_instruction(word, true);
+            printf("0x%06x:\t%08x\t\n", get_PC_value(), get_word(get_PC_value()));
+            //parse_instruction(word, true);
+            advance_PC();
         }
         set_PC_value(pc_back);
+    }
+}
+
+void dasm_bss()
+{
+    if (get_bss_size() != 0) {
+        uint32_t pc_back = get_PC_value();
+        set_PC_value(bss.address);
+        printf("\nDessasemblage de la section .bss : Ox%x\n", get_PC_value());
+        while(get_PC_value() < get_bss_end()) {
+            char *sym = get_sym_from_address(get_PC_value());
+            if (sym) {
+                printf("<%s>:\n", sym);
+                printf("0x%06x:\t%08x\t\n", get_PC_value(), get_word(get_PC_value()));
+            }
+
+            //parse_instruction(word, true);
+            advance_PC();
+        }
+        set_PC_value(pc_back);
+        printf("...\n");
     }
 }
 

@@ -60,6 +60,12 @@ uint32_t get_data_size();
 uint8_t *get_data_bytes();
 void set_data_address(uint32_t address);
 
+/* retourne la taille de .bss */
+uint32_t get_bss_size();
+
+/* retourne la fin de .bss */
+uint32_t get_bss_end();
+
 /* determine si value tient sur un octet */
 bool is_byte(uint32_t value);
 

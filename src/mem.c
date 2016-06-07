@@ -138,6 +138,16 @@ uint32_t get_data_end()
     return data.address + data.size;
 }
 
+uint32_t get_bss_size()
+{
+    return bss.size;
+}
+
+uint32_t get_bss_end()
+{
+    return bss.address + bss.size;
+}
+
 /* determine si value tient sur un octet */
 bool is_byte(uint32_t value) {
     return !(value >> 8);

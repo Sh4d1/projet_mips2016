@@ -30,3 +30,4 @@ Z: .word 0x0        # Declaration d'un mot de 32 bits initialise a 0
 
 .bss
 .skip 9             # Reservation de 9 octets, non initialises
+.lcomm hehe, 10

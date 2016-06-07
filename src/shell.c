@@ -237,6 +237,7 @@ int shell_dasm(char **args)
     } else if (!strcmp("all", args[1])) {
         dasm_text();
         dasm_data();
+        dasm_bss();
     } else {
         dasm_line(get_value_from_string(args[1]));
     }

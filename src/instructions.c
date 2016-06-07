@@ -287,6 +287,7 @@ void run(uint32_t address)
         if (is_bp(get_PC_value()) && !bp_first_addr) {
             break;
         }
+        bp_first_addr = false;
         uint32_t word = get_word(get_PC_value());
         parse_instruction(word, false);
     }

@@ -36,7 +36,7 @@ char *func_name_gen(const char *stem_text, int state)
 
     int text_len = strlen(stem_text);
 
-    while (count < 14) {
+    while (count < shell_num_func()-1) {
         count++;
         if (strncmp(func_str[count], stem_text, text_len) == 0) {
             char *d = malloc (strlen(func_str[count]) + 1);

@@ -5,7 +5,7 @@
 
 #include "../include/gpr.h"
 
-// initialise les registres
+/* initialise les registres */
 void init_GPR()
 {
     GPR[0].value = 0;
@@ -25,7 +25,7 @@ void check_register(uint8_t index)
     }
 }
 
-// affiche tous les registres
+/* affiche tous les registres */
 void print_gpr()
 {
     for (uint8_t i = 0; i < GPR_LENGTH; i++) {
@@ -37,13 +37,14 @@ void print_gpr()
     }
 }
 
+/* affiche un registre */
 void print_a_gpr(char *name) {
     uint8_t i = get_register_index(name);
     printf("Reg %-4s ($%02u): ", GPR[i].name, i);
     printf("0x%08x\n", GPR[i].value);
 }
 
-// retourne l'index du registre
+/* retourne l'index du registre */
 uint8_t get_register_index(char *name)
 {
         name = (strncmp("$", name, 1)) ? name : name + 1;
@@ -61,7 +62,7 @@ uint8_t get_register_index(char *name)
         }
 }
 
-// retourne la valeur d'un registre
+/* retourne la valeur d'un registre */
 uint32_t get_register_value(uint8_t index)
 {
         check_register(index);
@@ -88,7 +89,7 @@ uint32_t get_LO_value()
         return LO.value;
 }
 
-// ecrit une valeur dans un registre
+/* ecrit une valeur dans un registre */
 void set_register_value(uint8_t index, uint32_t value)
 {
     check_register(index);
@@ -117,11 +118,13 @@ void set_LO_value(uint32_t value)
         LO.value = value;
 }
 
+/* avance le registre PC de 4 */
 void advance_PC()
 {
     set_PC_value(get_PC_value() + 4);
 }
 
+/* determine si une chaine est un nombre */
 uint32_t isNumeric(char *s)
 {
     if (s == NULL || *s == '\0' || isspace(*s)) return 0;
@@ -130,6 +133,7 @@ uint32_t isNumeric(char *s)
     return *p == '\0';
 }
 
+/* recupere le nom d'un registre */
 char *get_register_name(uint8_t index)
 {
     check_register(index);

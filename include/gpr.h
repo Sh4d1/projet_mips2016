@@ -41,7 +41,7 @@ struct reg {
         uint32_t value;
 };
 
-// 32 registres
+/* 32 registres */
 #define GPR_LENGTH 32
 struct reg GPR[GPR_LENGTH];
 
@@ -57,7 +57,7 @@ void check_register(uint8_t index);
 /* affiche tous les registres */
 void print_gpr();
 
-/* affiche un certain registre */
+/* affiche un registre */
 void print_a_gpr(char *name);
 
 /* retourne l'index du registre */

@@ -48,11 +48,17 @@ struct reg GPR[GPR_LENGTH];
 /* registres speciaux */
 struct reg PC, HI, LO;
 
+/* ne pas quitter lorsqu'une exception est levee */
+bool exitMask;
+
 /* initialise les registres */
 void init_GPR();
 
 /* verifie la validite d'un registre */
 void check_register(uint8_t index);
+
+/* inverse la valeur de exitMask */
+void switch_exitMask();
 
 /* affiche tous les registres */
 void print_gpr();

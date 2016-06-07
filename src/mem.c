@@ -138,11 +138,13 @@ uint32_t get_data_end()
     return data.address + data.size;
 }
 
+/* retourne la taille de .bss */
 uint32_t get_bss_size()
 {
     return bss.size;
 }
 
+/* retourne la fin de .bss */
 uint32_t get_bss_end()
 {
     return bss.address + bss.size;
@@ -216,11 +218,13 @@ uint32_t get_word(uint32_t address)
     return (get_half_word(address) << 16) + get_half_word(address + 2);
 }
 
+/* recupere la taile de la mémoire */
 uint32_t get_memory_size()
 {
     return memory.memory_size;
 }
 
+/* recupere un pointeur sur le premier octet du framebuffer */
 uint8_t *get_framebuffer()
 {
     return memory.framebuffer;
@@ -236,6 +240,7 @@ void get_string(uint32_t address, char **string) {
     }
 }
 
+/* affiche la mémoire entre 2 adresses */
 void diplay_memory_between(uint32_t address1, uint32_t address2)
 {
     uint32_t offset = address2 - address1;
@@ -267,6 +272,7 @@ void free_memory()
     free_bp();
 }
 
+/* charge le fichier file en mémoire + symbole + relocation */
 void file_to_memory(char *file)
 {
     struct elf_descr *elf;
@@ -338,6 +344,7 @@ void file_to_memory(char *file)
     close_elf(elf);
 }
 
+/* reloge les section text et data */
 void reloge_text(struct elf_descr *elf)
 {
     Elf32_Rel *text_data = NULL;
@@ -354,19 +361,16 @@ void reloge_data(struct elf_descr *elf)
     reloge_section(data.address, get_data_bytes(), data_data, rel_data_size, table_sym.sym);
 }
 
+/* recupere un symbole depuis addr */
 char* get_sym_from_address(uint32_t addr)
 {
     for (size_t i = 0; i < table_sym.size; i++) {
-        if (table_sym.sym[i].adresse == addr) {
-            if (strcmp(table_sym.sym[i].nom, ".text")) {
-                if (strcmp(table_sym.sym[i].nom, ".data")) {
-                    if (strcmp(table_sym.sym[i].nom, ".bss")) {
-                        if (strcmp(table_sym.sym[i].nom, "")) {
-                            return table_sym.sym[i].nom;
-                        }
-                    }
-                }
-            }
+        if (table_sym.sym[i].adresse == addr
+        && strcmp(table_sym.sym[i].nom, ".text")
+        && strcmp(table_sym.sym[i].nom, ".data")
+        && strcmp(table_sym.sym[i].nom, ".bss")
+        && strcmp(table_sym.sym[i].nom, "")) {
+            return table_sym.sym[i].nom;
         }
     }
     return NULL;

@@ -347,7 +347,7 @@ int shell_addbp(char **args)
 int shell_rmbp(char **args)
 {
     if (args[1]) {
-        rm_bp(strtoul(args[1], NULL, 16));
+        rm_bp(get_value_from_string(args[1]));
     } else {
         free_bp();
     }

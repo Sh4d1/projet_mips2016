@@ -269,6 +269,9 @@ void get_string(uint32_t address, char **string) {
 void display_memory_between(uint32_t address1, uint32_t address2)
 {
     switch_exitMask();
+    if (address1 < get_memory_size() && address2 > get_memory_size()) {
+        address2 = get_memory_size() - 1;
+    }
     if (check_address(address1, 1) && check_address(address2, 1)) {
         uint32_t offset = address2 - address1;
         for (uint32_t i = 0; i <= offset; i++) {

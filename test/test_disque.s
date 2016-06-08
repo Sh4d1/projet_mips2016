@@ -43,9 +43,9 @@ BEQ $t0, $t3, endwhile
 
         ADD $s2, $s1, $s0
         ADD $s0, $0, $v0
-        SUB $s0, $s0, $s2
-        BLEZ $s0, endif
-            ADDI $s0, $0, 0xff
+        SUB $s0, $s2, $s0
+        BGTZ $s0, endif
+            #ADD $s0, $s0, 0xff
             SB $s0, 0($t5)
         endif:
         ADDI $t1, $t1, 1

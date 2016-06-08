@@ -20,6 +20,7 @@ ELF=$(patsubst %.s, %.o, $(AS))
 
 all: test_etudiants simips compile_tests
 
+
 $(OBJDIR)/framebuffer_s.o: $(SRCDIR)/framebuffer_s.c $(INCDIR)/framebuffer_s.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
@@ -68,6 +69,7 @@ compile_tests: $(ELF)
 
 $(TSTDIR)/%.o: $(TSTDIR)/%.s
 	mips-elf-as $^ -o $@
+
 
 clean:
 	rm -rf $(OBJ)

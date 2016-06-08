@@ -233,7 +233,7 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
             }
             break;
         case BGTZ:
-            printf("BGTZ $%s, 0X%hx <%s>\n", get_register_name(rs), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
+            printf("BGTZ $%s, 0x%hx <%s>\n", get_register_name(rs), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));
             break;
         case BLEZ:
             printf("BLEZ $%s, 0x%hx <%s>\n", get_register_name(rs), imm, get_sym_from_address(get_PC_value() + (extend(imm, true) << 2)));

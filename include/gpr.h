@@ -93,6 +93,6 @@ char *get_register_name(uint8_t index);
 void print_a_gpr(char *name);
 
 /* charge une valeur dans un registre */
-void set_a_gpr(char *name, uint32_t value)
+void set_a_gpr(char *name, uint32_t value);
 
 #endif /* end of include guard: _GPR_ */

@@ -37,6 +37,10 @@ void init_simips_argv(int argc, char **argv)
         data_address = 0;
         printf("Option -d non prise en compte\n");
     }
+    if (text_address >= mem_size) {
+        fprintf(stderr, "Erreur : L'adresse de la section text n'est pas dans la mémoire.\n");
+        exit(EXIT_FAILURE);
+    }
     init_memory(mem_size, fb);
     set_text_address(text_address);
     set_data_address(data_address);

@@ -3,21 +3,13 @@
 #include "../include/mem.h"
 #include "../include/gpr.h"
 
-// uint8_t function_index[] = { ADD, ADDU, AND, DIV, JR,
-//     MFHI, MFLO, MULT, OR, SLL, SRL, SLT, SUB, SYSCALL, XOR}
-//
-// char *function_str[] = { "ADD", "ADDU", "AND", "DIV", "JR",
-//     "MFHI", "MFLO", "MULT", "OR", "SLL", "SRL", "SLT", "SUB",
-//     "SYSCALL", "XOR"}
-
-
-
-
+/* execute ou désassemle l'instruction à l'adresse PC */
 void parse_instruction(uint32_t inst, bool dasm)
 {
-    // on récupère l'opcode
+    /* on recupère l'opcode */
     uint32_t opcode = inst >> 26;
 
+    /* on avance PC de 4 */
     advance_PC();
 
     /* opcode qui vaut 0 donc instruction de type R */
@@ -82,12 +74,10 @@ void parse_instruction(uint32_t inst, bool dasm)
                 case XOR:
                     xor(rd, rs, rt);
                     break;
-                default:
+                default: /* instruction non implémentée */
                     printf("Instruction de type R non reconnue\n");
             }
         }
-
-
     } else { /* cas des instructions I et J */
 
         /* on récupère rs, rt, imm et instr_index */
@@ -148,15 +138,17 @@ void parse_instruction(uint32_t inst, bool dasm)
                 case JAL:
                     jal(instr_index);
                     break;
-                default:
-                    printf("I or J not recongnized opcode : %u\n", opcode);
+                default: /* instruction non implémentée */
+                    printf("Instruction de type I ou J non reconnue\n");
             }
         }
     }
 }
 
+/* affiche l'instruction de type R à l'adresse PC */
 void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
 {
+    /* on affiche la valeur de PC, ainsi que la mémoire à cette adresse */
     printf("0x%06x:\t%08x\t", get_PC_value()-4, get_word(get_PC_value()-4));
     switch (code) {
         case ADD:
@@ -217,8 +209,10 @@ void print_R_dasm(uint32_t code, uint8_t rd, uint8_t rs, uint8_t rt, uint8_t sa)
     }
 }
 
+/* affiche l'instruction de type I ou J à l'adresse PC */
 void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t instr_index)
 {
+    /* on affiche la valeur de PC, ainsi que la mémoire à cette adresse */
     printf("0x%06x:\t%08x\t", get_PC_value()-4, get_word(get_PC_value()-4));
     switch (code) {
         case ADDI:
@@ -279,24 +273,33 @@ void print_I_J_dasm(uint32_t code, uint8_t rs, uint8_t rt, int16_t imm, uint32_t
     }
 }
 
+/* execute le code à l'adresse address, jusqu'à la fin de la section text */
 void run(uint32_t address)
 {
+    /* on charge address dans PC */
     set_PC_value(address);
+    /* si il y a un point d'arrêt à cette adresse */
     bool bp_first_addr = false;
     if (is_bp(get_PC_value())) {
+        /* on l'execute quand meme */
         bp_first_addr = true;
     }
 
+    /* tant que PC est dans la section text */
     while(get_PC_value() < get_text_end()) {
+        /* si on arrive sur un point d'arrêt, qui n'est pas le point de départ */
         if (is_bp(get_PC_value()) && !bp_first_addr) {
-            break;
+            break; /* on rend la main à l'utilisateur */
         }
+        /* sinon on execute l'instrution à l'adresse de PC */
         bp_first_addr = false;
         uint32_t word = get_word(get_PC_value());
         parse_instruction(word, false);
     }
 }
 
+/* execute l'instruction à l'addresse PC
+    si l'on rencontre un JAL, on execute la fonction */
 void run_line()
 {
     uint32_t pc_back = get_PC_value();
@@ -310,12 +313,14 @@ void run_line()
     }
 }
 
+/* execute l'instruction à l'addresse PC */
 void runi_line()
 {
     uint32_t word = get_word(get_PC_value());
     parse_instruction(word, false);
 }
 
+/* desassemble n lignes à parir de PC */
 void dasm_line(uint32_t n)
 {
     uint32_t word;
@@ -331,23 +336,26 @@ void dasm_line(uint32_t n)
     set_PC_value(pc_back);
 }
 
-
+/* désassemble la section text */
 void dasm_text()
 {
-    uint32_t pc_back = get_PC_value();
-    set_PC_value(text.address);
-    printf("\nDessasemblage de la section .text : Ox%x\n", get_PC_value());
-    while(get_PC_value() < get_text_end()) {
-        uint32_t word = get_word(get_PC_value());
-        char *sym = get_sym_from_address(get_PC_value());
-        if (sym) {
-            printf("\n<%s>:\n", sym);
+    if (get_text_size() != 0) {
+        uint32_t pc_back = get_PC_value();
+        set_PC_value(text.address);
+        printf("\nDessasemblage de la section .text : Ox%x\n", get_PC_value());
+        while(get_PC_value() < get_text_end()) {
+            uint32_t word = get_word(get_PC_value());
+            char *sym = get_sym_from_address(get_PC_value());
+            if (sym) {
+                printf("\n<%s>:\n", sym);
+            }
+            parse_instruction(word, true);
         }
-        parse_instruction(word, true);
+        set_PC_value(pc_back);
     }
-    set_PC_value(pc_back);
 }
 
+/* désassemble la section data */
 void dasm_data()
 {
     if (get_data_size() != 0) {
@@ -367,6 +375,7 @@ void dasm_data()
     }
 }
 
+/* désassemble la section bss */
 void dasm_bss()
 {
     if (get_bss_size() != 0) {
@@ -388,6 +397,7 @@ void dasm_bss()
     }
 }
 
+/* ajoute un point d'arrêt à l'adresse addr */
 void add_bp(uint32_t addr)
 {
     struct bp *new = malloc(sizeof(struct bp));
@@ -408,6 +418,7 @@ void add_bp(uint32_t addr)
     }
 }
 
+/* supprime le point d'arrêt à l'adresse addr */
 void rm_bp(uint32_t addr)
 {
     if (!breakpoint) {
@@ -432,6 +443,7 @@ void rm_bp(uint32_t addr)
     }
 }
 
+/* affiche les points d'arrêt */
 void display_bp()
 {
     if (breakpoint) {
@@ -447,6 +459,7 @@ void display_bp()
     }
 }
 
+/* libere la liste des points d'arrêt */
 void free_bp()
 {
     struct bp *tmp = breakpoint;
@@ -457,6 +470,7 @@ void free_bp()
     }
 }
 
+/* determine si une addresse est un point d'arrêt */
 bool is_bp(uint32_t addr)
 {
     if (!breakpoint) {

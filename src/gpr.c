@@ -47,22 +47,25 @@ void print_gpr()
 /* retourne l'index du registre */
 uint8_t get_register_index(char *name)
 {
-        name = (strncmp("$", name, 1)) ? name : name + 1;
-        if (isNumeric(name)) {
-            uint8_t index = strtol(name, NULL, 10);
-            return index;
-        } else {
-            for (uint8_t i = 0; i < GPR_LENGTH; i++) {
-                if (!strcmp(name, get_register_name(i))) {
-                    return i;
-                }
+    // on ignore le $ devant le nom du registre
+    name = (strncmp("$", name, 1)) ? name : name + 1;
+
+
+    if (isNumeric(name)) {
+        uint8_t index = strtol(name, NULL, 10);
+        return index;
+    } else {
+        for (uint8_t i = 0; i < GPR_LENGTH; i++) {
+            if (!strcmp(name, get_register_name(i))) {
+                return i;
             }
-            if (!exitMask) {
-                printf("Le registre %s n'existe pas.\n", name);
-                exit(EXIT_FAILURE);
-            }
-            return 32;
         }
+        if (!exitMask) {
+            printf("Le registre %s n'existe pas.\n", name);
+            exit(EXIT_FAILURE);
+        }
+        return 32;
+    }
 }
 
 /* retourne la valeur d'un registre */

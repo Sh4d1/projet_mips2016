@@ -249,17 +249,21 @@ int shell_dmem(char **args)
 {
     if (!args[1]) return MISSING_ARGS;
 
+    switch_exitMask();
     if (args[2]) {
-        diplay_memory_between(get_value_from_string(args[1]), get_value_from_string(args[2]));
+        display_memory_between(get_value_from_string(args[1]), get_value_from_string(args[2]));
     } else {
-        diplay_memory_between(get_value_from_string(args[1]), get_value_from_string(args[1]) + 15);
+        display_memory_between(get_value_from_string(args[1]), get_value_from_string(args[1]) + 15);
     }
+    switch_exitMask();
     return OK;
 }
 
 int shell_smem(char **args)
 {
     if (!args[2]) return MISSING_ARGS;
+
+    switch_exitMask();
 
     uint32_t value = get_value_from_string(args[2]);
     uint32_t nbOctets = (args[3]) ? get_value_from_string(args[3]) : 1;
@@ -284,6 +288,7 @@ int shell_smem(char **args)
     default:
         fprintf(stderr, "Le nombre d'octets à écrire est soit 1, 2 ou 4\n");
     }
+    switch_exitMask();
     return OK;
 }
 

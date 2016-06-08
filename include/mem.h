@@ -42,7 +42,7 @@ struct table_symboles table_sym;
 void init_memory(uint32_t mem_size, bool framebuffer);
 
 /* verifie la validite d'une adresse */
-void check_address(uint32_t address, uint8_t alignment);
+bool check_address(uint32_t address, uint8_t alignment);
 
 /* change la section text */
 void set_text_section(uint8_t *bytes, size_t size, uint32_t address, uint8_t align);
@@ -108,7 +108,7 @@ uint8_t *get_framebuffer();
 void get_string(uint32_t address, char **string);
 
 /* affiche la mémoire */
-void diplay_memory_between(uint32_t address1, uint32_t address2);
+void display_memory_between(uint32_t address1, uint32_t address2);
 
 /* libère la mémoire */
 void free_memory();

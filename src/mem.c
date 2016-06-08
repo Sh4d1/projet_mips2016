@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "../include/mem.h"
 #include "../include/elf_reader.h"
@@ -38,21 +39,28 @@ void init_memory(uint32_t mem_size, bool framebuffer)
 }
 
 /* verifie la validite d'une adresse */
-void check_address(uint32_t address, uint8_t alignment)
+bool check_address(uint32_t address, uint8_t alignment)
 {
+    bool bad_address = false;
     if (address < 0xFFFF0600) {
         if (address > get_memory_size()) {
             fprintf(stderr, "Adresse inexistante.\n");
-            exit(EXIT_FAILURE);
+            bad_address = true;
         }
     } else if (!memory.framebuffer) {
         fprintf(stderr, "Le framebuffer n'est pas activé.\n");
-        exit(EXIT_FAILURE);
+        bad_address = true;
     }
     if (address % alignment) {
         fprintf(stderr, "Adresse non alignée.\n");
-        exit(EXIT_FAILURE);
+        bad_address = true;
     }
+
+    if (bad_address) {
+        if (!exitMask) exit(EXIT_FAILURE);
+        return false;
+    }
+    return true;
 }
 
 /* change la section text */
@@ -167,28 +175,31 @@ bool is_half_word(uint32_t value) {
 /* change la valeur d'un octet en mémoire */
 void set_byte(uint32_t address, uint8_t value)
 {
-    check_address(address, 1);
-    if (address < 0xFFFF0600) {
-        memory.memory[address] = value;
-    } else {
-        memory.framebuffer[address - 0xFFFF0600] = value;
+    if (check_address(address, 1)) {
+        if (address < 0xFFFF0600) {
+            memory.memory[address] = value;
+        } else {
+            memory.framebuffer[address - 0xFFFF0600] = value;
+        }
     }
 }
 
 /* change la valeur d'un demi-mot en mémoire */
 void set_half_word(uint32_t address, uint16_t value)
 {
-    check_address(address, 2);
-    set_byte(address, value >> 8);
-    set_byte(address + 1, value);
+    if (check_address(address, 2)) {
+        set_byte(address, value >> 8);
+        set_byte(address + 1, value);
+    }
 }
 
 /* change la valeur d'un mot en mémoire */
 void set_word(uint32_t address, uint32_t value)
 {
-    check_address(address, 4);
-    set_half_word(address, value >> 16);
-    set_half_word(address + 2, value);
+    if (check_address(address, 4)) {
+        set_half_word(address, value >> 16);
+        set_half_word(address + 2, value);
+    }
 }
 
 /* place une chaine de charactere en memoire */
@@ -204,22 +215,28 @@ void set_n_string(uint32_t address, char *string, uint32_t size)
 /* recupere la valeur d'un octet en mémoire */
 uint8_t get_byte(uint32_t address)
 {
-    check_address(address, 1);
-    return (address < 0xFFFF0600) ? memory.memory[address] : memory.framebuffer[address - 0xFFFF0600];
+    if (check_address(address, 1)) {
+        return (address < 0xFFFF0600) ? memory.memory[address] : memory.framebuffer[address - 0xFFFF0600];
+    }
+    return 0;
 }
 
 /* recupere la valeur d'un demi-mot en mémoire */
 uint16_t get_half_word(uint32_t address)
 {
-    check_address(address, 2);
-    return (get_byte(address) << 8) + get_byte(address + 1);
+    if (check_address(address, 2)) {
+        return (get_byte(address) << 8) + get_byte(address + 1);
+    }
+    return 0;
 }
 
 /* recupere la valeur d'un mot en mémoire */
 uint32_t get_word(uint32_t address)
 {
-    check_address(address, 4);
-    return (get_half_word(address) << 16) + get_half_word(address + 2);
+    if (check_address(address, 4)) {
+        return (get_half_word(address) << 16) + get_half_word(address + 2);
+    }
+    return 0;
 }
 
 /* recupere la taile de la mémoire */
@@ -249,7 +266,7 @@ void get_string(uint32_t address, char **string) {
 }
 
 /* affiche la mémoire entre 2 adresses */
-void diplay_memory_between(uint32_t address1, uint32_t address2)
+void display_memory_between(uint32_t address1, uint32_t address2)
 {
     uint32_t offset = address2 - address1;
     for (uint32_t i = 0; i <= offset; i++) {

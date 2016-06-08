@@ -14,6 +14,12 @@ void init_GPR()
         strcpy(GPR[i].name, reg_names[i]);
     }
     PC.value = 0;
+    exitMask = false;
+}
+
+void switch_exitMask()
+{
+    exitMask = !exitMask;
 }
 
 /* verifie la validite d'un registre */
@@ -40,8 +46,12 @@ void print_gpr()
 /* affiche un registre */
 void print_a_gpr(char *name) {
     uint8_t i = get_register_index(name);
-    printf("Reg %-4s ($%02u): ", GPR[i].name, i);
-    printf("0x%08x\n", GPR[i].value);
+    if (i > 31) {
+        printf("Le registre %s n'existe pas.\n", name);
+    } else {
+        printf("Reg %-4s ($%02u): ", get_register_name(i), i);
+        printf("0x%08x\n", get_register_value(i));
+    }
 }
 
 /* retourne l'index du registre */
@@ -58,8 +68,8 @@ uint8_t get_register_index(char *name)
                 }
             }
             printf("Le registre %s n'existe pas.\n", name);
-            exit(EXIT_FAILURE);
-            return 0;
+            if (!exitMask) exit(EXIT_FAILURE);
+            return 32;
         }
 }
 

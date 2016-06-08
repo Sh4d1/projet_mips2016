@@ -212,10 +212,12 @@ int shell_dreg(char **args)
     if (!args[1]) {
         print_gpr();
     } else {
-        uint32_t i = 0;
-        while (args[++i]) {
-            print_a_gpr(args[i]);
+        switch_exitMask();
+        uint32_t i = 1;
+        while (args[i]) {
+            print_a_gpr(args[i++]);
         }
+        switch_exitMask();
     }
     return OK;
 }

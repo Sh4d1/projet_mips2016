@@ -2,6 +2,7 @@
 #define _GPR_
 
 #include <inttypes.h>
+#include <stdbool.h>
 
 /* indices des registres */
 enum {
@@ -47,6 +48,8 @@ struct reg GPR[GPR_LENGTH];
 
 /* registres speciaux */
 struct reg PC, HI, LO;
+
+bool exitMask;
 
 /* initialise les registres */
 void init_GPR();

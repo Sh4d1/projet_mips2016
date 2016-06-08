@@ -249,11 +249,13 @@ int shell_dmem(char **args)
 {
     if (!args[1]) return MISSING_ARGS;
 
+    switch_exitMask();
     if (args[2]) {
         display_memory_between(get_value_from_string(args[1]), get_value_from_string(args[2]));
     } else {
         display_memory_between(get_value_from_string(args[1]), get_value_from_string(args[1]) + 15);
     }
+    switch_exitMask();
     return OK;
 }
 

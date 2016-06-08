@@ -36,6 +36,7 @@ uint8_t *framebuffer_init_display()
         exit(EXIT_FAILURE); // On quitte le programme
     }
 
+<<<<<<< HEAD
     ecran = SDL_SetVideoMode(FRAMEBUFFER_W, FRAMEBUFFER_H, 8, SDL_HWPALETTE);
 
 
@@ -48,6 +49,7 @@ uint8_t *framebuffer_init_display()
 
 
 
+
     return (uint8_t *)ecran->pixels;
 
 
@@ -55,7 +57,7 @@ uint8_t *framebuffer_init_display()
 
 void framebuffer_close_display()
 {
-    
+
     SDL_KillThread( thread );
     SDL_FreeSurface( ecran );
     SDL_Quit();

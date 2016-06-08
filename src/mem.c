@@ -42,6 +42,8 @@ void init_memory(uint32_t mem_size, bool framebuffer)
 bool check_address(uint32_t address, uint8_t alignment)
 {
     bool bad_address = false;
+
+    // serie de tests
     if (address < 0xFFFF0600) {
         if (address >= get_memory_size()) {
             fprintf(stderr, "0x%08x :  Adresse inexistante.\n", address);
@@ -56,7 +58,9 @@ bool check_address(uint32_t address, uint8_t alignment)
         bad_address = true;
     }
 
+    // si l'adresse n'a pas passe les tests
     if (bad_address) {
+        // on quitte si le masque n'est pas active
         if (!exitMask) exit(EXIT_FAILURE);
         return false;
     }
@@ -163,12 +167,14 @@ uint32_t get_bss_end()
 }
 
 /* determine si value tient sur un octet */
-bool is_byte(uint32_t value) {
+bool is_byte(uint32_t value)
+{
     return !(value >> 8);
 }
 
 /* determine si value tient sur un demi-mot */
-bool is_half_word(uint32_t value) {
+bool is_half_word(uint32_t value)
+{
     return !(value >> 16);
 }
 
@@ -268,6 +274,7 @@ void get_string(uint32_t address, char **string) {
 /* affiche la mémoire entre 2 adresses */
 void display_memory_between(uint32_t address1, uint32_t address2)
 {
+    // activation du masque pour ne pas quitter lors d'un check d'adresse
     switch_exitMask();
     if (address1 < get_memory_size() && address2 > get_memory_size()) {
         address2 = get_memory_size() - 1;
@@ -287,6 +294,7 @@ void display_memory_between(uint32_t address1, uint32_t address2)
             printf("\n");
         }
     }
+    // on desactive le masque, les checks d'addresse sont termines
     switch_exitMask();
 }
 

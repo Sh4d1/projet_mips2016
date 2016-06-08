@@ -196,8 +196,12 @@ int shell_load(char **args)
 {
     if (!args[1]) return MISSING_ARGS;
 
-    file_to_memory(args[1]);
-    return OK;
+    if (file_to_memory(args[1])) {
+        return OK;
+    } else {
+        return ELF_ERR;
+    }
+
 }
 
 int shell_dreg(char **args)

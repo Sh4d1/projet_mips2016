@@ -5,11 +5,12 @@
 #define _SHELL_
 
 /* codes et messages d'erreur */
-enum {QUIT, OK, KO, EMPTY_LINE, UNKNOWN_COMMAND, MISSING_ARGS, NO_FRAMEBUFFER};
+enum {QUIT, OK, KO, ELF_ERR, EMPTY_LINE, UNKNOWN_COMMAND, MISSING_ARGS, NO_FRAMEBUFFER};
 static char *err_msgs[] = {
     "Au revoir.",
     "Commande réalisée avec succès.",
     "Erreur.",
+    "Erreur fichier ELF.",
     "Ligne vide",
     "Commande inconnue.",
     "Argument(s) manquant(s).",

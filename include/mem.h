@@ -114,11 +114,11 @@ void display_memory_between(uint32_t address1, uint32_t address2);
 void free_memory();
 
 /* charge le fichier file en mémoire + symbole + relocation */
-void file_to_memory(char *file);
+bool file_to_memory(char *file);
 
 /* reloge les section text et data */
-void reloge_text(struct elf_descr *elf);
-void reloge_data(struct elf_descr *elf);
+bool reloge_text(struct elf_descr *elf);
+bool reloge_data(struct elf_descr *elf);
 
 /* recupere un symbole depuis addr */
 char *get_sym_from_address(uint32_t addr);

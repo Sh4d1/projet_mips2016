@@ -318,7 +318,7 @@ void free_memory()
 }
 
 /* charge le fichier file en mémoire + symbole + relocation */
-void file_to_memory(char *file)
+bool file_to_memory(char *file)
 {
     struct elf_descr *elf;
     /* pour la section text */
@@ -340,21 +340,20 @@ void file_to_memory(char *file)
 
     elf = read_elf(file);
     if (elf == NULL) {
-        printf("Erreur de lecture ELF\n");
-        exit(EXIT_FAILURE);
+        return false;
     }
 
     /* on récupere les diférentes section */
-    get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align);
-    get_data_section(elf, &data_bytes, &data_size, &data_addr, &data_align);
-    get_bss_section(elf, &bss_size, &bss_addr, &bss_align);
+    if(!get_text_section(elf, &text_bytes, &text_size, &text_addr, &text_align)) return false;
+    if(!get_data_section(elf, &data_bytes, &data_size, &data_addr, &data_align)) return false;
+    if(!get_bss_section(elf, &bss_size, &bss_addr, &bss_align)) return false;
 
     Elf32_Sym *symtab;
     size_t sym_size;
     char *strtab = NULL;
     size_t str_size;
-    get_string_table(elf, &strtab, &str_size);
-    get_symbol_table(elf, &symtab, &sym_size);
+    if(!get_string_table(elf, &strtab, &str_size)) return false;
+    if(!get_symbol_table(elf, &symtab, &sym_size)) return false;
 
 
     /* si c'est un fichier éxecutable,
@@ -379,31 +378,34 @@ void file_to_memory(char *file)
         set_bss_section(bss_size, get_data_end(), bss_align);
         reloge_symboles(symtab, sym_size, strtab, text.address, data.address, bss.address, &(table_sym.sym), &(table_sym.size));
 
-        reloge_text(elf);
-        reloge_data(elf);
+        if(!reloge_text(elf)) return false;
+        if(!reloge_data(elf)) return false;
 
     } else { /* sinon erreur ? */
-        fprintf(stderr, "Erreur ELF\n");
+        return false;
     }
 
     close_elf(elf);
+    return true;
 }
 
 /* reloge les section text et data */
-void reloge_text(struct elf_descr *elf)
+bool reloge_text(struct elf_descr *elf)
 {
     Elf32_Rel *text_data = NULL;
     size_t rel_text_size = 0;
-    get_rel_text_section(elf, &text_data, &rel_text_size);
+    if(!get_rel_text_section(elf, &text_data, &rel_text_size)) return false;
     reloge_section(text.address, get_text_bytes(), text_data, rel_text_size, table_sym.sym);
+    return true;
 }
 
-void reloge_data(struct elf_descr *elf)
+bool reloge_data(struct elf_descr *elf)
 {
     Elf32_Rel *data_data = NULL;
     size_t rel_data_size = 0;
-    get_rel_data_section(elf, &data_data, &rel_data_size);
+    if(!get_rel_data_section(elf, &data_data, &rel_data_size)) return false;
     reloge_section(data.address, get_data_bytes(), data_data, rel_data_size, table_sym.sym);
+    return true;
 }
 
 /* recupere un symbole depuis addr */

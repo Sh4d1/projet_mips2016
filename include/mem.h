@@ -6,7 +6,7 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
-#include "relocation.h"
+#include "relocation_s.h"
 
 /* structure de la mémoire, un tableau de memory_case, plus la taille,et le framebuffer */
 struct memory {

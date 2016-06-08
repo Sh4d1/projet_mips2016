@@ -23,6 +23,9 @@ all: test_etudiants simips compile_tests
 $(OBJDIR)/framebuffer_s.o: $(SRCDIR)/framebuffer_s.c $(INCDIR)/framebuffer_s.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+$(OBJDIR)/relocation_s.o: $(SRCDIR)/relocation_s.c $(INCDIR)/relocation_s.h $(INCDIR)/elf_reader.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 $(OBJDIR)/test_etudiants.o: $(SRCDIR)/test_etudiants.c $(INCDIR)/elf_reader.h
 	$(CC) -c $(CFLAGS) $< -o $@
 test_etudiants: $(OBJDIR)/elf_reader.o $(OBJDIR)/test_etudiants.o
@@ -52,13 +55,13 @@ $(OBJDIR)/shell-no-readline.o: $(SRCDIR)/shell.c $(INCDIR)/shell.h
 
 $(OBJDIR)/simips.o: $(SRCDIR)/simips.c
 	$(CC) -c $(DFLAGS) $(CFLAGS) $< -o $@
-simips: $(OBJDIR)/simips.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer_s.o
+simips: $(OBJDIR)/simips.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation_s.o $(OBJDIR)/framebuffer_s.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 #simips - without readline
 $(OBJDIR)/simips-no-readline.o: $(SRCDIR)/simips.c
 	$(CC) -c $(CFLAGS) $< -o $@
-simips-no-readline: $(OBJDIR)/simips-no-readline.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell-no-readline.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation.o $(OBJDIR)/framebuffer.o
+simips-no-readline: $(OBJDIR)/simips-no-readline.o $(OBJDIR)/gpr.o $(OBJDIR)/mem.o $(OBJDIR)/shell-no-readline.o $(OBJDIR)/elf_reader.o $(OBJDIR)/instructions.o $(OBJDIR)/operations.o $(OBJDIR)/relocation_s.o $(OBJDIR)/framebuffer.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 compile_tests: $(ELF)

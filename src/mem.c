@@ -299,7 +299,7 @@ void display_memory_between(uint32_t address1, uint32_t address2)
             }
         }
     } else {
-        printf("0x%08x supérieure à 0x%08x", address1, address2);
+        printf("0x%08x supérieure à 0x%08x\n", address1, address2);
     }
 }
 

@@ -42,6 +42,8 @@ void init_memory(uint32_t mem_size, bool framebuffer)
 bool check_address(uint32_t address, uint8_t alignment)
 {
     bool bad_address = false;
+
+    // serie de tests
     if (address < 0xFFFF0600) {
         if (address >= get_memory_size()) {
             fprintf(stderr, "0x%08x :  Adresse inexistante.\n", address);
@@ -56,7 +58,9 @@ bool check_address(uint32_t address, uint8_t alignment)
         bad_address = true;
     }
 
+    // si l'adresse n'a pas passe les tests
     if (bad_address) {
+        // on quitte si le masque n'est pas active
         if (!exitMask) exit(EXIT_FAILURE);
         return false;
     }
@@ -163,12 +167,14 @@ uint32_t get_bss_end()
 }
 
 /* determine si value tient sur un octet */
-bool is_byte(uint32_t value) {
+bool is_byte(uint32_t value)
+{
     return !(value >> 8);
 }
 
 /* determine si value tient sur un demi-mot */
-bool is_half_word(uint32_t value) {
+bool is_half_word(uint32_t value)
+{
     return !(value >> 16);
 }
 
@@ -253,13 +259,18 @@ uint8_t *get_framebuffer()
 
 /* recupere une chaine de charactere en memoire */
 void get_string(uint32_t address, char **string) {
+
+    // calcule au prealable de la taille de la chaine
     uint32_t string_length = 0;
     while (get_byte(address + string_length++));
+
     *string = malloc((string_length + 1) * sizeof(char));
     if (!string) {
         fprintf(stderr, "Erreur allocation get_string.\n");
         exit(EXIT_FAILURE);
     }
+
+    // on recupere un a un les characteres
     for (uint32_t i = 0; i < string_length; i++) {
         (*string)[i] = get_byte(address + i);
     }
@@ -268,7 +279,6 @@ void get_string(uint32_t address, char **string) {
 /* affiche la mémoire entre 2 adresses */
 void display_memory_between(uint32_t address1, uint32_t address2)
 {
-    switch_exitMask();
     if (address1 < get_memory_size() && address2 > get_memory_size()) {
         address2 = get_memory_size() - 1;
     }
@@ -287,7 +297,6 @@ void display_memory_between(uint32_t address1, uint32_t address2)
             printf("\n");
         }
     }
-    switch_exitMask();
 }
 
 /* libère la mémoire */

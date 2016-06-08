@@ -36,7 +36,7 @@ char *func_name_gen(const char *stem_text, int state)
 
     int text_len = strlen(stem_text);
 
-    while (count < shell_num_func()-1) {
+    while (count < shell_num_func() - 1) {
         count++;
         if (strncmp(func_str[count], stem_text, text_len) == 0) {
             char *d = malloc (strlen(func_str[count]) + 1);
@@ -253,11 +253,18 @@ int shell_dmem(char **args)
 {
     if (!args[1]) return MISSING_ARGS;
 
+    // activation du masque pour ne pas quitter lors d'un check d'adresse
+    switch_exitMask();
+
     if (args[2]) {
         display_memory_between(get_value_from_string(args[1]), get_value_from_string(args[2]));
     } else {
         display_memory_between(get_value_from_string(args[1]), get_value_from_string(args[1]) + 15);
     }
+
+    // on desactive le masque, les checks d'addresse sont termines
+    switch_exitMask();
+
     return OK;
 }
 
@@ -265,6 +272,7 @@ int shell_smem(char **args)
 {
     if (!args[2]) return MISSING_ARGS;
 
+    // activation du masque pour ne pas quitter lors d'un check d'adresse
     switch_exitMask();
 
     uint32_t value = get_value_from_string(args[2]);
@@ -290,7 +298,10 @@ int shell_smem(char **args)
     default:
         fprintf(stderr, "Le nombre d'octets à écrire est soit 1, 2 ou 4\n");
     }
+
+    // on desactive le masque, les checks d'addresse sont termines
     switch_exitMask();
+
     return OK;
 }
 

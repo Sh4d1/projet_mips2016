@@ -3,3 +3,26 @@ Projet MIPS
 Patrik Cyvoct - Quentin Lapointe - Mehdi El Idrissi
 
 Création d'un simulateur de microcontroleur MIPS en C
+
+Compilation de simips:
+    - pour ne pas utiliser GNU Readline
+        make simips-no-readline
+    - sinon
+        make simips
+Compilation des tests:
+    - pour compiler tout les tests dans test/
+        make compile_tests
+Compilation de simips + des tests
+    make all
+
+Nettoyage du dossier
+    make cleanall
+
+
+Utilisation de ./simips
+    ./simips [-fb/-no-fb] [-s <size>] [-t <adresse>] [-d <adresse>]
+
+    - L'option -fb permet d'activer le framebuffer.
+    - L'option -s fixe la taille de la mémoire à <size>
+    - L'option -t fixe l'adresse de la section .text à <adresse>
+    - L'option -d fixe l'adresse de la section .data à <adresse> (nécessite l'option -t)

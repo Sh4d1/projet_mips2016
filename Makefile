@@ -18,7 +18,7 @@ OBJ=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 AS=$(wildcard $(TSTDIR)/*.s)
 ELF=$(patsubst %.s, %.o, $(AS))
 
-all: test_etudiants simips compile_tests
+all: simips compile_tests
 
 
 $(OBJDIR)/framebuffer_s.o: $(SRCDIR)/framebuffer_s.c $(INCDIR)/framebuffer_s.h

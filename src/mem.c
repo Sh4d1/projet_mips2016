@@ -268,19 +268,23 @@ void get_string(uint32_t address, char **string) {
 /* affiche la mémoire entre 2 adresses */
 void display_memory_between(uint32_t address1, uint32_t address2)
 {
-    uint32_t offset = address2 - address1;
-    for (uint32_t i = 0; i <= offset; i++) {
-        if (!(i % 16)) {
-            printf("0x%06x: ", address1 + i);
+    switch_exitMask();
+    if (check_address(address1, 1) && check_address(address2, 1)) {
+        uint32_t offset = address2 - address1;
+        for (uint32_t i = 0; i <= offset; i++) {
+            if (!(i % 16)) {
+                printf("0x%06x: ", address1 + i);
+            }
+            printf("%02x ", get_byte(address1 + i));
+            if (!((i + 1) % 16)) {
+                printf("\n");
+            }
         }
-        printf("%02x ", get_byte(address1 + i));
-        if (!((i + 1) % 16)) {
+        if ((offset + 1) % 16) {
             printf("\n");
         }
     }
-    if ((offset + 1) % 16) {
-        printf("\n");
-    }
+    switch_exitMask();
 }
 
 /* libère la mémoire */

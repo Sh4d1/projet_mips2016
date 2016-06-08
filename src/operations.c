@@ -74,8 +74,14 @@ void mult(uint8_t rs, uint8_t rt)
 
 void divi(uint8_t rs, uint8_t rt)
 {
-        set_LO_value(get_register_value(rs) / get_register_value(rt));
-        set_HI_value(get_register_value(rs) % get_register_value(rt));
+        if (get_register_value(rt) != 0) {
+            set_LO_value(get_register_value(rs) / get_register_value(rt));
+            set_HI_value(get_register_value(rs) % get_register_value(rt));
+        } else {
+            fprintf(stderr, "Erreur : division par 0. Fin du programme.\n");
+            exit(EXIT_FAILURE);
+        }
+
 }
 
 /* instructions logiques */

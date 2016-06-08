@@ -5,3 +5,5 @@ ADDI $t1, $0, 5
 DIV $0, $t0, $t1
 MFHI $t2
 MFLO $t3
+
+#DIV $0, $t0, $0

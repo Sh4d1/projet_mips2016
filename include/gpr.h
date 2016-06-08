@@ -63,9 +63,6 @@ void check_register(uint8_t index);
 /* affiche tous les registres */
 void print_gpr();
 
-/* affiche un registre */
-void print_a_gpr(char *name);
-
 /* retourne l'index du registre */
 uint8_t get_register_index(char *name);
 
@@ -91,5 +88,11 @@ uint32_t isNumeric(char *s);
 
 /* recupere le nom d'un registre */
 char *get_register_name(uint8_t index);
+
+/* affiche un registre */
+void print_a_gpr(char *name);
+
+/* charge une valeur dans un registre */
+void set_a_gpr(char *name, uint32_t value)
 
 #endif /* end of include guard: _GPR_ */

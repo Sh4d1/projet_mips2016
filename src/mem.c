@@ -18,6 +18,10 @@ void init_memory(uint32_t mem_size, bool framebuffer)
 
     // initialisation de la memoire
     memory.memory = malloc(mem_size * sizeof(uint8_t));
+    if (!memory.memory) {
+        fprintf(stderr, "Erreur allocation de la mémoire.\n");
+        exit(EXIT_FAILURE);
+    }
     memory.memory_size = mem_size;
     for (uint32_t i = 0; i < mem_size; i++) {
         set_byte(i, 0);
@@ -235,6 +239,10 @@ void get_string(uint32_t address, char **string) {
     uint32_t string_length = 0;
     while (get_byte(address + string_length++));
     *string = malloc((string_length + 1) * sizeof(char));
+    if (!string) {
+        fprintf(stderr, "Erreur allocation get_string.\n");
+        exit(EXIT_FAILURE);
+    }
     for (uint32_t i = 0; i < string_length; i++) {
         (*string)[i] = get_byte(address + i);
     }

@@ -62,8 +62,6 @@ void shell_loop(void)
     printf("Bienvenue dans le simulateur MIPS32. N'hésitez pas à utiliser la commande help.\n");
     uint8_t status = 0;
     do {
-
-        //snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", getenv("USER"), getcwd(NULL, 1024));
         input = readline("simips > ");
         if (!input)
             break;
@@ -76,10 +74,10 @@ void shell_loop(void)
             printf("%s\n", err_msgs[status]);
         }
 
-
         free(input);
         free(args);
     } while (status != QUIT);
+    clear_history();
 #else
     char *line;
     char **args;
@@ -112,7 +110,7 @@ char *shell_read_line(void)
 
 
     if (!buffer) {
-        fprintf(stderr, "Shell : allocation error\n");
+        fprintf(stderr, "Shell : erreur allocation.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -130,13 +128,8 @@ char *shell_read_line(void)
         position++;
 
         if (position >= bufsize) {
-            // on ne rentre jamais dans ce if ?
-            bufsize += SHELL_RL_BUFSIZE;
-            buffer = realloc(buffer, bufsize);
-            if (!buffer) {
-                fprintf(stderr, "Shell : allocation error\n");
-                exit(EXIT_FAILURE);
-            }
+            fprintf(stderr, "Shell : dépassement du buffer.\n");
+            exit(EXIT_FAILURE);
         }
     }
 }
@@ -150,7 +143,7 @@ char **shell_split_line(char *line)
     char *token;
 
     if (!tokens) {
-        fprintf(stderr, "Shell : allocation error\n");
+        fprintf(stderr, "Shell : erreur allocation.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -160,7 +153,7 @@ char **shell_split_line(char *line)
         position++;
 
         if (position >= bufsize) {
-                fprintf(stderr, "Shell : allocation error\n");
+                fprintf(stderr, "Shell : dépassement du buffer.\n");
                 exit(EXIT_FAILURE);
         }
 

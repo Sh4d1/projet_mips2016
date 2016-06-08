@@ -7,6 +7,10 @@ void traduit_table_symboles(const Elf32_Sym *symtab, size_t symtab_size, const c
 {
     *nb_symboles = symtab_size;
     *table_symboles = malloc(symtab_size*sizeof(struct symbole));
+    if (!table_symboles) {
+        fprintf(stderr, "Erreur allocation table_symboles.\n");
+        exit(EXIT_FAILURE);
+    }
     for (size_t i = 0; i < symtab_size; i++) {
         char c = strtab[symtab[i].st_name];
         int j = 0;
@@ -21,6 +25,10 @@ void traduit_table_symboles(const Elf32_Sym *symtab, size_t symtab_size, const c
         s[j] = '\0';
         if (j != 0) {
             (*table_symboles)[i].nom = malloc((j+1)*sizeof(char));
+            if (!(*table_symboles)[i].nom) {
+                fprintf(stderr, "Erreur allocation table_symboles.nom.\n");
+                exit(EXIT_FAILURE);
+            }
             strncpy((*table_symboles)[i].nom, s,j+1);
         } else {
             (*table_symboles)[i].nom = NULL;
@@ -34,6 +42,10 @@ void reloge_symboles(const Elf32_Sym *symtab, size_t symtab_size, const char *st
 {
     *nb_symboles = symtab_size;
     *table_symboles = malloc(symtab_size*sizeof(struct symbole));
+    if (!table_symboles) {
+        fprintf(stderr, "Erreur allocation table_symboles.\n");
+        exit(EXIT_FAILURE);
+    }
     for (size_t i = 0; i < symtab_size; i++) {
         char c = strtab[symtab[i].st_name];
         int j = 0;
@@ -48,6 +60,10 @@ void reloge_symboles(const Elf32_Sym *symtab, size_t symtab_size, const char *st
         s[j] = '\0';
         if (j != 0) {
             (*table_symboles)[i].nom = malloc((j+1)*sizeof(char));
+            if (!(*table_symboles)[i].nom) {
+                fprintf(stderr, "Erreur allocation table_symboles.nom.\n");
+                exit(EXIT_FAILURE);
+            }
             strncpy((*table_symboles)[i].nom, s,j+1);
         } else {
             (*table_symboles)[i].nom = NULL;

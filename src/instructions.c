@@ -391,6 +391,10 @@ void dasm_bss()
 void add_bp(uint32_t addr)
 {
     struct bp *new = malloc(sizeof(struct bp));
+    if (!new) {
+        fprintf(stderr, "Erreur allocation point d'arrêt.\n");
+        exit(EXIT_FAILURE);
+    }
     new->address = addr;
     new->next = NULL;
     if (!breakpoint) {

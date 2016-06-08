@@ -44,15 +44,15 @@ bool check_address(uint32_t address, uint8_t alignment)
     bool bad_address = false;
     if (address < 0xFFFF0600) {
         if (address > get_memory_size()) {
-            fprintf(stderr, "Adresse inexistante.\n");
+            fprintf(stderr, "0x%08x :  Adresse inexistante.\n", address);
             bad_address = true;
         }
     } else if (!memory.framebuffer) {
-        fprintf(stderr, "Le framebuffer n'est pas activé.\n");
+        fprintf(stderr, "0x%08x : Le framebuffer n'est pas activé.\n", address);
         bad_address = true;
     }
     if (address % alignment) {
-        fprintf(stderr, "Adresse non alignée.\n");
+        fprintf(stderr, "0x%08x : Adresse non alignée.\n", address);
         bad_address = true;
     }
 

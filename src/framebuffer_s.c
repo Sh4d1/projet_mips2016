@@ -36,7 +36,7 @@ uint8_t *framebuffer_init_display()
         exit(EXIT_FAILURE); // On quitte le programme
     }
 
-<<<<<<< HEAD
+
     ecran = SDL_SetVideoMode(FRAMEBUFFER_W, FRAMEBUFFER_H, 8, SDL_HWPALETTE);
 
 

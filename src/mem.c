@@ -274,8 +274,6 @@ void get_string(uint32_t address, char **string) {
 /* affiche la mémoire entre 2 adresses */
 void display_memory_between(uint32_t address1, uint32_t address2)
 {
-    // activation du masque pour ne pas quitter lors d'un check d'adresse
-    switch_exitMask();
     if (address1 < get_memory_size() && address2 > get_memory_size()) {
         address2 = get_memory_size() - 1;
     }
@@ -294,8 +292,6 @@ void display_memory_between(uint32_t address1, uint32_t address2)
             printf("\n");
         }
     }
-    // on desactive le masque, les checks d'addresse sont termines
-    switch_exitMask();
 }
 
 /* libère la mémoire */

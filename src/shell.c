@@ -250,9 +250,15 @@ int shell_dmem(char **args)
     if (!args[1]) return MISSING_ARGS;
 
     switch_exitMask();
-    if (!check_address(get_value_from_string(args[1]), 1)) return OK;
+    if (!check_address(get_value_from_string(args[1]), 1)) {
+        switch_exitMask();
+        return OK;
+    }
     if (args[2]) {
-        if (!check_address(get_value_from_string(args[2]), 1)) return OK;
+        if (!check_address(get_value_from_string(args[2]), 1)) {
+            switch_exitMask();
+            return OK;
+        }
         display_memory_between(get_value_from_string(args[1]), get_value_from_string(args[2]));
     } else {
         display_memory_between(get_value_from_string(args[1]), get_value_from_string(args[1]) + 15);

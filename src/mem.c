@@ -259,13 +259,18 @@ uint8_t *get_framebuffer()
 
 /* recupere une chaine de charactere en memoire */
 void get_string(uint32_t address, char **string) {
+
+    // calcule au prealable de la taille de la chaine
     uint32_t string_length = 0;
     while (get_byte(address + string_length++));
+
     *string = malloc((string_length + 1) * sizeof(char));
     if (!string) {
         fprintf(stderr, "Erreur allocation get_string.\n");
         exit(EXIT_FAILURE);
     }
+
+    // on recupere un a un les characteres
     for (uint32_t i = 0; i < string_length; i++) {
         (*string)[i] = get_byte(address + i);
     }

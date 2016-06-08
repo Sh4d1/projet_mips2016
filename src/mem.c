@@ -43,7 +43,7 @@ bool check_address(uint32_t address, uint8_t alignment)
 {
     bool bad_address = false;
     if (address < 0xFFFF0600) {
-        if (address > get_memory_size()) {
+        if (address >= get_memory_size()) {
             fprintf(stderr, "0x%08x :  Adresse inexistante.\n", address);
             bad_address = true;
         }

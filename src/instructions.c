@@ -342,7 +342,7 @@ void dasm_text()
     if (get_text_size() != 0) {
         uint32_t pc_back = get_PC_value();
         set_PC_value(text.address);
-        printf("\nDessasemblage de la section .text : Ox%x\n", get_PC_value());
+        printf("\nDessasemblage de la section .text : 0x%x\n", get_PC_value());
         while(get_PC_value() < get_text_end()) {
             uint32_t word = get_word(get_PC_value());
             char *sym = get_sym_from_address(get_PC_value());
@@ -361,7 +361,7 @@ void dasm_data()
     if (get_data_size() != 0) {
         uint32_t pc_back = get_PC_value();
         set_PC_value(data.address);
-        printf("\nDessasemblage de la section .data : Ox%x\n", get_PC_value());
+        printf("\nDessasemblage de la section .data : 0x%x\n", get_PC_value());
         while(get_PC_value() < get_data_end()) {
             char *sym = get_sym_from_address(get_PC_value());
             if (sym) {
@@ -381,7 +381,7 @@ void dasm_bss()
     if (get_bss_size() != 0) {
         uint32_t pc_back = get_PC_value();
         set_PC_value(bss.address);
-        printf("\nDessasemblage de la section .bss : Ox%x\n", get_PC_value());
+        printf("\nDessasemblage de la section .bss : 0x%x\n", get_PC_value());
         while(get_PC_value() < get_bss_end()) {
             char *sym = get_sym_from_address(get_PC_value());
             if (sym) {

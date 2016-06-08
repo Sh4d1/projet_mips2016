@@ -17,6 +17,7 @@ void init_GPR()
     exitMask = false;
 }
 
+/* inverse le masque */
 void switch_exitMask()
 {
     exitMask = !exitMask;
@@ -40,17 +41,6 @@ void print_gpr()
         if ((i+1) % 4 == 0) {
             printf("\n");
         }
-    }
-}
-
-/* affiche un registre */
-void print_a_gpr(char *name) {
-    uint8_t i = get_register_index(name);
-    if (i > 31) {
-        printf("Le registre %s n'existe pas.\n", name);
-    } else {
-        printf("Reg %-4s ($%02u): ", get_register_name(i), i);
-        printf("0x%08x\n", get_register_value(i));
     }
 }
 
@@ -151,4 +141,29 @@ char *get_register_name(uint8_t index)
 {
     check_register(index);
     return reg_names[index];
+}
+
+/* affiche un registre */
+void print_a_gpr(char *name) {
+    switch_exitMask();
+    uint8_t i = get_register_index(name);
+    if (i > 31) {
+        printf("Le registre %s n'existe pas.\n", name);
+    } else {
+        printf("Reg %-4s ($%02u): ", get_register_name(i), i);
+        printf("0x%08x\n", get_register_value(i));
+    }
+    switch_exitMask();
+}
+
+/* charge une valeur dans un registre */
+void set_a_gpr(char *name, uint32_t value) {
+    switch_exitMask();
+    uint8_t i = get_register_index(name);
+    if (i > 31) {
+        printf("Le registre %s n'existe pas.\n", name);
+    } else {
+        set_register_value_by_name(name, value);
+    }
+    switch_exitMask();
 }

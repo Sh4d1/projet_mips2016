@@ -67,8 +67,10 @@ uint8_t get_register_index(char *name)
                     return i;
                 }
             }
-            printf("Le registre %s n'existe pas.\n", name);
-            if (!exitMask) exit(EXIT_FAILURE);
+            if (!exitMask) {
+                printf("Le registre %s n'existe pas.\n", name);
+                exit(EXIT_FAILURE);
+            }
             return 32;
         }
 }

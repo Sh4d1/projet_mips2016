@@ -54,6 +54,9 @@ bool exitMask;
 /* initialise les registres */
 void init_GPR();
 
+/* inverse le masque */
+void switch_exitMask()
+
 /* verifie la validite d'un registre */
 void check_register(uint8_t index);
 

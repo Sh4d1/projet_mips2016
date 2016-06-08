@@ -72,7 +72,7 @@ $(TSTDIR)/%.o: $(TSTDIR)/%.s
 
 
 clean:
-	rm -rf $(OBJ)
+	rm -rf $(OBJ) $(OBJDIR)/shell-no-readline.o $(OBJDIR)/simips-no-readline.o
 
 cleanall: clean
 	rm -rf test_etudiants exempleElf.o $(TSTDIR)/*.o

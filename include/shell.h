@@ -1,10 +1,6 @@
-/*  @file shell.h
-
-    @brief Fonctions du shell
-
-    @author Patrik Cyvoct
-*/
-
+/**
+ * @brief Module de gestion du shell.
+ */
 #ifndef _SHELL_
 #define _SHELL_
 

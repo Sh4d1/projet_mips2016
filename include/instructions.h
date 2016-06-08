@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+/**
+ * @brief Module de gestion des instructions, du désassemblage et des points d'arrêt
+ */
+
 /* indices du champ function */
 enum function {
     ADD = 32,

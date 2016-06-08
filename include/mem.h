@@ -8,6 +8,11 @@
 
 #include "relocation_s.h"
 
+/**
+ * @brief Module de gestion de la mémoire, des sections, la table des symboles
+ *      et du chargement en mémoire
+ */
+
 /* structure de la mémoire, un tableau de memory_case, plus la taille,et le framebuffer */
 struct memory {
     uint8_t *memory;

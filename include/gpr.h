@@ -4,6 +4,11 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+/**
+ * @brief Module de gestion des registres.
+ */
+
+
 /* indices des registres */
 enum {
     ZERO,

@@ -34,7 +34,7 @@
  * \ref framebuffer_close_display.
  *
  * @note Il reste des fuites mémoires même après l'appel à framebuffer_close_display
- * (merci SDL...). Solution?
+ * (merci SDL...). Solution? Compliqué ...
  *
  * @return l'adresse du premier pixel du frambuffer
  */
@@ -46,7 +46,7 @@ extern uint8_t *framebuffer_init_display();
  * précédent appel à \ref framebuffer_init_display.
  *
  * @note Il reste des fuites mémoires même après l'appel à cette fonction
- * (merci SDL...). Solution?
+ * (merci SDL...). Solution? Compliqué ...
  */
 extern void framebuffer_close_display();
 

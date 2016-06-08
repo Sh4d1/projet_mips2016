@@ -1,8 +1,5 @@
 /**
- * @file relocation.h
  * @brief Module de relocation des données extraites d'un fichier ELF.
- *
- * Ensimag 2016, première année.
  *
  * @section Introduction
  * Les données contenues dans un fichier ELF peuvent être accompagnées
@@ -17,15 +14,6 @@
  *
  * Les données en entrée de ces fonctions sont les informations brutes issues
  * du fichier ELF, lues à l'aide du module \em elf_reader.
- *
- * @note Outre l'API, un fichier objet binaire correspondant à ce module
- * vous est fourni. Vous pouvez ainsi charger des donnees relogées dans
- * votre simulateur.
- * Il vous revient ensuite de remplacer le fichier objet fourni pas votre
- * propre implémentation de ce module!
- *
- * @version 1.2
- * @date printemps 2016
  */
 
 

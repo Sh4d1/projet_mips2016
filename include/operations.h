@@ -4,6 +4,10 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+/**
+ * @brief Module de gestion des opérations du MIPS.
+ */
+
 /* realise une extension de 16 a 32 bits */
 uint32_t extend(uint16_t value, bool sign);
 
